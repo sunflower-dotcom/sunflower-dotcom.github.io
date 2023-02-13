@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>MyBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="my notebooks">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MyBlog">
+<meta property="og:url" content="https://sunflower-dotcom.github.io/index.html">
+<meta property="og:site_name" content="MyBlog">
+<meta property="og:description" content="my notebooks">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="rains">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="MyBlog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MyBlog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://sunflower-dotcom.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="C-C/位域" class="article article-type-C" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/C/%E4%BD%8D%E5%9F%9F/" class="article-date">
+  <time datetime="2023-02-12T15:49:46.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/C/%E4%BD%8D%E5%9F%9F/">位域</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="位域"><a href="#位域" class="headerlink" title="位域"></a>位域</h1><h1 id="让人疑惑的C语言位域-知乎"><a href="#让人疑惑的C语言位域-知乎" class="headerlink" title="让人疑惑的C语言位域 - 知乎"></a>让人疑惑的C语言位域 - 知乎</h1><blockquote>
+<h2 id="Excerpt"><a href="#Excerpt" class="headerlink" title="Excerpt"></a>Excerpt</h2><p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念 位…</p>
+</blockquote>
+<hr>
+<p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念</p>
+<h3 id="位域是什么"><a href="#位域是什么" class="headerlink" title="位域是什么"></a>位域是什么</h3><p>位域是一种数据结构，可以把数据以二进制位的形式紧凑的存储，它允许程序对此结构的位进行操作</p>
+<p>在计算机早期，内存是非常稀缺的，需要尽可能的节省每一个字节，所以，C 语言中就出现了能针对二进制位进行操作的位域</p>
+<h3 id="为什么要用位域"><a href="#为什么要用位域" class="headerlink" title="为什么要用位域"></a>为什么要用位域</h3><p>位域这种数据结构，可以最大限度的节省存储空间，对于一些非常频繁的操作，需要尽可能的减少操作的数据，比如：在开发网络应用时，数据的序列化和反序列化是很频繁的，如果能减少数据的长度，对提升数据打包效率是很有帮助的</p>
+<p>位域的出现，让我们可以用变量名代表某些bit，并通过变量名获取和设置 bit 的值，而不是通过晦涩难理解的位操作来进行，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">struct field</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char b0 : 3,</span><br><span class="line">                  b1 : 2,</span><br><span class="line">                  b2 : 3;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct field bf;</span><br><span class="line">bf.b1 = 3;</span><br></pre></td></tr></table></figure>
+
+<p>通过位域设置中间 2 个bit 的值，只需要设置结构体中 <code>b1</code> 字段值即可，如果使不用位域字段，就需要进行位的 “或” 和 “与” 运算</p>
+<h3 id="位域的使用"><a href="#位域的使用" class="headerlink" title="位域的使用"></a>位域的使用</h3><p>C 语言中，位域的表示形式如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct bitfield</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int b0 : n0,</span><br><span class="line">                 b1 : n1,</span><br><span class="line">                 b2 : n2,</span><br><span class="line">                 ...</span><br><span class="line">                 bn : nk;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>b0、b1、b2 ... bn</code> 表示位域成员，<code>n0、n1、n2 ... nk</code> 表示成员占用多少个 bit</p>
+<p>位域表示的范围通常不能超过其所依附类型所能表示的 bit 数，比如：上面 <code>bitfield</code> 结构体中 位域所依附的类型是 <code>unsigned int</code>, 最大能表示 32 个 bit，也就是说，<code>n0、n1、n2 ... nk</code> 总 bit 数不能超过 32，每个成员超过指定 bit 表示的最大数值时会被截断，具体请看下面的例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">        </span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    fs.a = 0x8F;</span><br><span class="line">    fs.b = 0x1A;</span><br><span class="line">    fs.c = 0x19;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%#x, %#x, %#x \n&quot;,fs.a, fs.b, fs.c);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>gcc -g -o bitfield bitfield.c</code> 编译并运行，结果为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">0xf, 0x1a, 0x9</span><br></pre></td></tr></table></figure>
+
+<p>字段 <code>a</code> 赋值为 <code>0x8F</code> 对应的二进制为 <strong>1000 1111</strong>，由于 <code>a</code> 只有 7 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 7 位，最终结果为 <strong>000 1111</strong> ，换成十六进制是 <strong>0xf</strong></p>
+<p>字段 <code>b</code> 赋值为 <code>0x1A</code> 对应的二进制为 <strong>1 1010</strong>， <code>b</code> 包含 5 个bit，取结果中的低 5 位，最终结果为 <strong>1 1010</strong> ，换成十六进制是 <strong>0x1a</strong> , 输出结果和赋值相同，即没有超出限定 bit 数</p>
+<p>字段 <code>c</code> 赋值为 <code>0x19</code> 对应的二进制为 <strong>1</strong> <strong>1001</strong>，由于 <code>c</code> 只有 4 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 4 位，最终结果为 <strong>1001</strong> ，换成十六进制是 <strong>0x9</strong></p>
+<p>位域的使用有一定的限制，机器最小粒度的寻址单位是字节，我们无法像获得某一个字节的地址一样去获得某个 bit 的地址，下面是一个错误的示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码功能是打印出成员 <code>a</code> 的地址，它无法通过编译，错误如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bitfield.c: 在函数‘main’中:</span><br><span class="line">bitfield.c:11:5: 错误：无法取得位段‘a’的地址</span><br><span class="line">     printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">     ^</span><br></pre></td></tr></table></figure>
+
+<h3 id="位域的存储"><a href="#位域的存储" class="headerlink" title="位域的存储"></a>位域的存储</h3><p>C 标准中只允许 <code>unsigned int</code>、<code>signed int</code>、<code>int</code> 类型的位域申明，后面又增加了 <code>bool</code> 类型的支持，一些编译器像 <code>gcc</code>、<code>msvc</code>等自行加入了一些扩展，使得其他的类型(<code>short、char</code>等)也支持位域</p>
+<p>位域的存储跟编译器相关，不同的编译器，存储位域的方式可能不一样，总的来说可以分成下面几类</p>
+<p><strong>1、相邻位域成员，它们的类型相同时</strong></p>
+<p>如果它们的 bit 数之和小于等于所依附类型的 bit 数，那么，后面的成员紧接着前面的成员存储</p>
+<p>如果它们的 bit 数之和大于所依附类型的 bit 数，那么超过的成员会存储到新的存储单元中，新存储单元会偏移成员所依附类型的 sizeof 字节数</p>
+<p>以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned short b:4;</span><br><span class="line">        unsigned short c:2;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译运行，结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p><code>a 、b、c</code> 字段都是 <code>unsigned short</code> 类型，它们的 bit 数之和为 <strong>10 + 4 + 2 &#x3D; 16</strong>, 刚好等于 <strong>unsigned short</strong> 的 bit 数，所以它们会紧凑的存储，没有任何空隙</p>
+<p>如果把 <code>a</code> 的 bit 数改成 11，即 **unsigned short a:11;**，此时，<code>a</code> 和 <code>b</code> 的 bit 数之和为 <strong>11 + 4 &#x3D; 15</strong>，没有超过 <code>unsigned short</code> 的 bit 数</p>
+<p>如果再加上 <code>c</code> 的 bit 数，结果变成了 <strong>17</strong>，超过了 <code>unsigned short</code> 的 bit 数，这种情况下，<code>a</code> 和 <code>b</code> 还是会紧凑的存储，而 <code>c</code> 会存储到新的存储单元中，新的存储单元字节数为 <code>sizeof(unsigned short) = 2</code>， 所以此时 <strong>sizeof(fg)</strong> 是 <strong>4</strong></p>
+<p><strong>2、相邻位域成员，它们的类型不同时</strong></p>
+<p>这种情况跟具体的编译器相关，以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
+<p>gcc的结果</p>
+<p><img src="https://pic1.zhimg.com/v2-d24b60824986660fedafe38d419a983c_b.png"></p>
+<p>vs2013的结果</p>
+<p><img src="https://pic4.zhimg.com/v2-bbd2e82b112cd1c50f3bf58278c4a41f_b.jpg"></p>
+<p>可以看到，当相邻位域成员所依附的类型不同时，不同的编译器产生的结果是不一样的</p>
+<p>在 gcc 下的运行结果是 2 ，表示 <code>a</code> 和 <code>b</code> 还是紧凑存储的</p>
+<p>而在 vs2013 下运行的结果是 4，这说明 <code>a</code> 和 <code>b</code> 完全按照他们所依附的类型来存储，此时位域没有进行压缩存储</p>
+<p><strong>3、位域成员之间存在非位域成员时</strong></p>
+<p>这种情况 gcc 和 vs2013 都不会进行压缩存储，按照内存对齐的规则来存储</p>
+<p>还是以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned int i;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
+<p>gcc的结果</p>
+<p><img src="https://pic2.zhimg.com/v2-7cc4101dd6c9bfb9b5355545ab9ad28d_b.png"></p>
+<p>vs2013的结果</p>
+<p><img src="https://pic2.zhimg.com/v2-0232a27563e369319790c6cdc634cba5_b.jpg"></p>
+<p>不管在 gcc 还是在 vs2013 下，结果都相同，为了提高访问效率，成员按照 4 字节对齐，所以 <code>sizeof(fg)</code> 结果是 12</p>
+<p><strong>现在位域使用得也比较少了，大概有以下几个的原因</strong></p>
+<p>1、早期计算机内存很稀缺，在内存的使用上需要精打细算，但是，现代的计算机内存容量有了很大的提升，一般不需要为了节省几个字节而使用内存更加紧凑的位域</p>
+<p>2、通过前面的介绍，我们知道结构体中位域的存储是跟编译器相关，这就导致了它的可移植性比较差</p>
+<h3 id="匿名位域"><a href="#匿名位域" class="headerlink" title="匿名位域"></a>匿名位域</h3><p>位域成员可以不指定名字，只给出成员的数据类型以及占用的 bit 数，称作匿名位域</p>
+<p>匿名位域字段只是起填充 bit，调整成员位置的作用，并无实际的意义</p>
+<p>因为没有指定成员名字，所以也不能使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">        </span><br><span class="line">    unsigned short a:10,</span><br><span class="line">                    :6; //匿名位域,不能使用</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面例子中，如果没有匿名位域的话，<code>sizeof(fields)</code> 的结果为 <strong>2</strong>，加入 <strong>6</strong> 个 bit 的填充以后，<code>a</code> 和 <code>b</code> 将分开存储， <code>sizeof(fields)</code> 的结果变成了 <strong>4</strong></p>
+<p>我们还可以通过匿名0长度的位域字段来强制位域存储到下一个存储单元中，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面的结构体本来可以全部存储到一个 <strong>2</strong> 字节的存储单元中，如果我们想让 <code>a</code> 和 <code>b</code> 存储到不同的存储单元中，可以在结构体中加入一个匿名的 0 长度的位域字段来实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short  :0;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这样申明后，<code>sizeof(struct fields)</code> 就变成 <strong>4</strong> 了</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>本文讲述了位域的基础，使用以及存储，其中位域的存储跟具体的编译器实现相关，这一点务必要注意，否则版本移植的时候要趟”坑”</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C/%E4%BD%8D%E5%9F%9F/" data-id="cle2vhq7v0005z4t34dco8ivh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/" rel="tag">C / C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8/" rel="tag">C 语言入门</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C%EF%BC%88%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%EF%BC%89/" rel="tag">C（编程语言）</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C++/C++类的静态成员" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/">静态成员</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>我们可以使用 <strong>static</strong> 关键字来把类成员定义为静态的。当我们声明类的成员为静态时，这意味着无论创建多少个类的对象，静态成员都只有一个副本。</p>
+<p>静态成员在类的所有对象中是共享的。如果不存在其他的初始化语句，在创建第一个对象时，所有的静态数据都会被初始化为零。我们不能把静态成员的初始化放置在类的定义中，但是可以在类的外部通过使用范围解析运算符 <strong>::</strong> 来重新声明静态变量从而对它进行初始化，如下面的实例所示。</p>
+<h1 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h1><p>如果把函数成员声明为静态的，就可以把函数与类的任何特定对象独立开来。静态成员函数即使在类对象不存在的情况下也能被调用，<strong>静态函数</strong>只要使用类名加范围解析运算符 <strong>::</strong> 就可以访问。</p>
+<p>静态成员函数只能访问静态成员数据、其他静态成员函数和类外部的其他函数。</p>
+<p>静态成员函数有一个类范围，他们不能访问类的 this 指针。您可以使用静态成员函数来判断类的某些对象是否已被创建。</p>
+<blockquote>
+<p><strong>静态成员函数与普通成员函数的区别：</strong></p>
+<ul>
+<li>静态成员函数没有 this 指针，只能访问静态成员（包括静态成员变量和静态成员函数）。</li>
+<li>普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针。</li>
+</ul>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/" data-id="cle2vhq7w0006z4t3c91mbmij" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C++/内联函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/">内联函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/" data-id="cle2vhq7z0009z4t3gcq8dve3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Git/初始化仓库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/">初始化Git仓库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
+<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
+<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
+<p>$ chown -R git:git runoob.git</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/" data-id="cle2vhq80000az4t33pl6f88e" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Markdown/分割线语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/">分割线语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Markdown分割线语法"><a href="#Markdown分割线语法" class="headerlink" title="Markdown分割线语法"></a>Markdown分割线语法</h1><p>要创建分隔线，请在单独一行上使用三个或多个星号 (<code>***</code>)、破折号 (<code>---</code>) 或下划线 (<code>___</code>) ，并且不能包含其他内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">***</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">_________________</span><br></pre></td></tr></table></figure>
+
+<p>以上三个分隔线的渲染效果看起来都一样：</p>
+<ul>
+<li></li>
+</ul>
+<h3 id="分隔线（Horizontal-Rule）用法最佳实践"><a href="#分隔线（Horizontal-Rule）用法最佳实践" class="headerlink" title="# 分隔线（Horizontal Rule）用法最佳实践"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%88%86%E9%9A%94%E7%BA%BF%EF%BC%88horizontal-rule%EF%BC%89%E7%94%A8%E6%B3%95%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">#</a> 分隔线（Horizontal Rule）用法最佳实践</h3><p>为了兼容性，请在分隔线的前后均添加空白行。</p>
+<table>
+<thead>
+<tr>
+<th>✅  Do this</th>
+<th>❌  Don’t do this</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#96;Try to put a blank line before…</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading"><a href="#…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading" class="headerlink" title="…and after a horizontal rule.|Without blank lines, this would be a heading.  "></a>…and after a horizontal rule.<code>|</code>Without blank lines, this would be a heading.  </h2><p>Don’t do this!&#96; |</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/" data-id="cle2vhq81000bz4t3fus37pwv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Markdown/定义列表语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/">定义列表</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="定义列表"><a href="#定义列表" class="headerlink" title="定义列表"></a>定义列表</h1><p><strong>vs code 无效</strong></p>
+<p>一些Markdown处理器允许您创建术语及其对应定义的_定义列表_。要创建定义列表，请在第一行上键入术语。在下一行，键入一个冒号，后跟一个空格和定义。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">First Term</span><br><span class="line">: This is the definition of the first term.</span><br><span class="line"></span><br><span class="line">Second Term</span><br><span class="line">: This is one definition of the second term.</span><br><span class="line">: This is another definition of the second term.</span><br></pre></td></tr></table></figure>
+
+<p>HTML看起来像这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dl&gt;</span><br><span class="line">  &lt;dt&gt;First Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is the definition of the first term.&lt;/dd&gt;</span><br><span class="line">  &lt;dt&gt;Second Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is one definition of the second term. &lt;/dd&gt;</span><br><span class="line">  &lt;dd&gt;This is another definition of the second term.&lt;/dd&gt;</span><br><span class="line">&lt;/dl&gt;</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<dl><dt>First Term</dt><dd>This is the definition of the first term.</dd></dl><dl><dt>Second Term<br>: This is one definition of the second term.</dt><dd>This is another definition of the second term.</dd></dl>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cle2vhq82000ez4t33goj7cxg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Markdown/任务列表语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/">任务列表语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Write the press release</li>
+<li><input disabled="" type="checkbox"> Update the website</li>
+<li><input disabled="" type="checkbox"> Contact the media</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cle2vhq83000fz4t3ckwp9lhv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Markdown/强调语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/Markdown/%E5%BC%BA%E8%B0%83%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/Markdown/%E5%BC%BA%E8%B0%83%E8%AF%AD%E6%B3%95/">强调语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Markdown强调语法"><a href="#Markdown强调语法" class="headerlink" title="Markdown强调语法"></a>Markdown强调语法</h1><p>通过将文本设置为粗体或斜体来强调其重要性。</p>
+<h2 id="粗体（Bold）"><a href="#粗体（Bold）" class="headerlink" title="# 粗体（Bold）"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/emphasis.html#%E7%B2%97%E4%BD%93%EF%BC%88bold%EF%BC%89">#</a> 粗体（Bold）</h2><p>要加粗文本，请在单词或短语的前后各添加两个星号（asterisks）或下划线（underscores）。如需加粗一个单词或短语的中间部分用以表示强调的话，请在要加粗部分的两侧各添加两个星号（asterisks）。</p>
+<table>
+<thead>
+<tr>
+<th>Markdown语法</th>
+<th>HTML</th>
+<th>预览效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>I just love **bold text**.</code></td>
+<td><code>I just love &lt;strong&gt;bold text&lt;/strong&gt;.</code></td>
+<td>I just love <strong>bold text</strong>.</td>
+</tr>
+<tr>
+<td><code>I just love __bold text__.</code></td>
+<td><code>I just love &lt;strong&gt;bold text&lt;/strong&gt;.</code></td>
+<td>I just love <strong>bold text</strong>.</td>
+</tr>
+<tr>
+<td><code>Love**is**bold</code></td>
+<td><code>Love&lt;strong&gt;is&lt;/strong&gt;bold</code></td>
+<td>Love<strong>is</strong>bold</td>
+</tr>
+</tbody></table>
+<h3 id="粗体（Bold）用法最佳实践"><a href="#粗体（Bold）用法最佳实践" class="headerlink" title="# 粗体（Bold）用法最佳实践"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/emphasis.html#%E7%B2%97%E4%BD%93%EF%BC%88bold%EF%BC%89%E7%94%A8%E6%B3%95%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">#</a> 粗体（Bold）用法最佳实践</h3><p>Markdown 应用程序在如何处理单词或短语中间的下划线上并不一致。为兼容考虑，在单词或短语中间部分加粗的话，请使用星号（asterisks）。</p>
+<table>
+<thead>
+<tr>
+<th>✅  Do this</th>
+<th>❌  Don’t do this</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Love**is**bold</code></td>
+<td><code>Love__is__bold</code></td>
+</tr>
+</tbody></table>
+<h2 id="斜体（Italic）"><a href="#斜体（Italic）" class="headerlink" title="# 斜体（Italic）"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/emphasis.html#%E6%96%9C%E4%BD%93%EF%BC%88italic%EF%BC%89">#</a> 斜体（Italic）</h2><p>要用斜体显示文本，请在单词或短语前后添加一个星号（asterisk）或下划线（underscore）。要斜体突出单词的中间部分，请在字母前后各添加一个星号，中间不要带空格。</p>
+<table>
+<thead>
+<tr>
+<th>Markdown语法</th>
+<th>HTML</th>
+<th>预览效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Italicized text is the *cat&#39;s meow*.</code></td>
+<td><code>Italicized text is the &lt;em&gt;cat&#39;s meow&lt;/em&gt;.</code></td>
+<td>Italicized text is the <em>cat’s meow</em>.</td>
+</tr>
+<tr>
+<td><code>Italicized text is the _cat&#39;s meow_.</code></td>
+<td><code>Italicized text is the &lt;em&gt;cat&#39;s meow&lt;/em&gt;.</code></td>
+<td>Italicized text is the <em>cat’s meow</em>.</td>
+</tr>
+<tr>
+<td><code>A*cat*meow</code></td>
+<td><code>A&lt;em&gt;cat&lt;/em&gt;meow</code></td>
+<td>A_cat_meow</td>
+</tr>
+</tbody></table>
+<h3 id="斜体（Italic）用法的最佳实践"><a href="#斜体（Italic）用法的最佳实践" class="headerlink" title="# 斜体（Italic）用法的最佳实践"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/emphasis.html#%E6%96%9C%E4%BD%93%EF%BC%88italic%EF%BC%89%E7%94%A8%E6%B3%95%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">#</a> 斜体（Italic）用法的最佳实践</h3><p>要同时用粗体和斜体突出显示文本，请在单词或短语的前后各添加三个星号或下划线。要加粗并用斜体显示单词或短语的中间部分，请在要突出显示的部分前后各添加三个星号，中间不要带空格。</p>
+<table>
+<thead>
+<tr>
+<th>✅  Do this</th>
+<th>❌  Don’t do this</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>A*cat*meow</code></td>
+<td><code>A_cat_meow</code></td>
+</tr>
+</tbody></table>
+<h2 id="粗体（Bold）和斜体（Italic）"><a href="#粗体（Bold）和斜体（Italic）" class="headerlink" title="# 粗体（Bold）和斜体（Italic）"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/emphasis.html#%E7%B2%97%E4%BD%93%EF%BC%88bold%EF%BC%89%E5%92%8C%E6%96%9C%E4%BD%93%EF%BC%88italic%EF%BC%89">#</a> 粗体（Bold）和斜体（Italic）</h2><p>要同时用粗体和斜体突出显示文本，请在单词或短语的前后各添加三个星号或下划线。要加粗并用斜体显示单词或短语的中间部分，请在要突出显示的部分前后各添加三个星号，中间不要带空格。</p>
+<table>
+<thead>
+<tr>
+<th>Markdown语法</th>
+<th>HTML</th>
+<th>预览效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>This text is ***really important***.</code></td>
+<td><code>This text is &lt;strong&gt;&lt;em&gt;really important&lt;/em&gt;&lt;/strong&gt;.</code></td>
+<td>This text is <strong><em>really important</em></strong>.</td>
+</tr>
+<tr>
+<td><code>This text is ___really important___.</code></td>
+<td><code>This text is &lt;strong&gt;&lt;em&gt;really important&lt;/em&gt;&lt;/strong&gt;.</code></td>
+<td>This text is <strong><em>really important</em></strong>.</td>
+</tr>
+<tr>
+<td><code>This text is __*really important*__.</code></td>
+<td><code>This text is &lt;strong&gt;&lt;em&gt;really important&lt;/em&gt;&lt;/strong&gt;.</code></td>
+<td>This text is <strong><em>really important</em></strong>.</td>
+</tr>
+<tr>
+<td><code>This text is **_really important_**.</code></td>
+<td><code>This text is &lt;strong&gt;&lt;em&gt;really important&lt;/em&gt;&lt;/strong&gt;.</code></td>
+<td>This text is <strong><em>really important</em></strong>.</td>
+</tr>
+<tr>
+<td><code>This is really***very***important text.</code></td>
+<td><code>This is really&lt;strong&gt;&lt;em&gt;very&lt;/em&gt;&lt;/strong&gt;important text.</code></td>
+<td>This is really**<em>very</em>**important text.</td>
+</tr>
+</tbody></table>
+<h3 id="粗体（Bold）和斜体（Italic）用法的最佳实践"><a href="#粗体（Bold）和斜体（Italic）用法的最佳实践" class="headerlink" title="# 粗体（Bold）和斜体（Italic）用法的最佳实践"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/emphasis.html#%E7%B2%97%E4%BD%93%EF%BC%88bold%EF%BC%89%E5%92%8C%E6%96%9C%E4%BD%93%EF%BC%88italic%EF%BC%89%E7%94%A8%E6%B3%95%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">#</a> 粗体（Bold）和斜体（Italic）用法的最佳实践</h3><p>Markdown 应用程序在处理单词或短语中间添加的下划线上并不一致。为了实现兼容性，请使用星号将单词或短语的中间部分加粗并以斜体显示，以示重要。</p>
+<table>
+<thead>
+<tr>
+<th>✅  Do this</th>
+<th>❌  Don’t do this</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>This is really***very***important text.</code></td>
+<td><code>This is really___very___important text.</code></td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%BC%BA%E8%B0%83%E8%AF%AD%E6%B3%95/" data-id="cle2vhq85000jz4t323bg3fyz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Markdown/引用语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/">引用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Markdown-使用"><a href="#Markdown-使用" class="headerlink" title="Markdown 使用"></a>Markdown 使用</h1><p>要创建块引用，请在段落前添加一个 <code>&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下所示：</p>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+</blockquote>
+<h3 id="多个段落的块引用"><a href="#多个段落的块引用" class="headerlink" title="# 多个段落的块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%A4%9A%E4%B8%AA%E6%AE%B5%E8%90%BD%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 多个段落的块引用</h3><p>块引用可以包含多个段落。为段落之间的空白行添加一个 <code>&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
+</blockquote>
+<h3 id="嵌套块引用"><a href="#嵌套块引用" class="headerlink" title="# 嵌套块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B5%8C%E5%A5%97%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 嵌套块引用</h3><p>块引用可以嵌套。在要嵌套的段落前添加一个 <code>&gt;&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt;&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+<blockquote>
+<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
+</blockquote>
+</blockquote>
+<h3 id="带有其它元素的块引用"><a href="#带有其它元素的块引用" class="headerlink" title="# 带有其它元素的块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B8%A6%E6%9C%89%E5%85%B6%E5%AE%83%E5%85%83%E7%B4%A0%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 带有其它元素的块引用</h3><p>块引用可以包含其他 Markdown 格式的元素。并非所有元素都可以使用，你需要进行实验以查看哪些元素有效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; #### The quarterly results look great!</span><br><span class="line">&gt;</span><br><span class="line">&gt; - Revenue was off the chart.</span><br><span class="line">&gt; - Profits were higher than ever.</span><br><span class="line">&gt;</span><br><span class="line">&gt;  *Everything* is going according to **plan**.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<blockquote>
+<h4 id="The-quarterly-results-look-great"><a href="#The-quarterly-results-look-great" class="headerlink" title="The quarterly results look great!"></a>The quarterly results look great!</h4><ul>
+<li>Revenue was off the chart.</li>
+<li>Profits were higher than ever.</li>
+</ul>
+<p><em>Everything</em> is going according to <strong>plan</strong>.</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/" data-id="cle2vhq86000kz4t331338yt4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Markdown/表格语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/">表格语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Markdwon表格语法"><a href="#Markdwon表格语法" class="headerlink" title="Markdwon表格语法"></a>Markdwon表格语法</h1><p>要添加表，请使用三个或多个连字符（<code>---</code>）创建每列的标题，并使用管道（<code>|</code>）分隔每列。您可以选择在表的任一端添加管道。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax      | Description |</span><br><span class="line">| ----------- | ----------- |</span><br><span class="line">| Header      | Title       |</span><br><span class="line">| Paragraph   | Text        |</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header</td>
+<td>Title</td>
+</tr>
+<tr>
+<td>Paragraph</td>
+<td>Text</td>
+</tr>
+</tbody></table>
+<p>单元格宽度可以变化，如下所示。呈现的输出将看起来相同。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax | Description |</span><br><span class="line">| --- | ----------- |</span><br><span class="line">| Header | Title |</span><br><span class="line">| Paragraph | Text |</span><br></pre></td></tr></table></figure>
+
+<p><strong>Tip:</strong> 使用连字符和管道创建表可能很麻烦。为了加快该过程，请尝试使用<a target="_blank" rel="noopener" href="https://www.tablesgenerator.com/markdown_tables">Markdown Tables Generator</a>。使用图形界面构建表，然后将生成的Markdown格式的文本复制到文件中。</p>
+<h2 id="对齐"><a href="#对齐" class="headerlink" title="# 对齐"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%AF%B9%E9%BD%90">#</a> 对齐</h2><p>您可以通过在标题行中的连字符的左侧，右侧或两侧添加冒号（<code>:</code>），将列中的文本对齐到左侧，右侧或中心。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax      | Description | Test Text     |</span><br><span class="line">| :---        |    :----:   |          ---: |</span><br><span class="line">| Header      | Title       | Here&#x27;s this   |</span><br><span class="line">| Paragraph   | Text        | And more      |</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+<th>Test Text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header</td>
+<td>Title</td>
+<td>Here’s this</td>
+</tr>
+<tr>
+<td>Paragraph</td>
+<td>Text</td>
+<td>And more</td>
+</tr>
+</tbody></table>
+<h2 id="格式化表格中的文字"><a href="#格式化表格中的文字" class="headerlink" title="# 格式化表格中的文字"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%A1%A8%E6%A0%BC%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">#</a> 格式化表格中的文字</h2><p>您可以在表格中设置文本格式。例如，您可以添加链接，代码（仅反引号（<code>`</code>）中的单词或短语，而不是代码块）和强调。</p>
+<p>您不能添加标题，块引用，列表，水平规则，图像或HTML标签。</p>
+<h2 id="在表中转义管道字符"><a href="#在表中转义管道字符" class="headerlink" title="# 在表中转义管道字符"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%9C%A8%E8%A1%A8%E4%B8%AD%E8%BD%AC%E4%B9%89%E7%AE%A1%E9%81%93%E5%AD%97%E7%AC%A6">#</a> 在表中转义管道字符</h2><p>您可以使用表格的HTML字符代码（<code>&amp;#124;</code>）在表中显示竖线（<code>|</code>）字符。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/" data-id="cle2vhq88000oz4t370hyftnj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/" rel="tag">C / C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8/" rel="tag">C 语言入门</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%EF%BC%88%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%EF%BC%89/" rel="tag">C（编程语言）</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C-C/" style="font-size: 10px;">C / C++</a> <a href="/tags/C-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8/" style="font-size: 10px;">C 语言入门</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/C%EF%BC%88%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%EF%BC%89/" style="font-size: 10px;">C（编程语言）</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/02/12/C/%E4%BD%8D%E5%9F%9F/">位域</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/">静态成员</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/">内联函数</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/">初始化Git仓库</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/">分割线语法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 rains<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
