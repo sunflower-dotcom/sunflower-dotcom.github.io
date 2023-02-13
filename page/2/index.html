@@ -186,7 +186,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/" data-id="cle2whxz8000r3kt3avuefmaf" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/" data-id="cle2wjmiv000rx8t36yxv4zc5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -196,14 +196,14 @@
 
 
   
-    <article id="post-Markdown/表格语法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Git/初始化仓库" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/" class="article-date">
+    <a href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/" class="article-date">
   <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
+    <a class="article-category-link" href="/categories/Git/">Git</a>
   </div>
 
   </div>
@@ -214,7 +214,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/">表格语法</a>
+      <a class="article-title" href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/">初始化Git仓库</a>
     </h1>
   
 
@@ -222,61 +222,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Markdwon表格语法"><a href="#Markdwon表格语法" class="headerlink" title="Markdwon表格语法"></a>Markdwon表格语法</h1><p>要添加表，请使用三个或多个连字符（<code>---</code>）创建每列的标题，并使用管道（<code>|</code>）分隔每列。您可以选择在表的任一端添加管道。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax      | Description |</span><br><span class="line">| ----------- | ----------- |</span><br><span class="line">| Header      | Title       |</span><br><span class="line">| Paragraph   | Text        |</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>Syntax</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Header</td>
-<td>Title</td>
-</tr>
-<tr>
-<td>Paragraph</td>
-<td>Text</td>
-</tr>
-</tbody></table>
-<p>单元格宽度可以变化，如下所示。呈现的输出将看起来相同。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax | Description |</span><br><span class="line">| --- | ----------- |</span><br><span class="line">| Header | Title |</span><br><span class="line">| Paragraph | Text |</span><br></pre></td></tr></table></figure>
-
-<p><strong>Tip:</strong> 使用连字符和管道创建表可能很麻烦。为了加快该过程，请尝试使用<a target="_blank" rel="noopener" href="https://www.tablesgenerator.com/markdown_tables">Markdown Tables Generator</a>。使用图形界面构建表，然后将生成的Markdown格式的文本复制到文件中。</p>
-<h2 id="对齐"><a href="#对齐" class="headerlink" title="# 对齐"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%AF%B9%E9%BD%90">#</a> 对齐</h2><p>您可以通过在标题行中的连字符的左侧，右侧或两侧添加冒号（<code>:</code>），将列中的文本对齐到左侧，右侧或中心。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax      | Description | Test Text     |</span><br><span class="line">| :---        |    :----:   |          ---: |</span><br><span class="line">| Header      | Title       | Here&#x27;s this   |</span><br><span class="line">| Paragraph   | Text        | And more      |</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>Syntax</th>
-<th>Description</th>
-<th>Test Text</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Header</td>
-<td>Title</td>
-<td>Here’s this</td>
-</tr>
-<tr>
-<td>Paragraph</td>
-<td>Text</td>
-<td>And more</td>
-</tr>
-</tbody></table>
-<h2 id="格式化表格中的文字"><a href="#格式化表格中的文字" class="headerlink" title="# 格式化表格中的文字"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%A1%A8%E6%A0%BC%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">#</a> 格式化表格中的文字</h2><p>您可以在表格中设置文本格式。例如，您可以添加链接，代码（仅反引号（<code>`</code>）中的单词或短语，而不是代码块）和强调。</p>
-<p>您不能添加标题，块引用，列表，水平规则，图像或HTML标签。</p>
-<h2 id="在表中转义管道字符"><a href="#在表中转义管道字符" class="headerlink" title="# 在表中转义管道字符"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%9C%A8%E8%A1%A8%E4%B8%AD%E8%BD%AC%E4%B9%89%E7%AE%A1%E9%81%93%E5%AD%97%E7%AC%A6">#</a> 在表中转义管道字符</h2><p>您可以使用表格的HTML字符代码（<code>&amp;#124;</code>）在表中显示竖线（<code>|</code>）字符。</p>
+        <h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
+<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
+<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
+<p>$ chown -R git:git runoob.git</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/" data-id="cle2whxz9000u3kt3dcu2dwfi" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/" data-id="cle2wjmix000vx8t33v9ydqfp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -423,7 +377,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/" data-id="cle2whxz9000v3kt35p317opf" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/" data-id="cle2wjmiw000ux8t38ie1f0b2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -458,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/07/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cle2whxys00033kt30cmf7hpl" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/07/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cle2wjmif0003x8t32a9agfcw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -507,7 +461,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/06/hello-world/" data-id="cle2whxyp00013kt38h9f2cqu" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/06/hello-world/" data-id="cle2wjmid0001x8t35gp34xp4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -578,7 +532,7 @@
           </li>
         
           <li>
-            <a href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/">初始化Git仓库</a>
+            <a href="/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/">静态成员</a>
           </li>
         
           <li>
@@ -586,11 +540,11 @@
           </li>
         
           <li>
-            <a href="/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/">静态成员</a>
+            <a href="/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/">任务列表语法</a>
           </li>
         
           <li>
-            <a href="/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/">任务列表语法</a>
+            <a href="/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/">分割线语法</a>
           </li>
         
       </ul>
