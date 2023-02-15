@@ -66,6 +66,157 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-GDB/输出日志记录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/" class="article-date">
+  <time datetime="2023-02-16T15:49:46.000Z" itemprop="datePublished">2023-02-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GDB/">GDB</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/">输出日志记录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="输出日志记录"><a href="#输出日志记录" class="headerlink" title="输出日志记录"></a>输出日志记录</h1><blockquote>
+<p>(gdb) set logging file fileName 设置文件名，文件默认生成在运行gdb命令的目录下；<br>(gdb) set logging on 启动日志记录；<br>(gdb) set height 0 这样gdb需要多行输出时，就会全部输出，中间不会暂停；<br>(gdb) set print elements 0 这样gdb在打印时就没有默认为200个元素的长度限制；<br>(gdb) thread apply all bt 在这里去实际操作，所需要的gdb命令<br>(gdb) set logging off  </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/" data-id="cle5vn09f000b7wt3fe220tl1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-GDB/忽略信号" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/16/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/" class="article-date">
+  <time datetime="2023-02-15T16:15:49.429Z" itemprop="datePublished">2023-02-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GDB/">GDB</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/16/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/">GDB调试忽略信号</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="GDB调试忽略信号"><a href="#GDB调试忽略信号" class="headerlink" title="GDB调试忽略信号"></a>GDB调试忽略信号</h1><p>在linux平台，用gdb调试程序时，可以在gdb attach到运行中程序后，用以下命令忽略一些不关注的信号：</p>
+<p>handle SIGUSR2 noprint nostop</p>
+<p>handle SIGPIPE noprint nostop</p>
+<p><img src="/../Assets/GDB_1.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/16/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/" data-id="cle5vn09i000g7wt3fc062adq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C/柔性数组" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/16/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/" class="article-date">
+  <time datetime="2023-02-15T16:15:31.745Z" itemprop="datePublished">2023-02-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C-C/">C/C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/16/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/">柔性数组</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
+<p>柔型数组有两种定义方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<p>有些编译器会报错无法编译可以改成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
+<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
+<p><img src="/../Assets/C_1.png"></p>
+<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../Assets/C_2.png"></p>
+<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
+<p><img src="/../Assets/C_3.png"></p>
+<p>如果想增加数组元素，使用realloc调整结构体大小</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
+<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/16/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/" data-id="cle5vn09e000a7wt34jjmdh3e" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-C/位域" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2023/02/12/C/%E4%BD%8D%E5%9F%9F/" class="article-date">
@@ -181,7 +332,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C/%E4%BD%8D%E5%9F%9F/" data-id="cle2wyg6m0005bgt30afa7tab" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C/%E4%BD%8D%E5%9F%9F/" data-id="cle5vn09d00097wt36sulbbzq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/" rel="tag">C/C++</a></li></ul>
@@ -235,7 +386,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/" data-id="cle2wyg6n0006bgt34gdkdeov" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/" data-id="cle5vn09900057wt39krn33b8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/" rel="tag">C/C++</a></li></ul>
@@ -278,7 +429,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/" data-id="cle2wyg6r0009bgt3bv2g0946" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/" data-id="cle5vn09a00067wt34pqcamo9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/" rel="tag">C/C++</a></li></ul>
@@ -324,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/" data-id="cle2wyg6s000abgt3fm8dbzvg" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/" data-id="cle5vn09h000f7wt30wh7fy1f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -373,7 +524,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cle2wyg6t000bbgt3a5obeh5l" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cle5vn09k000l7wt3cdf39rsw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -421,7 +572,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cle2wyg6v000fbgt38fgwawip" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cle5vn09l000n7wt32tc0hffv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -483,218 +634,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/" data-id="cle2wyg6w000gbgt3hr67fbc5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Markdown/引用语法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/" class="article-date">
-  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/">引用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Markdown-使用"><a href="#Markdown-使用" class="headerlink" title="Markdown 使用"></a>Markdown 使用</h1><p>要创建块引用，请在段落前添加一个 <code>&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下所示：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-</blockquote>
-<h3 id="多个段落的块引用"><a href="#多个段落的块引用" class="headerlink" title="# 多个段落的块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%A4%9A%E4%B8%AA%E6%AE%B5%E8%90%BD%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 多个段落的块引用</h3><p>块引用可以包含多个段落。为段落之间的空白行添加一个 <code>&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
-</blockquote>
-<h3 id="嵌套块引用"><a href="#嵌套块引用" class="headerlink" title="# 嵌套块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B5%8C%E5%A5%97%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 嵌套块引用</h3><p>块引用可以嵌套。在要嵌套的段落前添加一个 <code>&gt;&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt;&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-<blockquote>
-<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
-</blockquote>
-</blockquote>
-<h3 id="带有其它元素的块引用"><a href="#带有其它元素的块引用" class="headerlink" title="# 带有其它元素的块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B8%A6%E6%9C%89%E5%85%B6%E5%AE%83%E5%85%83%E7%B4%A0%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 带有其它元素的块引用</h3><p>块引用可以包含其他 Markdown 格式的元素。并非所有元素都可以使用，你需要进行实验以查看哪些元素有效。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; #### The quarterly results look great!</span><br><span class="line">&gt;</span><br><span class="line">&gt; - Revenue was off the chart.</span><br><span class="line">&gt; - Profits were higher than ever.</span><br><span class="line">&gt;</span><br><span class="line">&gt;  *Everything* is going according to **plan**.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<h4 id="The-quarterly-results-look-great"><a href="#The-quarterly-results-look-great" class="headerlink" title="The quarterly results look great!"></a>The quarterly results look great!</h4><ul>
-<li>Revenue was off the chart.</li>
-<li>Profits were higher than ever.</li>
-</ul>
-<p><em>Everything</em> is going according to <strong>plan</strong>.</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/" data-id="cle2wyg6y000lbgt33en313zb" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Markdown/删除线语法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/02/12/Markdown/%E5%88%A0%E9%99%A4%E7%BA%BF%E8%AF%AD%E6%B3%95/" class="article-date">
-  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/12/Markdown/%E5%88%A0%E9%99%A4%E7%BA%BF%E8%AF%AD%E6%B3%95/">删除线语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="删除线语法"><a href="#删除线语法" class="headerlink" title="删除线语法"></a>删除线语法</h1><p>您可以通过在单词中心放置一条水平线来删除单词。结果看起来<del>像这样</del>。此功能使您可以指示某些单词是一个错误，要从文档中删除。若要删除单词，请在单词前后使用两个波浪号<code>~~</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~~世界是平坦的。~~ 我们现在知道世界是圆的。</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<p><del>世界是平坦的。</del> 我们现在知道世界是圆的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%88%A0%E9%99%A4%E7%BA%BF%E8%AF%AD%E6%B3%95/" data-id="cle2wyg6z000mbgt31xrj8ipd" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Markdown/表格语法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/" class="article-date">
-  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/">表格语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Markdwon表格语法"><a href="#Markdwon表格语法" class="headerlink" title="Markdwon表格语法"></a>Markdwon表格语法</h1><p>要添加表，请使用三个或多个连字符（<code>---</code>）创建每列的标题，并使用管道（<code>|</code>）分隔每列。您可以选择在表的任一端添加管道。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax      | Description |</span><br><span class="line">| ----------- | ----------- |</span><br><span class="line">| Header      | Title       |</span><br><span class="line">| Paragraph   | Text        |</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>Syntax</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Header</td>
-<td>Title</td>
-</tr>
-<tr>
-<td>Paragraph</td>
-<td>Text</td>
-</tr>
-</tbody></table>
-<p>单元格宽度可以变化，如下所示。呈现的输出将看起来相同。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax | Description |</span><br><span class="line">| --- | ----------- |</span><br><span class="line">| Header | Title |</span><br><span class="line">| Paragraph | Text |</span><br></pre></td></tr></table></figure>
-
-<p><strong>Tip:</strong> 使用连字符和管道创建表可能很麻烦。为了加快该过程，请尝试使用<a target="_blank" rel="noopener" href="https://www.tablesgenerator.com/markdown_tables">Markdown Tables Generator</a>。使用图形界面构建表，然后将生成的Markdown格式的文本复制到文件中。</p>
-<h2 id="对齐"><a href="#对齐" class="headerlink" title="# 对齐"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%AF%B9%E9%BD%90">#</a> 对齐</h2><p>您可以通过在标题行中的连字符的左侧，右侧或两侧添加冒号（<code>:</code>），将列中的文本对齐到左侧，右侧或中心。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Syntax      | Description | Test Text     |</span><br><span class="line">| :---        |    :----:   |          ---: |</span><br><span class="line">| Header      | Title       | Here&#x27;s this   |</span><br><span class="line">| Paragraph   | Text        | And more      |</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>Syntax</th>
-<th>Description</th>
-<th>Test Text</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Header</td>
-<td>Title</td>
-<td>Here’s this</td>
-</tr>
-<tr>
-<td>Paragraph</td>
-<td>Text</td>
-<td>And more</td>
-</tr>
-</tbody></table>
-<h2 id="格式化表格中的文字"><a href="#格式化表格中的文字" class="headerlink" title="# 格式化表格中的文字"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%A1%A8%E6%A0%BC%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">#</a> 格式化表格中的文字</h2><p>您可以在表格中设置文本格式。例如，您可以添加链接，代码（仅反引号（<code>`</code>）中的单词或短语，而不是代码块）和强调。</p>
-<p>您不能添加标题，块引用，列表，水平规则，图像或HTML标签。</p>
-<h2 id="在表中转义管道字符"><a href="#在表中转义管道字符" class="headerlink" title="# 在表中转义管道字符"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%9C%A8%E8%A1%A8%E4%B8%AD%E8%BD%AC%E4%B9%89%E7%AE%A1%E9%81%93%E5%AD%97%E7%AC%A6">#</a> 在表中转义管道字符</h2><p>您可以使用表格的HTML字符代码（<code>&amp;#124;</code>）在表中显示竖线（<code>|</code>）字符。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/" data-id="cle2wyg71000qbgt3g53pbrqk" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/" data-id="cle5vn09m000r7wt3g0399c1j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -719,7 +659,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li></ul>
     </div>
   </div>
 
@@ -761,23 +701,23 @@
       <ul>
         
           <li>
+            <a href="/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/">输出日志记录</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/16/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/">GDB调试忽略信号</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/16/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/">柔性数组</a>
+          </li>
+        
+          <li>
             <a href="/2023/02/12/C/%E4%BD%8D%E5%9F%9F/">位域</a>
           </li>
         
           <li>
             <a href="/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/">静态成员</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/">内联函数</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/">初始化Git仓库</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/">任务列表语法</a>
           </li>
         
       </ul>
