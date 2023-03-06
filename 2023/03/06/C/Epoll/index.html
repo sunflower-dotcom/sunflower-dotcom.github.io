@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Epoll | MyBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Epoll**epoll**是Linux内核的可扩展I&#x2F;O事件通知机制[1]。于Linux 2.5.44首度登场，它设计目的旨在取代既有POSIX select(2)与poll(2)系统函数，让需要大量操作文件描述符的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，epoll的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Epoll">
+<meta property="og:url" content="https://sunflower-dotcom.github.io/2023/03/06/C/Epoll/index.html">
+<meta property="og:site_name" content="MyBlog">
+<meta property="og:description" content="Epoll**epoll**是Linux内核的可扩展I&#x2F;O事件通知机制[1]。于Linux 2.5.44首度登场，它设计目的旨在取代既有POSIX select(2)与poll(2)系统函数，让需要大量操作文件描述符的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，epoll的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-06T13:45:28.405Z">
+<meta property="article:modified_time" content="2023-03-05T09:18:47.392Z">
+<meta property="article:author" content="rains">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="MyBlog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MyBlog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://sunflower-dotcom.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-C/Epoll" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/03/06/C/Epoll/" class="article-date">
+  <time datetime="2023-03-06T13:45:28.405Z" itemprop="datePublished">2023-03-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C-C/">C/C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Epoll
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h1><p>**<code>epoll</code>**是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Linux" title="Linux">Linux</a>内核的可扩展I&#x2F;O事件通知机制<sup id="cite_ref-1" class="reference"><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Epoll#cite_note-1">[1]</a></sup>。于Linux 2.5.44首度登场，它设计目的旨在取代既有<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/POSIX" title="POSIX">POSIX</a> <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Select_(Unix)" title="Select (Unix)"><code>select(2)</code></a>与<code>poll(2)</code><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8" title="系统调用">系统函数</a>，让需要大量操作<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%AA%94%E6%A1%88%E6%8F%8F%E8%BF%B0%E5%AD%90" title="文件描述符">文件描述符</a>的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，<code>epoll</code>的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件</p>
+<h2 id="程序接口"><a href="#程序接口" class="headerlink" title="程序接口"></a>程序接口</h2><p>int epoll_create(int size);</p>
+<p>在内核中创建<code>epoll</code>实例并返回一个<code>epoll</code>文件描述符。 在最初的实现中，调用者通过 <code>size</code> 参数告知内核需要监听的文件描述符数量。如果监听的文件描述符数量超过 size, 则内核会自动扩容。而现在 size 已经没有这种语义了，但是调用者调用时 size 依然必须大于 0，以保证后向兼容性。</p>
+<p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</p>
+<p>向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</p>
+<p>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);</p>
+<p>当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</p>
+<h2 id="触发模式-编辑"><a href="#触发模式-编辑" class="headerlink" title="触发模式[编辑]"></a>触发模式[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=2" title="编辑章节：触发模式">编辑</a>]</h2><p><code>epoll</code>提供<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91" title="中断">边沿触发</a>及<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E7%8A%B6%E6%80%81%E8%A7%A6%E5%8F%91" title="中断">状态触发</a>模式。在边沿触发模式中，<code>epoll_wait</code>仅会在新的事件首次被加入<code>epoll</code>队列时返回；于level-triggered模式下，<code>epoll_wait</code>在事件状态未变更前将不断被触发。状态触发模式是默认的模式。</p>
+<p>状态触发模式与边沿触发模式有读和写两种情况，我们先来考虑读的情况。假设我们注册了一个读事件到<code>epoll</code>实例上，<code>epoll</code>实例会通过<code>epoll_wait</code>返回值的形式通知我们哪些读事件已经就绪。简单地来说，在状态触发模式下，如果读事件未被处理，该事件对应的内核读缓冲器非空，则每次调用 <code>epoll_wait</code> 时返回的事件列表都会包含该事件。直到该事件对应的内核读缓冲器为空为止。而在边沿触发模式下，读事件就绪后只会通知一次，不会反复通知。</p>
+<p>然后我们再考虑写的情况。水平触发模式下，只要文件描述符对应的内核写缓冲器未满，就会一直通知可写事件。而在边沿触发模式下，内核写缓冲器由满变为未满后，只会通知一次可写事件。</p>
+<p>举例来说，倘若有一个已经于<code>epoll</code>注册之<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Anonymous_pipe" title="Anonymous pipe">流水线</a>接获资料，<code>epoll_wait</code>将返回，并发出资料读取的信号。现假设缓冲器的资料仅有部分被读取并处理，在level-triggered模式下，任何对<code>epoll_wait</code>之调用都将即刻返回，直到缓冲器中的资料全部被读取；然而，在edge-triggered的情境下，<code>epoll_wait</code>仅会于再次接收到新资料(亦即，新资料被写入流水线)时返回。</p>
+<h3 id="边沿触发模式-编辑"><a href="#边沿触发模式-编辑" class="headerlink" title="边沿触发模式[编辑]"></a>边沿触发模式[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=3" title="编辑章节：边沿触发模式">编辑</a>]</h3><p>边沿触发模式使得程序有可能在用户态缓存 IO 状态。nginx 使用的是边沿触发模式。</p>
+<p>文件描述符有两种情况是推荐使用边沿触发模式的。</p>
+<ol>
+<li>read 或者 write 系统调用返回了 EAGAIN。</li>
+<li>非阻塞的文件描述符。</li>
+</ol>
+<p>可能的缺陷：</p>
+<ol>
+<li>如果 IO 空间很大，你要花很多时间才能把它一次读完，这可能会导致饥饿。举个例子，假设你在监听一个文件描述符列表，而某个文件描述符上有大量的输入（不间断的输入流），那么你在读完它的过程中就没空处理其他就绪的文件描述符。（因为边沿触发模式只会通知一次可读事件，所以你往往会想一次把它读完。）一种解决方案是，程序维护一个就绪队列，当 <code>epoll</code> 实例通知某文件描述符就绪时将它在就绪队列数据结构中标记为就绪，这样程序就会记得哪些文件描述符等待处理。Round-Robin 循环处理就绪队列中就绪的文件描述符即可。</li>
+<li>如果你缓存了所有事件，那么一种可能的情况是 A 事件的发生让程序关闭了另一个文件描述符 B。但是内核的 <code>epoll</code> 实例并不知道这件事，需要你从 <code>epoll</code> 删除掉。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/06/C/Epoll/" data-id="clewvkis4000gcgt37n663xss" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/02/27/Shell/if/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Shell IF语法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/" rel="tag">C/C++</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C-C/" style="font-size: 10px;">C/C++</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/06/C/Epoll/">Epoll</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/27/Shell/if/">Shell IF语法</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/27/GDB/%E6%B1%87%E7%BC%96/">汇编调试</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/24/Shortcuts/vscode/">VSCode</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/">输出日志记录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 rains<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

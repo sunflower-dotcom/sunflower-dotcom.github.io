@@ -19,6 +19,20 @@
 ]]></content>
   </entry>
   <entry>
+    <title></title>
+    <url>/2023/02/07/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<ul>
+<li><input checked disabled type="checkbox"> Write the press release</li>
+<li><input disabled type="checkbox"> Update the website</li>
+<li><input disabled type="checkbox"> Contact the media</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>静态成员</title>
     <url>/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/</url>
     <content><![CDATA[<h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>我们可以使用 <strong>static</strong> 关键字来把类成员定义为静态的。当我们声明类的成员为静态时，这意味着无论创建多少个类的对象，静态成员都只有一个副本。</p>
@@ -42,18 +56,16 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2023/02/07/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<ul>
-<li><input checked disabled type="checkbox"> Write the press release</li>
-<li><input disabled type="checkbox"> Update the website</li>
-<li><input disabled type="checkbox"> Contact the media</li>
-</ul>
+    <title>内联函数</title>
+    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
 ]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
   </entry>
   <entry>
     <title>GDB调试忽略信号</title>
@@ -68,16 +80,38 @@
       </categories>
   </entry>
   <entry>
-    <title>内联函数</title>
-    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
+    <title>汇编调试</title>
+    <url>/2023/02/27/GDB/%E6%B1%87%E7%BC%96/</url>
+    <content><![CDATA[<h1 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h1><ol>
+<li>打印寄存器的值:  <blockquote>
+<p>i register</p>
+</blockquote>
+</li>
+<li>打印所有寄存器的值:<blockquote>
+<p>i all-registers</p>
+</blockquote>
+</li>
+<li>打印单个寄存器的值<blockquote>
+<p>i registers regname 或<br>p $regname”</p>
+</blockquote>
+</li>
+<li>修改寄存器的值<blockquote>
+<p><strong>例子</strong></p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main(void)</span><br><span class="line">&#123;       </span><br><span class="line">        int a =0;               </span><br><span class="line"></span><br><span class="line">        a++;    </span><br><span class="line">        a++;    </span><br><span class="line">        printf(&quot;%d\n&quot;, a);      </span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>   PC寄存器会存储程序下一条要执行的指令，通过修改这个寄存器的值，可以达到改变程序执行流程的目的。上面的程序会输出“a&#x3D;2”，下面介绍一下如何通过修改PC寄存器的值，改变程序执行流程。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4               int a =0;</span><br><span class="line">(gdb) disassemble main</span><br><span class="line">Dump of assembler code for function main:</span><br><span class="line">0x08050921 &lt;main+0&gt;:    push   %ebp</span><br><span class="line">0x08050922 &lt;main+1&gt;:    mov    %esp,%ebp</span><br><span class="line">0x08050924 &lt;main+3&gt;:    sub    $0x8,%esp</span><br><span class="line">0x08050927 &lt;main+6&gt;:    and    $0xfffffff0,%esp</span><br><span class="line">0x0805092a &lt;main+9&gt;:    mov    $0x0,%eax</span><br><span class="line">0x0805092f &lt;main+14&gt;:   add    $0xf,%eax</span><br><span class="line">0x08050932 &lt;main+17&gt;:   add    $0xf,%eax</span><br><span class="line">0x08050935 &lt;main+20&gt;:   shr    $0x4,%eax</span><br><span class="line">0x08050938 &lt;main+23&gt;:   shl    $0x4,%eax</span><br><span class="line">0x0805093b &lt;main+26&gt;:   sub    %eax,%esp</span><br><span class="line">0x0805093d &lt;main+28&gt;:   movl   $0x0,-0x4(%ebp)</span><br><span class="line">0x08050944 &lt;main+35&gt;:   lea    -0x4(%ebp),%eax</span><br><span class="line">0x08050947 &lt;main+38&gt;:   incl   (%eax)</span><br><span class="line">0x08050949 &lt;main+40&gt;:   lea    -0x4(%ebp),%eax</span><br><span class="line">0x0805094c &lt;main+43&gt;:   incl   (%eax)</span><br><span class="line">0x0805094e &lt;main+45&gt;:   sub    $0x8,%esp</span><br><span class="line">0x08050951 &lt;main+48&gt;:   pushl  -0x4(%ebp)</span><br><span class="line">0x08050954 &lt;main+51&gt;:   push   $0x80509b4</span><br><span class="line">0x08050959 &lt;main+56&gt;:   call   0x80507cc &lt;printf@plt&gt;</span><br><span class="line">0x0805095e &lt;main+61&gt;:   add    $0x10,%esp</span><br><span class="line">0x08050961 &lt;main+64&gt;:   mov    $0x0,%eax</span><br><span class="line">0x08050966 &lt;main+69&gt;:   leave</span><br><span class="line">0x08050967 &lt;main+70&gt;:   ret</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) info line 6</span><br><span class="line">Line 6 of &quot;a.c&quot; starts at address 0x8050944 &lt;main+35&gt; and ends at 0x8050949 &lt;main+40&gt;.</span><br><span class="line">(gdb) info line 7</span><br><span class="line">Line 7 of &quot;a.c&quot; starts at address 0x8050949 &lt;main+40&gt; and ends at 0x805094e &lt;main+45&gt;.</span><br></pre></td></tr></table></figure>
+
+<p>通过“info line 6”和“info line 7”命令可以知道两条“a++;”语句的汇编指令起始地址分别是0x8050944和0x8050949。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) n</span><br><span class="line">6               a++;</span><br><span class="line">(gdb) p $pc</span><br><span class="line">$3 = (void (*)()) 0x8050944 &lt;main+35&gt;</span><br><span class="line">(gdb) set var $pc=0x08050949</span><br></pre></td></tr></table></figure>
+
+<p>当程序要执行第一条“a++;”语句时，打印pc寄存器的值，看到pc寄存器的值为0x8050944，与“info line 6”命令得到的一致。接下来，把pc寄存器的值改为0x8050949，也就是通过“info line 7”命令得到的第二条“a++;”语句的起始地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) n</span><br><span class="line">8               printf(&quot;a=%d\n&quot;, a);</span><br><span class="line">(gdb)</span><br><span class="line">a=1</span><br><span class="line">9               return 0;</span><br></pre></td></tr></table></figure>
+
+<p>接下来执行，可以看到程序输出“a&#x3D;1”，也就是跳过了第一条“a++;”语句。</p>
 ]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
   </entry>
   <entry>
     <title>输出日志记录</title>
@@ -88,6 +122,80 @@
 ]]></content>
       <categories>
         <category>GDB</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>初始化Git仓库</title>
+    <url>/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
+<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
+<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
+<p>$ chown -R git:git runoob.git</p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Epoll</title>
+    <url>/2023/03/06/C/Epoll/</url>
+    <content><![CDATA[<h1 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h1><p>**<code>epoll</code>**是<a href="https://zh.wikipedia.org/wiki/Linux" title="Linux">Linux</a>内核的可扩展I&#x2F;O事件通知机制<sup id="cite_ref-1" class="reference"><a href="https://zh.wikipedia.org/wiki/Epoll#cite_note-1">[1]</a></sup>。于Linux 2.5.44首度登场，它设计目的旨在取代既有<a href="https://zh.wikipedia.org/wiki/POSIX" title="POSIX">POSIX</a> <a href="https://zh.wikipedia.org/wiki/Select_(Unix)" title="Select (Unix)"><code>select(2)</code></a>与<code>poll(2)</code><a href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8" title="系统调用">系统函数</a>，让需要大量操作<a href="https://zh.wikipedia.org/wiki/%E6%AA%94%E6%A1%88%E6%8F%8F%E8%BF%B0%E5%AD%90" title="文件描述符">文件描述符</a>的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，<code>epoll</code>的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件</p>
+<h2 id="程序接口"><a href="#程序接口" class="headerlink" title="程序接口"></a>程序接口</h2><p>int epoll_create(int size);</p>
+<p>在内核中创建<code>epoll</code>实例并返回一个<code>epoll</code>文件描述符。 在最初的实现中，调用者通过 <code>size</code> 参数告知内核需要监听的文件描述符数量。如果监听的文件描述符数量超过 size, 则内核会自动扩容。而现在 size 已经没有这种语义了，但是调用者调用时 size 依然必须大于 0，以保证后向兼容性。</p>
+<p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</p>
+<p>向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</p>
+<p>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);</p>
+<p>当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</p>
+<h2 id="触发模式-编辑"><a href="#触发模式-编辑" class="headerlink" title="触发模式[编辑]"></a>触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=2" title="编辑章节：触发模式">编辑</a>]</h2><p><code>epoll</code>提供<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91" title="中断">边沿触发</a>及<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E7%8A%B6%E6%80%81%E8%A7%A6%E5%8F%91" title="中断">状态触发</a>模式。在边沿触发模式中，<code>epoll_wait</code>仅会在新的事件首次被加入<code>epoll</code>队列时返回；于level-triggered模式下，<code>epoll_wait</code>在事件状态未变更前将不断被触发。状态触发模式是默认的模式。</p>
+<p>状态触发模式与边沿触发模式有读和写两种情况，我们先来考虑读的情况。假设我们注册了一个读事件到<code>epoll</code>实例上，<code>epoll</code>实例会通过<code>epoll_wait</code>返回值的形式通知我们哪些读事件已经就绪。简单地来说，在状态触发模式下，如果读事件未被处理，该事件对应的内核读缓冲器非空，则每次调用 <code>epoll_wait</code> 时返回的事件列表都会包含该事件。直到该事件对应的内核读缓冲器为空为止。而在边沿触发模式下，读事件就绪后只会通知一次，不会反复通知。</p>
+<p>然后我们再考虑写的情况。水平触发模式下，只要文件描述符对应的内核写缓冲器未满，就会一直通知可写事件。而在边沿触发模式下，内核写缓冲器由满变为未满后，只会通知一次可写事件。</p>
+<p>举例来说，倘若有一个已经于<code>epoll</code>注册之<a href="https://zh.wikipedia.org/wiki/Anonymous_pipe" title="Anonymous pipe">流水线</a>接获资料，<code>epoll_wait</code>将返回，并发出资料读取的信号。现假设缓冲器的资料仅有部分被读取并处理，在level-triggered模式下，任何对<code>epoll_wait</code>之调用都将即刻返回，直到缓冲器中的资料全部被读取；然而，在edge-triggered的情境下，<code>epoll_wait</code>仅会于再次接收到新资料(亦即，新资料被写入流水线)时返回。</p>
+<h3 id="边沿触发模式-编辑"><a href="#边沿触发模式-编辑" class="headerlink" title="边沿触发模式[编辑]"></a>边沿触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=3" title="编辑章节：边沿触发模式">编辑</a>]</h3><p>边沿触发模式使得程序有可能在用户态缓存 IO 状态。nginx 使用的是边沿触发模式。</p>
+<p>文件描述符有两种情况是推荐使用边沿触发模式的。</p>
+<ol>
+<li>read 或者 write 系统调用返回了 EAGAIN。</li>
+<li>非阻塞的文件描述符。</li>
+</ol>
+<p>可能的缺陷：</p>
+<ol>
+<li>如果 IO 空间很大，你要花很多时间才能把它一次读完，这可能会导致饥饿。举个例子，假设你在监听一个文件描述符列表，而某个文件描述符上有大量的输入（不间断的输入流），那么你在读完它的过程中就没空处理其他就绪的文件描述符。（因为边沿触发模式只会通知一次可读事件，所以你往往会想一次把它读完。）一种解决方案是，程序维护一个就绪队列，当 <code>epoll</code> 实例通知某文件描述符就绪时将它在就绪队列数据结构中标记为就绪，这样程序就会记得哪些文件描述符等待处理。Round-Robin 循环处理就绪队列中就绪的文件描述符即可。</li>
+<li>如果你缓存了所有事件，那么一种可能的情况是 A 事件的发生让程序关闭了另一个文件描述符 B。但是内核的 <code>epoll</code> 实例并不知道这件事，需要你从 <code>epoll</code> 删除掉。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>柔性数组</title>
+    <url>/2023/02/16/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
+<p>柔型数组有两种定义方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<p>有些编译器会报错无法编译可以改成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
+<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
+<p><img src="/images/C_1.png"></p>
+<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/C_2.png"></p>
+<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
+<p><img src="/images/C_3.png"></p>
+<p>如果想增加数组元素，使用realloc调整结构体大小</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
+<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
       </categories>
   </entry>
   <entry>
@@ -187,105 +295,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Shell IF语法</title>
-    <url>/2023/02/27/Shell/if/</url>
-    <content><![CDATA[<h1 id="SHELL-IF-语法"><a href="#SHELL-IF-语法" class="headerlink" title="SHELL IF 语法"></a>SHELL IF 语法</h1><p>if [ -f file ]; then<br>   echo “yes yes yes”<br>elif [ -z file ]; then<br>   echo “yes yes”<br>else<br>   echo “nonono”<br>fi</p>
-]]></content>
-      <categories>
-        <category>Shell</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>柔性数组</title>
-    <url>/2023/02/16/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
-<p>柔型数组有两种定义方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<p>有些编译器会报错无法编译可以改成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
-<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
-<p><img src="/images/C_1.png"></p>
-<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/C_2.png"></p>
-<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
-<p><img src="/images/C_3.png"></p>
-<p>如果想增加数组元素，使用realloc调整结构体大小</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
-<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>汇编调试</title>
-    <url>/2023/02/27/GDB/%E6%B1%87%E7%BC%96/</url>
-    <content><![CDATA[<h1 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h1><ol>
-<li>打印寄存器的值:  <blockquote>
-<p>i register</p>
-</blockquote>
-</li>
-<li>打印所有寄存器的值:<blockquote>
-<p>i all-registers</p>
-</blockquote>
-</li>
-<li>打印单个寄存器的值<blockquote>
-<p>i registers regname 或<br>p $regname”</p>
-</blockquote>
-</li>
-<li>修改寄存器的值<blockquote>
-<p><strong>例子</strong></p>
-</blockquote>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main(void)</span><br><span class="line">&#123;       </span><br><span class="line">        int a =0;               </span><br><span class="line"></span><br><span class="line">        a++;    </span><br><span class="line">        a++;    </span><br><span class="line">        printf(&quot;%d\n&quot;, a);      </span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>   PC寄存器会存储程序下一条要执行的指令，通过修改这个寄存器的值，可以达到改变程序执行流程的目的。上面的程序会输出“a&#x3D;2”，下面介绍一下如何通过修改PC寄存器的值，改变程序执行流程。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4               int a =0;</span><br><span class="line">(gdb) disassemble main</span><br><span class="line">Dump of assembler code for function main:</span><br><span class="line">0x08050921 &lt;main+0&gt;:    push   %ebp</span><br><span class="line">0x08050922 &lt;main+1&gt;:    mov    %esp,%ebp</span><br><span class="line">0x08050924 &lt;main+3&gt;:    sub    $0x8,%esp</span><br><span class="line">0x08050927 &lt;main+6&gt;:    and    $0xfffffff0,%esp</span><br><span class="line">0x0805092a &lt;main+9&gt;:    mov    $0x0,%eax</span><br><span class="line">0x0805092f &lt;main+14&gt;:   add    $0xf,%eax</span><br><span class="line">0x08050932 &lt;main+17&gt;:   add    $0xf,%eax</span><br><span class="line">0x08050935 &lt;main+20&gt;:   shr    $0x4,%eax</span><br><span class="line">0x08050938 &lt;main+23&gt;:   shl    $0x4,%eax</span><br><span class="line">0x0805093b &lt;main+26&gt;:   sub    %eax,%esp</span><br><span class="line">0x0805093d &lt;main+28&gt;:   movl   $0x0,-0x4(%ebp)</span><br><span class="line">0x08050944 &lt;main+35&gt;:   lea    -0x4(%ebp),%eax</span><br><span class="line">0x08050947 &lt;main+38&gt;:   incl   (%eax)</span><br><span class="line">0x08050949 &lt;main+40&gt;:   lea    -0x4(%ebp),%eax</span><br><span class="line">0x0805094c &lt;main+43&gt;:   incl   (%eax)</span><br><span class="line">0x0805094e &lt;main+45&gt;:   sub    $0x8,%esp</span><br><span class="line">0x08050951 &lt;main+48&gt;:   pushl  -0x4(%ebp)</span><br><span class="line">0x08050954 &lt;main+51&gt;:   push   $0x80509b4</span><br><span class="line">0x08050959 &lt;main+56&gt;:   call   0x80507cc &lt;printf@plt&gt;</span><br><span class="line">0x0805095e &lt;main+61&gt;:   add    $0x10,%esp</span><br><span class="line">0x08050961 &lt;main+64&gt;:   mov    $0x0,%eax</span><br><span class="line">0x08050966 &lt;main+69&gt;:   leave</span><br><span class="line">0x08050967 &lt;main+70&gt;:   ret</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) info line 6</span><br><span class="line">Line 6 of &quot;a.c&quot; starts at address 0x8050944 &lt;main+35&gt; and ends at 0x8050949 &lt;main+40&gt;.</span><br><span class="line">(gdb) info line 7</span><br><span class="line">Line 7 of &quot;a.c&quot; starts at address 0x8050949 &lt;main+40&gt; and ends at 0x805094e &lt;main+45&gt;.</span><br></pre></td></tr></table></figure>
-
-<p>通过“info line 6”和“info line 7”命令可以知道两条“a++;”语句的汇编指令起始地址分别是0x8050944和0x8050949。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) n</span><br><span class="line">6               a++;</span><br><span class="line">(gdb) p $pc</span><br><span class="line">$3 = (void (*)()) 0x8050944 &lt;main+35&gt;</span><br><span class="line">(gdb) set var $pc=0x08050949</span><br></pre></td></tr></table></figure>
-
-<p>当程序要执行第一条“a++;”语句时，打印pc寄存器的值，看到pc寄存器的值为0x8050944，与“info line 6”命令得到的一致。接下来，把pc寄存器的值改为0x8050949，也就是通过“info line 7”命令得到的第二条“a++;”语句的起始地址。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) n</span><br><span class="line">8               printf(&quot;a=%d\n&quot;, a);</span><br><span class="line">(gdb)</span><br><span class="line">a=1</span><br><span class="line">9               return 0;</span><br></pre></td></tr></table></figure>
-
-<p>接下来执行，可以看到程序输出“a&#x3D;1”，也就是跳过了第一条“a++;”语句。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>VSCode</title>
-    <url>/2023/02/24/Shortcuts/vscode/</url>
-    <content><![CDATA[<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
-<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Shortcuts</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>删除线语法</title>
-    <url>/2023/02/12/Markdown/%E5%88%A0%E9%99%A4%E7%BA%BF%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="删除线语法"><a href="#删除线语法" class="headerlink" title="删除线语法"></a>删除线语法</h1><p>您可以通过在单词中心放置一条水平线来删除单词。结果看起来<del>像这样</del>。此功能使您可以指示某些单词是一个错误，要从文档中删除。若要删除单词，请在单词前后使用两个波浪号<code>~~</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">~~世界是平坦的。~~ 我们现在知道世界是圆的。</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<p><del>世界是平坦的。</del> 我们现在知道世界是圆的。</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
     <title>任务列表语法</title>
     <url>/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
@@ -303,31 +312,16 @@
       </categories>
   </entry>
   <entry>
-    <title>定义列表</title>
-    <url>/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="定义列表"><a href="#定义列表" class="headerlink" title="定义列表"></a>定义列表</h1><p><strong>vs code 无效</strong></p>
-<p>一些Markdown处理器允许您创建术语及其对应定义的_定义列表_。要创建定义列表，请在第一行上键入术语。在下一行，键入一个冒号，后跟一个空格和定义。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">First Term</span><br><span class="line">: This is the definition of the first term.</span><br><span class="line"></span><br><span class="line">Second Term</span><br><span class="line">: This is one definition of the second term.</span><br><span class="line">: This is another definition of the second term.</span><br></pre></td></tr></table></figure>
-
-<p>HTML看起来像这样：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;dl&gt;</span><br><span class="line">  &lt;dt&gt;First Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is the definition of the first term.&lt;/dd&gt;</span><br><span class="line">  &lt;dt&gt;Second Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is one definition of the second term. &lt;/dd&gt;</span><br><span class="line">  &lt;dd&gt;This is another definition of the second term.&lt;/dd&gt;</span><br><span class="line">&lt;/dl&gt;</span><br></pre></td></tr></table></figure>
+    <title>删除线语法</title>
+    <url>/2023/02/12/Markdown/%E5%88%A0%E9%99%A4%E7%BA%BF%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="删除线语法"><a href="#删除线语法" class="headerlink" title="删除线语法"></a>删除线语法</h1><p>您可以通过在单词中心放置一条水平线来删除单词。结果看起来<del>像这样</del>。此功能使您可以指示某些单词是一个错误，要从文档中删除。若要删除单词，请在单词前后使用两个波浪号<code>~~</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">~~世界是平坦的。~~ 我们现在知道世界是圆的。</span><br></pre></td></tr></table></figure>
 
 <p>呈现的输出如下所示：</p>
-<dl><dt>First Term</dt><dd>This is the definition of the first term.</dd></dl><dl><dt>Second Term<br>: This is one definition of the second term.</dt><dd>This is another definition of the second term.</dd></dl>]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>初始化Git仓库</title>
-    <url>/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
-<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
-<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
-<p>$ chown -R git:git runoob.git</p>
+<p><del>世界是平坦的。</del> 我们现在知道世界是圆的。</p>
 ]]></content>
       <categories>
-        <category>Git</category>
+        <category>Markdown</category>
       </categories>
   </entry>
   <entry>
@@ -356,6 +350,22 @@
 <hr>
 <h2 id="…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading"><a href="#…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading" class="headerlink" title="…and after a horizontal rule.|Without blank lines, this would be a heading.  "></a>…and after a horizontal rule.<code>|</code>Without blank lines, this would be a heading.  </h2><p>Don’t do this!&#96; |</p>
 ]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>定义列表</title>
+    <url>/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="定义列表"><a href="#定义列表" class="headerlink" title="定义列表"></a>定义列表</h1><p><strong>vs code 无效</strong></p>
+<p>一些Markdown处理器允许您创建术语及其对应定义的_定义列表_。要创建定义列表，请在第一行上键入术语。在下一行，键入一个冒号，后跟一个空格和定义。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">First Term</span><br><span class="line">: This is the definition of the first term.</span><br><span class="line"></span><br><span class="line">Second Term</span><br><span class="line">: This is one definition of the second term.</span><br><span class="line">: This is another definition of the second term.</span><br></pre></td></tr></table></figure>
+
+<p>HTML看起来像这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;dl&gt;</span><br><span class="line">  &lt;dt&gt;First Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is the definition of the first term.&lt;/dd&gt;</span><br><span class="line">  &lt;dt&gt;Second Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is one definition of the second term. &lt;/dd&gt;</span><br><span class="line">  &lt;dd&gt;This is another definition of the second term.&lt;/dd&gt;</span><br><span class="line">&lt;/dl&gt;</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<dl><dt>First Term</dt><dd>This is the definition of the first term.</dd></dl><dl><dt>Second Term<br>: This is one definition of the second term.</dt><dd>This is another definition of the second term.</dd></dl>]]></content>
       <categories>
         <category>Markdown</category>
       </categories>
@@ -457,104 +467,6 @@
 <h2 id="格式化表格中的文字"><a href="#格式化表格中的文字" class="headerlink" title="# 格式化表格中的文字"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%A1%A8%E6%A0%BC%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">#</a> 格式化表格中的文字</h2><p>您可以在表格中设置文本格式。例如，您可以添加链接，代码（仅反引号（<code>`</code>）中的单词或短语，而不是代码块）和强调。</p>
 <p>您不能添加标题，块引用，列表，水平规则，图像或HTML标签。</p>
 <h2 id="在表中转义管道字符"><a href="#在表中转义管道字符" class="headerlink" title="# 在表中转义管道字符"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%9C%A8%E8%A1%A8%E4%B8%AD%E8%BD%AC%E4%B9%89%E7%AE%A1%E9%81%93%E5%AD%97%E7%AC%A6">#</a> 在表中转义管道字符</h2><p>您可以使用表格的HTML字符代码（<code>&amp;#124;</code>）在表中显示竖线（<code>|</code>）字符。</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>转义字符语法</title>
-    <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<p>* Without the backslash, this would be a bullet in an unordered list.</p>
-<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
-<table>
-<thead>
-<tr>
-<th>Character</th>
-<th>Name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>\</td>
-<td>backslash</td>
-</tr>
-<tr>
-<td>`</td>
-<td>backtick (see also <a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
-</tr>
-<tr>
-<td>*</td>
-<td>asterisk</td>
-</tr>
-<tr>
-<td>_</td>
-<td>underscore</td>
-</tr>
-<tr>
-<td>{ }</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>[ ]</td>
-<td>brackets</td>
-</tr>
-<tr>
-<td>( )</td>
-<td>parentheses</td>
-</tr>
-<tr>
-<td>#</td>
-<td>pound sign</td>
-</tr>
-<tr>
-<td>+</td>
-<td>plus sign</td>
-</tr>
-<tr>
-<td>-</td>
-<td>minus sign (hyphen)</td>
-</tr>
-<tr>
-<td>.</td>
-<td>dot</td>
-</tr>
-<tr>
-<td>!</td>
-<td>exclamation mark</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
-<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
-
-<p>你必须要把网址转成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
-
-<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
-<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 就会将它转为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
-
-<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 将会把它转换为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
-
-<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
 ]]></content>
       <categories>
         <category>Markdown</category>
@@ -694,6 +606,104 @@
       </categories>
   </entry>
   <entry>
+    <title>转义字符语法</title>
+    <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<p>* Without the backslash, this would be a bullet in an unordered list.</p>
+<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\</td>
+<td>backslash</td>
+</tr>
+<tr>
+<td>`</td>
+<td>backtick (see also <a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
+</tr>
+<tr>
+<td>*</td>
+<td>asterisk</td>
+</tr>
+<tr>
+<td>_</td>
+<td>underscore</td>
+</tr>
+<tr>
+<td>{ }</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>brackets</td>
+</tr>
+<tr>
+<td>( )</td>
+<td>parentheses</td>
+</tr>
+<tr>
+<td>#</td>
+<td>pound sign</td>
+</tr>
+<tr>
+<td>+</td>
+<td>plus sign</td>
+</tr>
+<tr>
+<td>-</td>
+<td>minus sign (hyphen)</td>
+</tr>
+<tr>
+<td>.</td>
+<td>dot</td>
+</tr>
+<tr>
+<td>!</td>
+<td>exclamation mark</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
+<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>你必须要把网址转成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
+<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 就会将它转为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
+
+<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将会把它转换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
     <title>语法速查表</title>
     <url>/2023/02/12/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/</url>
     <content><![CDATA[<h1 id="Markdown-语法速查表-Markdown-官方教程"><a href="#Markdown-语法速查表-Markdown-官方教程" class="headerlink" title="Markdown 语法速查表 | Markdown 官方教程"></a>Markdown 语法速查表 | Markdown 官方教程</h1><blockquote>
@@ -806,6 +816,26 @@
 ]]></content>
       <categories>
         <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>VSCode</title>
+    <url>/2023/02/24/Shortcuts/vscode/</url>
+    <content><![CDATA[<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
+<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Shortcuts</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Shell IF语法</title>
+    <url>/2023/02/27/Shell/if/</url>
+    <content><![CDATA[<h1 id="SHELL-IF-语法"><a href="#SHELL-IF-语法" class="headerlink" title="SHELL IF 语法"></a>SHELL IF 语法</h1><p>if [ -f file ]; then<br>   echo “yes yes yes”<br>elif [ -z file ]; then<br>   echo “yes yes”<br>else<br>   echo “nonono”<br>fi</p>
+]]></content>
+      <categories>
+        <category>Shell</category>
       </categories>
   </entry>
 </search>
