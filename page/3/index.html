@@ -66,9 +66,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Markdown/分割线语法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Markdown/转义字符语法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/" class="article-date">
+    <a href="/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/" class="article-date">
   <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
 </a>
     
@@ -84,7 +84,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/">分割线语法</a>
+      <a class="article-title" href="/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/">转义字符语法</a>
     </h1>
   
 
@@ -92,33 +92,145 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Markdown分割线语法"><a href="#Markdown分割线语法" class="headerlink" title="Markdown分割线语法"></a>Markdown分割线语法</h1><p>要创建分隔线，请在单独一行上使用三个或多个星号 (<code>***</code>)、破折号 (<code>---</code>) 或下划线 (<code>___</code>) ，并且不能包含其他内容。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">***</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">_________________</span><br></pre></td></tr></table></figure>
+        <h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
 
-<p>以上三个分隔线的渲染效果看起来都一样：</p>
-<ul>
-<li></li>
-</ul>
-<h3 id="分隔线（Horizontal-Rule）用法最佳实践"><a href="#分隔线（Horizontal-Rule）用法最佳实践" class="headerlink" title="# 分隔线（Horizontal Rule）用法最佳实践"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%88%86%E9%9A%94%E7%BA%BF%EF%BC%88horizontal-rule%EF%BC%89%E7%94%A8%E6%B3%95%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">#</a> 分隔线（Horizontal Rule）用法最佳实践</h3><p>为了兼容性，请在分隔线的前后均添加空白行。</p>
+<p>渲染效果如下：</p>
+<p>* Without the backslash, this would be a bullet in an unordered list.</p>
+<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
 <table>
 <thead>
 <tr>
-<th>✅  Do this</th>
-<th>❌  Don’t do this</th>
+<th>Character</th>
+<th>Name</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>&#96;Try to put a blank line before…</td>
+<td>\</td>
+<td>backslash</td>
+</tr>
+<tr>
+<td>`</td>
+<td>backtick (see also <a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
+</tr>
+<tr>
+<td>*</td>
+<td>asterisk</td>
+</tr>
+<tr>
+<td>_</td>
+<td>underscore</td>
+</tr>
+<tr>
+<td>{ }</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>brackets</td>
+</tr>
+<tr>
+<td>( )</td>
+<td>parentheses</td>
+</tr>
+<tr>
+<td>#</td>
+<td>pound sign</td>
+</tr>
+<tr>
+<td>+</td>
+<td>plus sign</td>
+</tr>
+<tr>
+<td>-</td>
+<td>minus sign (hyphen)</td>
+</tr>
+<tr>
+<td>.</td>
+<td>dot</td>
+</tr>
+<tr>
+<td>!</td>
+<td>exclamation mark</td>
+</tr>
+<tr>
+<td></td>
 <td></td>
 </tr>
 </tbody></table>
-<hr>
-<h2 id="…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading"><a href="#…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading" class="headerlink" title="…and after a horizontal rule.|Without blank lines, this would be a heading.  "></a>…and after a horizontal rule.<code>|</code>Without blank lines, this would be a heading.  </h2><p>Don’t do this!&#96; |</p>
+<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
+<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>你必须要把网址转成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
+<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 就会将它转为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
+
+<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将会把它转换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/" data-id="cley83nol001f6kt3g0f72u7o" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/" data-id="clezofz940015lkt3dhmaat18" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Git/初始化仓库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/" class="article-date">
+  <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/">初始化Git仓库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
+<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
+<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
+<p>$ chown -R git:git runoob.git</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/" data-id="clezofz97001dlkt31rqbg3bv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -265,7 +377,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/" data-id="cley83nof00166kt3h1zy3kh9" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/" data-id="clezofz950018lkt3fa1fcszz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -300,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/07/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="cley83nnt00036kt37wbv5fs9" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/07/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="clezofz8j0003lkt39wfthxpy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -349,7 +461,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/06/hello-world/" data-id="cley83nnq00016kt3anp36pjo" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/06/hello-world/" data-id="clezofz8g0001lkt38pau410j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -416,6 +528,10 @@
       <ul>
         
           <li>
+            <a href="/2023/03/08/C/%E8%B7%B3%E8%A1%A8/">Skiplist</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/07/Redis/%E9%9B%86%E5%90%88/">集合</a>
           </li>
         
@@ -429,10 +545,6 @@
         
           <li>
             <a href="/2023/02/27/Shell/if/">Shell IF语法</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/27/GDB/%E6%B1%87%E7%BC%96/">汇编调试</a>
           </li>
         
       </ul>
