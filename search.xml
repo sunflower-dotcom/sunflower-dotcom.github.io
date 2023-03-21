@@ -33,6 +33,208 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Epoll</title>
+    <url>/2023/03/19/C/Epoll/</url>
+    <content><![CDATA[<h1 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h1><p>**<code>epoll</code>**是<a href="https://zh.wikipedia.org/wiki/Linux" title="Linux">Linux</a>内核的可扩展I&#x2F;O事件通知机制<sup id="cite_ref-1" class="reference"><a href="https://zh.wikipedia.org/wiki/Epoll#cite_note-1">[1]</a></sup>。于Linux 2.5.44首度登场，它设计目的旨在取代既有<a href="https://zh.wikipedia.org/wiki/POSIX" title="POSIX">POSIX</a> <a href="https://zh.wikipedia.org/wiki/Select_(Unix)" title="Select (Unix)"><code>select(2)</code></a>与<code>poll(2)</code><a href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8" title="系统调用">系统函数</a>，让需要大量操作<a href="https://zh.wikipedia.org/wiki/%E6%AA%94%E6%A1%88%E6%8F%8F%E8%BF%B0%E5%AD%90" title="文件描述符">文件描述符</a>的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，<code>epoll</code>的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件</p>
+<h2 id="程序接口"><a href="#程序接口" class="headerlink" title="程序接口"></a>程序接口</h2><p>int epoll_create(int size);</p>
+<p>在内核中创建<code>epoll</code>实例并返回一个<code>epoll</code>文件描述符。 在最初的实现中，调用者通过 <code>size</code> 参数告知内核需要监听的文件描述符数量。如果监听的文件描述符数量超过 size, 则内核会自动扩容。而现在 size 已经没有这种语义了，但是调用者调用时 size 依然必须大于 0，以保证后向兼容性。</p>
+<p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</p>
+<p>向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</p>
+<p>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);</p>
+<p>当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</p>
+<h2 id="触发模式-编辑"><a href="#触发模式-编辑" class="headerlink" title="触发模式[编辑]"></a>触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=2" title="编辑章节：触发模式">编辑</a>]</h2><p><code>epoll</code>提供<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91" title="中断">边沿触发</a>及<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E7%8A%B6%E6%80%81%E8%A7%A6%E5%8F%91" title="中断">状态触发</a>模式。在边沿触发模式中，<code>epoll_wait</code>仅会在新的事件首次被加入<code>epoll</code>队列时返回；于level-triggered模式下，<code>epoll_wait</code>在事件状态未变更前将不断被触发。状态触发模式是默认的模式。</p>
+<p>状态触发模式与边沿触发模式有读和写两种情况，我们先来考虑读的情况。假设我们注册了一个读事件到<code>epoll</code>实例上，<code>epoll</code>实例会通过<code>epoll_wait</code>返回值的形式通知我们哪些读事件已经就绪。简单地来说，在状态触发模式下，如果读事件未被处理，该事件对应的内核读缓冲器非空，则每次调用 <code>epoll_wait</code> 时返回的事件列表都会包含该事件。直到该事件对应的内核读缓冲器为空为止。而在边沿触发模式下，读事件就绪后只会通知一次，不会反复通知。</p>
+<p>然后我们再考虑写的情况。水平触发模式下，只要文件描述符对应的内核写缓冲器未满，就会一直通知可写事件。而在边沿触发模式下，内核写缓冲器由满变为未满后，只会通知一次可写事件。</p>
+<p>举例来说，倘若有一个已经于<code>epoll</code>注册之<a href="https://zh.wikipedia.org/wiki/Anonymous_pipe" title="Anonymous pipe">流水线</a>接获资料，<code>epoll_wait</code>将返回，并发出资料读取的信号。现假设缓冲器的资料仅有部分被读取并处理，在level-triggered模式下，任何对<code>epoll_wait</code>之调用都将即刻返回，直到缓冲器中的资料全部被读取；然而，在edge-triggered的情境下，<code>epoll_wait</code>仅会于再次接收到新资料(亦即，新资料被写入流水线)时返回。</p>
+<h3 id="边沿触发模式-编辑"><a href="#边沿触发模式-编辑" class="headerlink" title="边沿触发模式[编辑]"></a>边沿触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=3" title="编辑章节：边沿触发模式">编辑</a>]</h3><p>边沿触发模式使得程序有可能在用户态缓存 IO 状态。nginx 使用的是边沿触发模式。</p>
+<p>文件描述符有两种情况是推荐使用边沿触发模式的。</p>
+<ol>
+<li>read 或者 write 系统调用返回了 EAGAIN。</li>
+<li>非阻塞的文件描述符。</li>
+</ol>
+<p>可能的缺陷：</p>
+<ol>
+<li>如果 IO 空间很大，你要花很多时间才能把它一次读完，这可能会导致饥饿。举个例子，假设你在监听一个文件描述符列表，而某个文件描述符上有大量的输入（不间断的输入流），那么你在读完它的过程中就没空处理其他就绪的文件描述符。（因为边沿触发模式只会通知一次可读事件，所以你往往会想一次把它读完。）一种解决方案是，程序维护一个就绪队列，当 <code>epoll</code> 实例通知某文件描述符就绪时将它在就绪队列数据结构中标记为就绪，这样程序就会记得哪些文件描述符等待处理。Round-Robin 循环处理就绪队列中就绪的文件描述符即可。</li>
+<li>如果你缓存了所有事件，那么一种可能的情况是 A 事件的发生让程序关闭了另一个文件描述符 B。但是内核的 <code>epoll</code> 实例并不知道这件事，需要你从 <code>epoll</code> 删除掉。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>位域</title>
+    <url>/2023/02/12/C/%E4%BD%8D%E5%9F%9F/</url>
+    <content><![CDATA[<h1 id="位域"><a href="#位域" class="headerlink" title="位域"></a>位域</h1><h1 id="让人疑惑的C语言位域-知乎"><a href="#让人疑惑的C语言位域-知乎" class="headerlink" title="让人疑惑的C语言位域 - 知乎"></a>让人疑惑的C语言位域 - 知乎</h1><blockquote>
+<h2 id="Excerpt"><a href="#Excerpt" class="headerlink" title="Excerpt"></a>Excerpt</h2><p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念 位…</p>
+</blockquote>
+<hr>
+<p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念</p>
+<h3 id="位域是什么"><a href="#位域是什么" class="headerlink" title="位域是什么"></a>位域是什么</h3><p>位域是一种数据结构，可以把数据以二进制位的形式紧凑的存储，它允许程序对此结构的位进行操作</p>
+<p>在计算机早期，内存是非常稀缺的，需要尽可能的节省每一个字节，所以，C 语言中就出现了能针对二进制位进行操作的位域</p>
+<h3 id="为什么要用位域"><a href="#为什么要用位域" class="headerlink" title="为什么要用位域"></a>为什么要用位域</h3><p>位域这种数据结构，可以最大限度的节省存储空间，对于一些非常频繁的操作，需要尽可能的减少操作的数据，比如：在开发网络应用时，数据的序列化和反序列化是很频繁的，如果能减少数据的长度，对提升数据打包效率是很有帮助的</p>
+<p>位域的出现，让我们可以用变量名代表某些bit，并通过变量名获取和设置 bit 的值，而不是通过晦涩难理解的位操作来进行，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct field</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char b0 : 3,</span><br><span class="line">                  b1 : 2,</span><br><span class="line">                  b2 : 3;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct field bf;</span><br><span class="line">bf.b1 = 3;</span><br></pre></td></tr></table></figure>
+
+<p>通过位域设置中间 2 个bit 的值，只需要设置结构体中 <code>b1</code> 字段值即可，如果使不用位域字段，就需要进行位的 “或” 和 “与” 运算</p>
+<h3 id="位域的使用"><a href="#位域的使用" class="headerlink" title="位域的使用"></a>位域的使用</h3><p>C 语言中，位域的表示形式如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct bitfield</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int b0 : n0,</span><br><span class="line">                 b1 : n1,</span><br><span class="line">                 b2 : n2,</span><br><span class="line">                 ...</span><br><span class="line">                 bn : nk;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>b0、b1、b2 ... bn</code> 表示位域成员，<code>n0、n1、n2 ... nk</code> 表示成员占用多少个 bit</p>
+<p>位域表示的范围通常不能超过其所依附类型所能表示的 bit 数，比如：上面 <code>bitfield</code> 结构体中 位域所依附的类型是 <code>unsigned int</code>, 最大能表示 32 个 bit，也就是说，<code>n0、n1、n2 ... nk</code> 总 bit 数不能超过 32，每个成员超过指定 bit 表示的最大数值时会被截断，具体请看下面的例子</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">        </span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    fs.a = 0x8F;</span><br><span class="line">    fs.b = 0x1A;</span><br><span class="line">    fs.c = 0x19;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%#x, %#x, %#x \n&quot;,fs.a, fs.b, fs.c);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>gcc -g -o bitfield bitfield.c</code> 编译并运行，结果为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">0xf, 0x1a, 0x9</span><br></pre></td></tr></table></figure>
+
+<p>字段 <code>a</code> 赋值为 <code>0x8F</code> 对应的二进制为 <strong>1000 1111</strong>，由于 <code>a</code> 只有 7 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 7 位，最终结果为 <strong>000 1111</strong> ，换成十六进制是 <strong>0xf</strong></p>
+<p>字段 <code>b</code> 赋值为 <code>0x1A</code> 对应的二进制为 <strong>1 1010</strong>， <code>b</code> 包含 5 个bit，取结果中的低 5 位，最终结果为 <strong>1 1010</strong> ，换成十六进制是 <strong>0x1a</strong> , 输出结果和赋值相同，即没有超出限定 bit 数</p>
+<p>字段 <code>c</code> 赋值为 <code>0x19</code> 对应的二进制为 <strong>1</strong> <strong>1001</strong>，由于 <code>c</code> 只有 4 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 4 位，最终结果为 <strong>1001</strong> ，换成十六进制是 <strong>0x9</strong></p>
+<p>位域的使用有一定的限制，机器最小粒度的寻址单位是字节，我们无法像获得某一个字节的地址一样去获得某个 bit 的地址，下面是一个错误的示例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码功能是打印出成员 <code>a</code> 的地址，它无法通过编译，错误如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bitfield.c: 在函数‘main’中:</span><br><span class="line">bitfield.c:11:5: 错误：无法取得位段‘a’的地址</span><br><span class="line">     printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">     ^</span><br></pre></td></tr></table></figure>
+
+<h3 id="位域的存储"><a href="#位域的存储" class="headerlink" title="位域的存储"></a>位域的存储</h3><p>C 标准中只允许 <code>unsigned int</code>、<code>signed int</code>、<code>int</code> 类型的位域申明，后面又增加了 <code>bool</code> 类型的支持，一些编译器像 <code>gcc</code>、<code>msvc</code>等自行加入了一些扩展，使得其他的类型(<code>short、char</code>等)也支持位域</p>
+<p>位域的存储跟编译器相关，不同的编译器，存储位域的方式可能不一样，总的来说可以分成下面几类</p>
+<p><strong>1、相邻位域成员，它们的类型相同时</strong></p>
+<p>如果它们的 bit 数之和小于等于所依附类型的 bit 数，那么，后面的成员紧接着前面的成员存储</p>
+<p>如果它们的 bit 数之和大于所依附类型的 bit 数，那么超过的成员会存储到新的存储单元中，新存储单元会偏移成员所依附类型的 sizeof 字节数</p>
+<p>以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned short b:4;</span><br><span class="line">        unsigned short c:2;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译运行，结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p><code>a 、b、c</code> 字段都是 <code>unsigned short</code> 类型，它们的 bit 数之和为 <strong>10 + 4 + 2 &#x3D; 16</strong>, 刚好等于 <strong>unsigned short</strong> 的 bit 数，所以它们会紧凑的存储，没有任何空隙</p>
+<p>如果把 <code>a</code> 的 bit 数改成 11，即 **unsigned short a:11;**，此时，<code>a</code> 和 <code>b</code> 的 bit 数之和为 <strong>11 + 4 &#x3D; 15</strong>，没有超过 <code>unsigned short</code> 的 bit 数</p>
+<p>如果再加上 <code>c</code> 的 bit 数，结果变成了 <strong>17</strong>，超过了 <code>unsigned short</code> 的 bit 数，这种情况下，<code>a</code> 和 <code>b</code> 还是会紧凑的存储，而 <code>c</code> 会存储到新的存储单元中，新的存储单元字节数为 <code>sizeof(unsigned short) = 2</code>， 所以此时 <strong>sizeof(fg)</strong> 是 <strong>4</strong></p>
+<p><strong>2、相邻位域成员，它们的类型不同时</strong></p>
+<p>这种情况跟具体的编译器相关，以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
+<p>gcc的结果</p>
+<p><img src="https://pic1.zhimg.com/v2-d24b60824986660fedafe38d419a983c_b.png"></p>
+<p>vs2013的结果</p>
+<p><img src="https://pic4.zhimg.com/v2-bbd2e82b112cd1c50f3bf58278c4a41f_b.jpg"></p>
+<p>可以看到，当相邻位域成员所依附的类型不同时，不同的编译器产生的结果是不一样的</p>
+<p>在 gcc 下的运行结果是 2 ，表示 <code>a</code> 和 <code>b</code> 还是紧凑存储的</p>
+<p>而在 vs2013 下运行的结果是 4，这说明 <code>a</code> 和 <code>b</code> 完全按照他们所依附的类型来存储，此时位域没有进行压缩存储</p>
+<p><strong>3、位域成员之间存在非位域成员时</strong></p>
+<p>这种情况 gcc 和 vs2013 都不会进行压缩存储，按照内存对齐的规则来存储</p>
+<p>还是以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned int i;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
+<p>gcc的结果</p>
+<p><img src="https://pic2.zhimg.com/v2-7cc4101dd6c9bfb9b5355545ab9ad28d_b.png"></p>
+<p>vs2013的结果</p>
+<p><img src="https://pic2.zhimg.com/v2-0232a27563e369319790c6cdc634cba5_b.jpg"></p>
+<p>不管在 gcc 还是在 vs2013 下，结果都相同，为了提高访问效率，成员按照 4 字节对齐，所以 <code>sizeof(fg)</code> 结果是 12</p>
+<p><strong>现在位域使用得也比较少了，大概有以下几个的原因</strong></p>
+<p>1、早期计算机内存很稀缺，在内存的使用上需要精打细算，但是，现代的计算机内存容量有了很大的提升，一般不需要为了节省几个字节而使用内存更加紧凑的位域</p>
+<p>2、通过前面的介绍，我们知道结构体中位域的存储是跟编译器相关，这就导致了它的可移植性比较差</p>
+<h3 id="匿名位域"><a href="#匿名位域" class="headerlink" title="匿名位域"></a>匿名位域</h3><p>位域成员可以不指定名字，只给出成员的数据类型以及占用的 bit 数，称作匿名位域</p>
+<p>匿名位域字段只是起填充 bit，调整成员位置的作用，并无实际的意义</p>
+<p>因为没有指定成员名字，所以也不能使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">        </span><br><span class="line">    unsigned short a:10,</span><br><span class="line">                    :6; //匿名位域,不能使用</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面例子中，如果没有匿名位域的话，<code>sizeof(fields)</code> 的结果为 <strong>2</strong>，加入 <strong>6</strong> 个 bit 的填充以后，<code>a</code> 和 <code>b</code> 将分开存储， <code>sizeof(fields)</code> 的结果变成了 <strong>4</strong></p>
+<p>我们还可以通过匿名0长度的位域字段来强制位域存储到下一个存储单元中，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面的结构体本来可以全部存储到一个 <strong>2</strong> 字节的存储单元中，如果我们想让 <code>a</code> 和 <code>b</code> 存储到不同的存储单元中，可以在结构体中加入一个匿名的 0 长度的位域字段来实现</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short  :0;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这样申明后，<code>sizeof(struct fields)</code> 就变成 <strong>4</strong> 了</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>本文讲述了位域的基础，使用以及存储，其中位域的存储跟具体的编译器实现相关，这一点务必要注意，否则版本移植的时候要趟”坑”</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>柔性数组</title>
+    <url>/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
+<p>柔型数组有两种定义方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<p>有些编译器会报错无法编译可以改成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
+<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
+<p><img src="/images/C_1.png"></p>
+<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/C_2.png"></p>
+<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
+<p><img src="/images/C_3.png"></p>
+<p>如果想增加数组元素，使用realloc调整结构体大小</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
+<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Skiplist</title>
+    <url>/2023/03/19/C/%E8%B7%B3%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>内联函数</title>
+    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>静态成员</title>
+    <url>/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/</url>
+    <content><![CDATA[<h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>我们可以使用 <strong>static</strong> 关键字来把类成员定义为静态的。当我们声明类的成员为静态时，这意味着无论创建多少个类的对象，静态成员都只有一个副本。</p>
+<p>静态成员在类的所有对象中是共享的。如果不存在其他的初始化语句，在创建第一个对象时，所有的静态数据都会被初始化为零。我们不能把静态成员的初始化放置在类的定义中，但是可以在类的外部通过使用范围解析运算符 <strong>::</strong> 来重新声明静态变量从而对它进行初始化，如下面的实例所示。</p>
+<h1 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h1><p>如果把函数成员声明为静态的，就可以把函数与类的任何特定对象独立开来。静态成员函数即使在类对象不存在的情况下也能被调用，<strong>静态函数</strong>只要使用类名加范围解析运算符 <strong>::</strong> 就可以访问。</p>
+<p>静态成员函数只能访问静态成员数据、其他静态成员函数和类外部的其他函数。</p>
+<p>静态成员函数有一个类范围，他们不能访问类的 this 指针。您可以使用静态成员函数来判断类的某些对象是否已被创建。</p>
+<blockquote>
+<p><strong>静态成员函数与普通成员函数的区别：</strong></p>
+<ul>
+<li>静态成员函数没有 this 指针，只能访问静态成员（包括静态成员变量和静态成员函数）。</li>
+<li>普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针。</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>对话记录</title>
     <url>/2023/03/21/ChatGpt/Questions/</url>
     <content><![CDATA[<h1 id="对话记录"><a href="#对话记录" class="headerlink" title="对话记录"></a>对话记录</h1><p>1. </p>
@@ -170,6 +372,51 @@
 ]]></content>
   </entry>
   <entry>
+    <title>初始化Git仓库</title>
+    <url>/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
+<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
+<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
+<p>$ chown -R git:git runoob.git</p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>任务列表语法</title>
+    <url>/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<ul>
+<li><input checked disabled type="checkbox"> Write the press release</li>
+<li><input disabled type="checkbox"> Update the website</li>
+<li><input disabled type="checkbox"> Contact the media</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>定义列表</title>
+    <url>/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="定义列表"><a href="#定义列表" class="headerlink" title="定义列表"></a>定义列表</h1><p><strong>vs code 无效</strong></p>
+<p>一些Markdown处理器允许您创建术语及其对应定义的_定义列表_。要创建定义列表，请在第一行上键入术语。在下一行，键入一个冒号，后跟一个空格和定义。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">First Term</span><br><span class="line">: This is the definition of the first term.</span><br><span class="line"></span><br><span class="line">Second Term</span><br><span class="line">: This is one definition of the second term.</span><br><span class="line">: This is another definition of the second term.</span><br></pre></td></tr></table></figure>
+
+<p>HTML看起来像这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;dl&gt;</span><br><span class="line">  &lt;dt&gt;First Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is the definition of the first term.&lt;/dd&gt;</span><br><span class="line">  &lt;dt&gt;Second Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is one definition of the second term. &lt;/dd&gt;</span><br><span class="line">  &lt;dd&gt;This is another definition of the second term.&lt;/dd&gt;</span><br><span class="line">&lt;/dl&gt;</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<dl><dt>First Term</dt><dd>This is the definition of the first term.</dd></dl><dl><dt>Second Term<br>: This is one definition of the second term.</dt><dd>This is another definition of the second term.</dd></dl>]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
     <title>分割线语法</title>
     <url>/2023/02/12/Markdown/%E5%88%86%E5%89%B2%E7%BA%BF%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="Markdown分割线语法"><a href="#Markdown分割线语法" class="headerlink" title="Markdown分割线语法"></a>Markdown分割线语法</h1><p>要创建分隔线，请在单独一行上使用三个或多个星号 (<code>***</code>)、破折号 (<code>---</code>) 或下划线 (<code>___</code>) ，并且不能包含其他内容。</p>
@@ -194,6 +441,19 @@
 </tbody></table>
 <hr>
 <h2 id="…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading"><a href="#…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading" class="headerlink" title="…and after a horizontal rule.|Without blank lines, this would be a heading.  "></a>…and after a horizontal rule.<code>|</code>Without blank lines, this would be a heading.  </h2><p>Don’t do this!&#96; |</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>删除线语法</title>
+    <url>/2023/02/12/Markdown/%E5%88%A0%E9%99%A4%E7%BA%BF%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="删除线语法"><a href="#删除线语法" class="headerlink" title="删除线语法"></a>删除线语法</h1><p>您可以通过在单词中心放置一条水平线来删除单词。结果看起来<del>像这样</del>。此功能使您可以指示某些单词是一个错误，要从文档中删除。若要删除单词，请在单词前后使用两个波浪号<code>~~</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">~~世界是平坦的。~~ 我们现在知道世界是圆的。</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<p><del>世界是平坦的。</del> 我们现在知道世界是圆的。</p>
 ]]></content>
       <categories>
         <category>Markdown</category>
@@ -377,64 +637,6 @@
       </categories>
   </entry>
   <entry>
-    <title>定义列表</title>
-    <url>/2023/02/12/Markdown/%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="定义列表"><a href="#定义列表" class="headerlink" title="定义列表"></a>定义列表</h1><p><strong>vs code 无效</strong></p>
-<p>一些Markdown处理器允许您创建术语及其对应定义的_定义列表_。要创建定义列表，请在第一行上键入术语。在下一行，键入一个冒号，后跟一个空格和定义。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">First Term</span><br><span class="line">: This is the definition of the first term.</span><br><span class="line"></span><br><span class="line">Second Term</span><br><span class="line">: This is one definition of the second term.</span><br><span class="line">: This is another definition of the second term.</span><br></pre></td></tr></table></figure>
-
-<p>HTML看起来像这样：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;dl&gt;</span><br><span class="line">  &lt;dt&gt;First Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is the definition of the first term.&lt;/dd&gt;</span><br><span class="line">  &lt;dt&gt;Second Term&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;This is one definition of the second term. &lt;/dd&gt;</span><br><span class="line">  &lt;dd&gt;This is another definition of the second term.&lt;/dd&gt;</span><br><span class="line">&lt;/dl&gt;</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<dl><dt>First Term</dt><dd>This is the definition of the first term.</dd></dl><dl><dt>Second Term<br>: This is one definition of the second term.</dt><dd>This is another definition of the second term.</dd></dl>]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>任务列表语法</title>
-    <url>/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<ul>
-<li><input checked disabled type="checkbox"> Write the press release</li>
-<li><input disabled type="checkbox"> Update the website</li>
-<li><input disabled type="checkbox"> Contact the media</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>删除线语法</title>
-    <url>/2023/02/12/Markdown/%E5%88%A0%E9%99%A4%E7%BA%BF%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="删除线语法"><a href="#删除线语法" class="headerlink" title="删除线语法"></a>删除线语法</h1><p>您可以通过在单词中心放置一条水平线来删除单词。结果看起来<del>像这样</del>。此功能使您可以指示某些单词是一个错误，要从文档中删除。若要删除单词，请在单词前后使用两个波浪号<code>~~</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">~~世界是平坦的。~~ 我们现在知道世界是圆的。</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<p><del>世界是平坦的。</del> 我们现在知道世界是圆的。</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>初始化Git仓库</title>
-    <url>/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
-<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
-<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
-<p>$ chown -R git:git runoob.git</p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-  </entry>
-  <entry>
     <title>表格语法</title>
     <url>/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="Markdwon表格语法"><a href="#Markdwon表格语法" class="headerlink" title="Markdwon表格语法"></a>Markdwon表格语法</h1><p>要添加表，请使用三个或多个连字符（<code>---</code>）创建每列的标题，并使用管道（<code>|</code>）分隔每列。您可以选择在表的任一端添加管道。</p>
@@ -493,130 +695,102 @@
       </categories>
   </entry>
   <entry>
-    <title>Epoll</title>
-    <url>/2023/03/19/C/Epoll/</url>
-    <content><![CDATA[<h1 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h1><p>**<code>epoll</code>**是<a href="https://zh.wikipedia.org/wiki/Linux" title="Linux">Linux</a>内核的可扩展I&#x2F;O事件通知机制<sup id="cite_ref-1" class="reference"><a href="https://zh.wikipedia.org/wiki/Epoll#cite_note-1">[1]</a></sup>。于Linux 2.5.44首度登场，它设计目的旨在取代既有<a href="https://zh.wikipedia.org/wiki/POSIX" title="POSIX">POSIX</a> <a href="https://zh.wikipedia.org/wiki/Select_(Unix)" title="Select (Unix)"><code>select(2)</code></a>与<code>poll(2)</code><a href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8" title="系统调用">系统函数</a>，让需要大量操作<a href="https://zh.wikipedia.org/wiki/%E6%AA%94%E6%A1%88%E6%8F%8F%E8%BF%B0%E5%AD%90" title="文件描述符">文件描述符</a>的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，<code>epoll</code>的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件</p>
-<h2 id="程序接口"><a href="#程序接口" class="headerlink" title="程序接口"></a>程序接口</h2><p>int epoll_create(int size);</p>
-<p>在内核中创建<code>epoll</code>实例并返回一个<code>epoll</code>文件描述符。 在最初的实现中，调用者通过 <code>size</code> 参数告知内核需要监听的文件描述符数量。如果监听的文件描述符数量超过 size, 则内核会自动扩容。而现在 size 已经没有这种语义了，但是调用者调用时 size 依然必须大于 0，以保证后向兼容性。</p>
-<p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</p>
-<p>向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</p>
-<p>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);</p>
-<p>当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</p>
-<h2 id="触发模式-编辑"><a href="#触发模式-编辑" class="headerlink" title="触发模式[编辑]"></a>触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=2" title="编辑章节：触发模式">编辑</a>]</h2><p><code>epoll</code>提供<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91" title="中断">边沿触发</a>及<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E7%8A%B6%E6%80%81%E8%A7%A6%E5%8F%91" title="中断">状态触发</a>模式。在边沿触发模式中，<code>epoll_wait</code>仅会在新的事件首次被加入<code>epoll</code>队列时返回；于level-triggered模式下，<code>epoll_wait</code>在事件状态未变更前将不断被触发。状态触发模式是默认的模式。</p>
-<p>状态触发模式与边沿触发模式有读和写两种情况，我们先来考虑读的情况。假设我们注册了一个读事件到<code>epoll</code>实例上，<code>epoll</code>实例会通过<code>epoll_wait</code>返回值的形式通知我们哪些读事件已经就绪。简单地来说，在状态触发模式下，如果读事件未被处理，该事件对应的内核读缓冲器非空，则每次调用 <code>epoll_wait</code> 时返回的事件列表都会包含该事件。直到该事件对应的内核读缓冲器为空为止。而在边沿触发模式下，读事件就绪后只会通知一次，不会反复通知。</p>
-<p>然后我们再考虑写的情况。水平触发模式下，只要文件描述符对应的内核写缓冲器未满，就会一直通知可写事件。而在边沿触发模式下，内核写缓冲器由满变为未满后，只会通知一次可写事件。</p>
-<p>举例来说，倘若有一个已经于<code>epoll</code>注册之<a href="https://zh.wikipedia.org/wiki/Anonymous_pipe" title="Anonymous pipe">流水线</a>接获资料，<code>epoll_wait</code>将返回，并发出资料读取的信号。现假设缓冲器的资料仅有部分被读取并处理，在level-triggered模式下，任何对<code>epoll_wait</code>之调用都将即刻返回，直到缓冲器中的资料全部被读取；然而，在edge-triggered的情境下，<code>epoll_wait</code>仅会于再次接收到新资料(亦即，新资料被写入流水线)时返回。</p>
-<h3 id="边沿触发模式-编辑"><a href="#边沿触发模式-编辑" class="headerlink" title="边沿触发模式[编辑]"></a>边沿触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=3" title="编辑章节：边沿触发模式">编辑</a>]</h3><p>边沿触发模式使得程序有可能在用户态缓存 IO 状态。nginx 使用的是边沿触发模式。</p>
-<p>文件描述符有两种情况是推荐使用边沿触发模式的。</p>
-<ol>
-<li>read 或者 write 系统调用返回了 EAGAIN。</li>
-<li>非阻塞的文件描述符。</li>
-</ol>
-<p>可能的缺陷：</p>
-<ol>
-<li>如果 IO 空间很大，你要花很多时间才能把它一次读完，这可能会导致饥饿。举个例子，假设你在监听一个文件描述符列表，而某个文件描述符上有大量的输入（不间断的输入流），那么你在读完它的过程中就没空处理其他就绪的文件描述符。（因为边沿触发模式只会通知一次可读事件，所以你往往会想一次把它读完。）一种解决方案是，程序维护一个就绪队列，当 <code>epoll</code> 实例通知某文件描述符就绪时将它在就绪队列数据结构中标记为就绪，这样程序就会记得哪些文件描述符等待处理。Round-Robin 循环处理就绪队列中就绪的文件描述符即可。</li>
-<li>如果你缓存了所有事件，那么一种可能的情况是 A 事件的发生让程序关闭了另一个文件描述符 B。但是内核的 <code>epoll</code> 实例并不知道这件事，需要你从 <code>epoll</code> 删除掉。</li>
-</ol>
+    <title>转义字符语法</title>
+    <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<p>* Without the backslash, this would be a bullet in an unordered list.</p>
+<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\</td>
+<td>backslash</td>
+</tr>
+<tr>
+<td>`</td>
+<td>backtick (see also <a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
+</tr>
+<tr>
+<td>*</td>
+<td>asterisk</td>
+</tr>
+<tr>
+<td>_</td>
+<td>underscore</td>
+</tr>
+<tr>
+<td>{ }</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>brackets</td>
+</tr>
+<tr>
+<td>( )</td>
+<td>parentheses</td>
+</tr>
+<tr>
+<td>#</td>
+<td>pound sign</td>
+</tr>
+<tr>
+<td>+</td>
+<td>plus sign</td>
+</tr>
+<tr>
+<td>-</td>
+<td>minus sign (hyphen)</td>
+</tr>
+<tr>
+<td>.</td>
+<td>dot</td>
+</tr>
+<tr>
+<td>!</td>
+<td>exclamation mark</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
+<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>你必须要把网址转成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
+<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 就会将它转为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
+
+<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将会把它转换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
 ]]></content>
       <categories>
-        <category>C/C++</category>
+        <category>Markdown</category>
       </categories>
-  </entry>
-  <entry>
-    <title>位域</title>
-    <url>/2023/02/12/C/%E4%BD%8D%E5%9F%9F/</url>
-    <content><![CDATA[<h1 id="位域"><a href="#位域" class="headerlink" title="位域"></a>位域</h1><h1 id="让人疑惑的C语言位域-知乎"><a href="#让人疑惑的C语言位域-知乎" class="headerlink" title="让人疑惑的C语言位域 - 知乎"></a>让人疑惑的C语言位域 - 知乎</h1><blockquote>
-<h2 id="Excerpt"><a href="#Excerpt" class="headerlink" title="Excerpt"></a>Excerpt</h2><p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念 位…</p>
-</blockquote>
-<hr>
-<p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念</p>
-<h3 id="位域是什么"><a href="#位域是什么" class="headerlink" title="位域是什么"></a>位域是什么</h3><p>位域是一种数据结构，可以把数据以二进制位的形式紧凑的存储，它允许程序对此结构的位进行操作</p>
-<p>在计算机早期，内存是非常稀缺的，需要尽可能的节省每一个字节，所以，C 语言中就出现了能针对二进制位进行操作的位域</p>
-<h3 id="为什么要用位域"><a href="#为什么要用位域" class="headerlink" title="为什么要用位域"></a>为什么要用位域</h3><p>位域这种数据结构，可以最大限度的节省存储空间，对于一些非常频繁的操作，需要尽可能的减少操作的数据，比如：在开发网络应用时，数据的序列化和反序列化是很频繁的，如果能减少数据的长度，对提升数据打包效率是很有帮助的</p>
-<p>位域的出现，让我们可以用变量名代表某些bit，并通过变量名获取和设置 bit 的值，而不是通过晦涩难理解的位操作来进行，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct field</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char b0 : 3,</span><br><span class="line">                  b1 : 2,</span><br><span class="line">                  b2 : 3;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct field bf;</span><br><span class="line">bf.b1 = 3;</span><br></pre></td></tr></table></figure>
-
-<p>通过位域设置中间 2 个bit 的值，只需要设置结构体中 <code>b1</code> 字段值即可，如果使不用位域字段，就需要进行位的 “或” 和 “与” 运算</p>
-<h3 id="位域的使用"><a href="#位域的使用" class="headerlink" title="位域的使用"></a>位域的使用</h3><p>C 语言中，位域的表示形式如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct bitfield</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int b0 : n0,</span><br><span class="line">                 b1 : n1,</span><br><span class="line">                 b2 : n2,</span><br><span class="line">                 ...</span><br><span class="line">                 bn : nk;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><code>b0、b1、b2 ... bn</code> 表示位域成员，<code>n0、n1、n2 ... nk</code> 表示成员占用多少个 bit</p>
-<p>位域表示的范围通常不能超过其所依附类型所能表示的 bit 数，比如：上面 <code>bitfield</code> 结构体中 位域所依附的类型是 <code>unsigned int</code>, 最大能表示 32 个 bit，也就是说，<code>n0、n1、n2 ... nk</code> 总 bit 数不能超过 32，每个成员超过指定 bit 表示的最大数值时会被截断，具体请看下面的例子</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">        </span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    fs.a = 0x8F;</span><br><span class="line">    fs.b = 0x1A;</span><br><span class="line">    fs.c = 0x19;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%#x, %#x, %#x \n&quot;,fs.a, fs.b, fs.c);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>用 <code>gcc -g -o bitfield bitfield.c</code> 编译并运行，结果为</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">0xf, 0x1a, 0x9</span><br></pre></td></tr></table></figure>
-
-<p>字段 <code>a</code> 赋值为 <code>0x8F</code> 对应的二进制为 <strong>1000 1111</strong>，由于 <code>a</code> 只有 7 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 7 位，最终结果为 <strong>000 1111</strong> ，换成十六进制是 <strong>0xf</strong></p>
-<p>字段 <code>b</code> 赋值为 <code>0x1A</code> 对应的二进制为 <strong>1 1010</strong>， <code>b</code> 包含 5 个bit，取结果中的低 5 位，最终结果为 <strong>1 1010</strong> ，换成十六进制是 <strong>0x1a</strong> , 输出结果和赋值相同，即没有超出限定 bit 数</p>
-<p>字段 <code>c</code> 赋值为 <code>0x19</code> 对应的二进制为 <strong>1</strong> <strong>1001</strong>，由于 <code>c</code> 只有 4 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 4 位，最终结果为 <strong>1001</strong> ，换成十六进制是 <strong>0x9</strong></p>
-<p>位域的使用有一定的限制，机器最小粒度的寻址单位是字节，我们无法像获得某一个字节的地址一样去获得某个 bit 的地址，下面是一个错误的示例</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述代码功能是打印出成员 <code>a</code> 的地址，它无法通过编译，错误如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bitfield.c: 在函数‘main’中:</span><br><span class="line">bitfield.c:11:5: 错误：无法取得位段‘a’的地址</span><br><span class="line">     printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">     ^</span><br></pre></td></tr></table></figure>
-
-<h3 id="位域的存储"><a href="#位域的存储" class="headerlink" title="位域的存储"></a>位域的存储</h3><p>C 标准中只允许 <code>unsigned int</code>、<code>signed int</code>、<code>int</code> 类型的位域申明，后面又增加了 <code>bool</code> 类型的支持，一些编译器像 <code>gcc</code>、<code>msvc</code>等自行加入了一些扩展，使得其他的类型(<code>short、char</code>等)也支持位域</p>
-<p>位域的存储跟编译器相关，不同的编译器，存储位域的方式可能不一样，总的来说可以分成下面几类</p>
-<p><strong>1、相邻位域成员，它们的类型相同时</strong></p>
-<p>如果它们的 bit 数之和小于等于所依附类型的 bit 数，那么，后面的成员紧接着前面的成员存储</p>
-<p>如果它们的 bit 数之和大于所依附类型的 bit 数，那么超过的成员会存储到新的存储单元中，新存储单元会偏移成员所依附类型的 sizeof 字节数</p>
-<p>以下面的代码为例来说明</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned short b:4;</span><br><span class="line">        unsigned short c:2;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>编译运行，结果如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">2</span><br></pre></td></tr></table></figure>
-
-<p><code>a 、b、c</code> 字段都是 <code>unsigned short</code> 类型，它们的 bit 数之和为 <strong>10 + 4 + 2 &#x3D; 16</strong>, 刚好等于 <strong>unsigned short</strong> 的 bit 数，所以它们会紧凑的存储，没有任何空隙</p>
-<p>如果把 <code>a</code> 的 bit 数改成 11，即 **unsigned short a:11;**，此时，<code>a</code> 和 <code>b</code> 的 bit 数之和为 <strong>11 + 4 &#x3D; 15</strong>，没有超过 <code>unsigned short</code> 的 bit 数</p>
-<p>如果再加上 <code>c</code> 的 bit 数，结果变成了 <strong>17</strong>，超过了 <code>unsigned short</code> 的 bit 数，这种情况下，<code>a</code> 和 <code>b</code> 还是会紧凑的存储，而 <code>c</code> 会存储到新的存储单元中，新的存储单元字节数为 <code>sizeof(unsigned short) = 2</code>， 所以此时 <strong>sizeof(fg)</strong> 是 <strong>4</strong></p>
-<p><strong>2、相邻位域成员，它们的类型不同时</strong></p>
-<p>这种情况跟具体的编译器相关，以下面的代码为例来说明</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
-<p>gcc的结果</p>
-<p><img src="https://pic1.zhimg.com/v2-d24b60824986660fedafe38d419a983c_b.png"></p>
-<p>vs2013的结果</p>
-<p><img src="https://pic4.zhimg.com/v2-bbd2e82b112cd1c50f3bf58278c4a41f_b.jpg"></p>
-<p>可以看到，当相邻位域成员所依附的类型不同时，不同的编译器产生的结果是不一样的</p>
-<p>在 gcc 下的运行结果是 2 ，表示 <code>a</code> 和 <code>b</code> 还是紧凑存储的</p>
-<p>而在 vs2013 下运行的结果是 4，这说明 <code>a</code> 和 <code>b</code> 完全按照他们所依附的类型来存储，此时位域没有进行压缩存储</p>
-<p><strong>3、位域成员之间存在非位域成员时</strong></p>
-<p>这种情况 gcc 和 vs2013 都不会进行压缩存储，按照内存对齐的规则来存储</p>
-<p>还是以下面的代码为例来说明</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned int i;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
-<p>gcc的结果</p>
-<p><img src="https://pic2.zhimg.com/v2-7cc4101dd6c9bfb9b5355545ab9ad28d_b.png"></p>
-<p>vs2013的结果</p>
-<p><img src="https://pic2.zhimg.com/v2-0232a27563e369319790c6cdc634cba5_b.jpg"></p>
-<p>不管在 gcc 还是在 vs2013 下，结果都相同，为了提高访问效率，成员按照 4 字节对齐，所以 <code>sizeof(fg)</code> 结果是 12</p>
-<p><strong>现在位域使用得也比较少了，大概有以下几个的原因</strong></p>
-<p>1、早期计算机内存很稀缺，在内存的使用上需要精打细算，但是，现代的计算机内存容量有了很大的提升，一般不需要为了节省几个字节而使用内存更加紧凑的位域</p>
-<p>2、通过前面的介绍，我们知道结构体中位域的存储是跟编译器相关，这就导致了它的可移植性比较差</p>
-<h3 id="匿名位域"><a href="#匿名位域" class="headerlink" title="匿名位域"></a>匿名位域</h3><p>位域成员可以不指定名字，只给出成员的数据类型以及占用的 bit 数，称作匿名位域</p>
-<p>匿名位域字段只是起填充 bit，调整成员位置的作用，并无实际的意义</p>
-<p>因为没有指定成员名字，所以也不能使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">        </span><br><span class="line">    unsigned short a:10,</span><br><span class="line">                    :6; //匿名位域,不能使用</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>上面例子中，如果没有匿名位域的话，<code>sizeof(fields)</code> 的结果为 <strong>2</strong>，加入 <strong>6</strong> 个 bit 的填充以后，<code>a</code> 和 <code>b</code> 将分开存储， <code>sizeof(fields)</code> 的结果变成了 <strong>4</strong></p>
-<p>我们还可以通过匿名0长度的位域字段来强制位域存储到下一个存储单元中，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>上面的结构体本来可以全部存储到一个 <strong>2</strong> 字节的存储单元中，如果我们想让 <code>a</code> 和 <code>b</code> 存储到不同的存储单元中，可以在结构体中加入一个匿名的 0 长度的位域字段来实现</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short  :0;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>这样申明后，<code>sizeof(struct fields)</code> 就变成 <strong>4</strong> 了</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>本文讲述了位域的基础，使用以及存储，其中位域的存储跟具体的编译器实现相关，这一点务必要注意，否则版本移植的时候要趟”坑”</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
   </entry>
   <entry>
     <title>语法速查表</title>
@@ -734,173 +908,39 @@
       </categories>
   </entry>
   <entry>
-    <title>转义字符语法</title>
-    <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<p>* Without the backslash, this would be a bullet in an unordered list.</p>
-<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
-<table>
-<thead>
-<tr>
-<th>Character</th>
-<th>Name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>\</td>
-<td>backslash</td>
-</tr>
-<tr>
-<td>`</td>
-<td>backtick (see also <a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
-</tr>
-<tr>
-<td>*</td>
-<td>asterisk</td>
-</tr>
-<tr>
-<td>_</td>
-<td>underscore</td>
-</tr>
-<tr>
-<td>{ }</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>[ ]</td>
-<td>brackets</td>
-</tr>
-<tr>
-<td>( )</td>
-<td>parentheses</td>
-</tr>
-<tr>
-<td>#</td>
-<td>pound sign</td>
-</tr>
-<tr>
-<td>+</td>
-<td>plus sign</td>
-</tr>
-<tr>
-<td>-</td>
-<td>minus sign (hyphen)</td>
-</tr>
-<tr>
-<td>.</td>
-<td>dot</td>
-</tr>
-<tr>
-<td>!</td>
-<td>exclamation mark</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
-<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
-
-<p>你必须要把网址转成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
-
-<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
-<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 就会将它转为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
-
-<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 将会把它转换为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
-
-<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
+    <title>Hash</title>
+    <url>/2023/03/19/Redis/Hash/</url>
+    <content><![CDATA[<h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Hash算法"><a href="#Hash算法" class="headerlink" title="Hash算法"></a>Hash算法</h2><p>Redis4.0之前使用的Hash算法是MurmurHash, 即使输入的键是有规律的, 该算法计算的结果依然有很好的离散性, 并且计算速度非常快. Redis4.0开始更换为SipHash算法, 应该是出于安全的考虑, 该算法能有效防止Hash表碰撞<br>攻击, 并提供不错的性能</p>
+<blockquote>
+<h3 id="SipHash"><a href="#SipHash" class="headerlink" title="SipHash"></a>SipHash</h3><p>大部分非加密哈希算法的改良，都集中在让哈希速度更快更好上。SipHash 则是个异类，它的提出是为了<a href="http://emboss.github.io/blog/2012/12/14/breaking-murmur-hash-flooding-dos-reloaded/">解决一类安全问题</a>：hash flooding。通过让&gt; 输出随机化，SipHash 能够有效减缓 hash flooding 攻击。凭借这一点，它逐渐成为 Ruby、Python、Rust 等语言默认的 hash 表实现的一部分。<br>如果你愿意尝试下新技术，可以看看 2016 新出的 <a href="https://github.com/google/highwayhash">HighwayHash</a>。它宣称可以达到 SipHash 一样的效果，并且凭借 SIMD 的加持，在运算速度上它是 SipHash 的 5.2 倍（参考来源：<a href="https://arxiv.org/abs/1612.06257">https://arxiv.>  org/abs/1612.06257</a> ）。</p>
+</blockquote>
+<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>把ht[0]上的数据迁移到ht[1]shang</p>
+<p>size调整为2的n次幂, 为了ht[1]Hash表数据长度是ht[0]Hash表数据长度的倍数, 有利于ht[0]的数据均匀地迁移到ht[1]</p>
+<p><strong>Hash&amp;ht.sizemask, sizemask&#x3D;size-1, idx&#x3D;hash%(ht.size)</strong>, 因此, 假如ht[0].size为0, ht[1].size&#x3D;2*n, 对于ht[0]上的元素, ht[0].table[k]的数据, 要不迁移到ht[1].table[k], 要不迁移到ht[1].table[k+n]</p>
+<h2 id="缩容"><a href="#缩容" class="headerlink" title="缩容"></a>缩容</h2><p>执行删除操作后, Redis会检查字典是否需要缩容, 当Hash表长度大于4且负载因子小于0.1时, 会执行缩容操作, 以节省内存</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis字典使用SipHash算法计算Hash值, 并使用链表法处理Hash冲突<br>Redis字段使用渐进式扩容方法, 在每次数据操作中都执行一次扩容单步操作, 直到扩容完成<br>散列类型的编码格式可以为OBJ_ENCODING_HT, OBJ_ENCODING_ZIPLIST  </p>
 ]]></content>
       <categories>
-        <category>Markdown</category>
+        <category>Redis</category>
       </categories>
   </entry>
   <entry>
-    <title>柔性数组</title>
-    <url>/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
-<p>柔型数组有两种定义方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<p>有些编译器会报错无法编译可以改成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
-<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
-<p><img src="/images/C_1.png"></p>
-<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/C_2.png"></p>
-<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
-<p><img src="/images/C_3.png"></p>
-<p>如果想增加数组元素，使用realloc调整结构体大小</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
-<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Skiplist</title>
-    <url>/2023/03/19/C/%E8%B7%B3%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Questions</title>
-    <url>/2023/03/21/Questions/%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="脚本问题"><a href="#脚本问题" class="headerlink" title="脚本问题"></a>脚本问题</h1><h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><ol>
-<li>windows脚本不断重复执行同一条命令<br>原因: 脚本名和cmd系统命令重复</li>
+    <title>集合</title>
+    <url>/2023/03/19/Redis/%E9%9B%86%E5%90%88/</url>
+    <content><![CDATA[<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
+<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
+<p><img src="/../images/Redis_1.webp"></p>
+<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
+<ol>
+<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
+<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
+<li>skiplist实现简单</li>
 </ol>
 ]]></content>
-  </entry>
-  <entry>
-    <title>read</title>
-    <url>/2023/03/20/Shell/read/</url>
-    <content><![CDATA[<h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
-<p><strong>代码1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>shell</category>
+        <category>Redis</category>
       </categories>
-  </entry>
-  <entry>
-    <title>内联函数</title>
-    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
   </entry>
   <entry>
     <title>Shell IF语法</title>
@@ -912,27 +952,14 @@
       </categories>
   </entry>
   <entry>
-    <title>静态成员</title>
-    <url>/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/</url>
-    <content><![CDATA[<h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>我们可以使用 <strong>static</strong> 关键字来把类成员定义为静态的。当我们声明类的成员为静态时，这意味着无论创建多少个类的对象，静态成员都只有一个副本。</p>
-<p>静态成员在类的所有对象中是共享的。如果不存在其他的初始化语句，在创建第一个对象时，所有的静态数据都会被初始化为零。我们不能把静态成员的初始化放置在类的定义中，但是可以在类的外部通过使用范围解析运算符 <strong>::</strong> 来重新声明静态变量从而对它进行初始化，如下面的实例所示。</p>
-<h1 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h1><p>如果把函数成员声明为静态的，就可以把函数与类的任何特定对象独立开来。静态成员函数即使在类对象不存在的情况下也能被调用，<strong>静态函数</strong>只要使用类名加范围解析运算符 <strong>::</strong> 就可以访问。</p>
-<p>静态成员函数只能访问静态成员数据、其他静态成员函数和类外部的其他函数。</p>
-<p>静态成员函数有一个类范围，他们不能访问类的 this 指针。您可以使用静态成员函数来判断类的某些对象是否已被创建。</p>
-<blockquote>
-<p><strong>静态成员函数与普通成员函数的区别：</strong></p>
-<ul>
-<li>静态成员函数没有 this 指针，只能访问静态成员（包括静态成员变量和静态成员函数）。</li>
-<li>普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针。</li>
-</ul>
-</blockquote>
-]]></content>
+    <title>read</title>
+    <url>/2023/03/20/Shell/read/</url>
+    <content><![CDATA[<h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
+<p><strong>代码1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>C/C++</category>
+        <category>shell</category>
       </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
   </entry>
   <entry>
     <title>常用命令</title>
@@ -958,38 +985,11 @@
       </categories>
   </entry>
   <entry>
-    <title>集合</title>
-    <url>/2023/03/19/Redis/%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
-<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
-<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
-<p><img src="/../images/Redis_1.webp"></p>
-<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
-<ol>
-<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
-<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
-<li>skiplist实现简单</li>
+    <title>Questions</title>
+    <url>/2023/03/21/Questions/%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="脚本问题"><a href="#脚本问题" class="headerlink" title="脚本问题"></a>脚本问题</h1><h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><ol>
+<li>windows脚本不断重复执行同一条命令<br>原因: 脚本名和cmd系统命令重复</li>
 </ol>
 ]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Hash</title>
-    <url>/2023/03/19/Redis/Hash/</url>
-    <content><![CDATA[<h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Hash算法"><a href="#Hash算法" class="headerlink" title="Hash算法"></a>Hash算法</h2><p>Redis4.0之前使用的Hash算法是MurmurHash, 即使输入的键是有规律的, 该算法计算的结果依然有很好的离散性, 并且计算速度非常快. Redis4.0开始更换为SipHash算法, 应该是出于安全的考虑, 该算法能有效防止Hash表碰撞<br>攻击, 并提供不错的性能</p>
-<blockquote>
-<h3 id="SipHash"><a href="#SipHash" class="headerlink" title="SipHash"></a>SipHash</h3><p>大部分非加密哈希算法的改良，都集中在让哈希速度更快更好上。SipHash 则是个异类，它的提出是为了<a href="http://emboss.github.io/blog/2012/12/14/breaking-murmur-hash-flooding-dos-reloaded/">解决一类安全问题</a>：hash flooding。通过让&gt; 输出随机化，SipHash 能够有效减缓 hash flooding 攻击。凭借这一点，它逐渐成为 Ruby、Python、Rust 等语言默认的 hash 表实现的一部分。<br>如果你愿意尝试下新技术，可以看看 2016 新出的 <a href="https://github.com/google/highwayhash">HighwayHash</a>。它宣称可以达到 SipHash 一样的效果，并且凭借 SIMD 的加持，在运算速度上它是 SipHash 的 5.2 倍（参考来源：<a href="https://arxiv.org/abs/1612.06257">https://arxiv.>  org/abs/1612.06257</a> ）。</p>
-</blockquote>
-<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>把ht[0]上的数据迁移到ht[1]shang</p>
-<p>size调整为2的n次幂, 为了ht[1]Hash表数据长度是ht[0]Hash表数据长度的倍数, 有利于ht[0]的数据均匀地迁移到ht[1]</p>
-<p><strong>Hash&amp;ht.sizemask, sizemask&#x3D;size-1, idx&#x3D;hash%(ht.size)</strong>, 因此, 假如ht[0].size为0, ht[1].size&#x3D;2*n, 对于ht[0]上的元素, ht[0].table[k]的数据, 要不迁移到ht[1].table[k], 要不迁移到ht[1].table[k+n]</p>
-<h2 id="缩容"><a href="#缩容" class="headerlink" title="缩容"></a>缩容</h2><p>执行删除操作后, Redis会检查字典是否需要缩容, 当Hash表长度大于4且负载因子小于0.1时, 会执行缩容操作, 以节省内存</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis字典使用SipHash算法计算Hash值, 并使用链表法处理Hash冲突<br>Redis字段使用渐进式扩容方法, 在每次数据操作中都执行一次扩容单步操作, 直到扩容完成<br>散列类型的编码格式可以为OBJ_ENCODING_HT, OBJ_ENCODING_ZIPLIST  </p>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
   </entry>
 </search>
