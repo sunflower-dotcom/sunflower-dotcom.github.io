@@ -164,9 +164,6 @@
 <h1 id="Load-symbol-table"><a href="#Load-symbol-table" class="headerlink" title="Load symbol table"></a>Load symbol table</h1><p>  add-symbol-file $arg0 $text_address<br>end</p>
 <p>以上功能定义add-symbol-file-auto可以使用其他符号:</p>
 <p>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;bootloader.elf<br>add symbol table from file “path&#x2F;to&#x2F;bootloader.elf” at<br>    .text_addr &#x3D; 0x8010400<br>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;application.elf<br>add symbol table from file “path&#x2F;to&#x2F;application.elf” at<br>    .text_addr &#x3D; 0x8000000<br>(gdb) break main<br>Breakpoint 1 at 0x8006cb0: main. (2 locations)<br>(gdb) info break<br>Num     Type           Disp Enb Address    What<br>1       breakpoint     keep y   <MULTIPLE><br>1.1                         y     0x08006cb0 in main() at .&#x2F;source&#x2F;main.cpp:114<br>1.2                         y     0x080106a6 in main() at .&#x2F;main.cpp:10<br>(gdb)</MULTIPLE></p>
-<h2 id="其他推荐答案-1"><a href="#其他推荐答案-1" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>除了ALK的答案及其评论外，地址是.text部分的地址. 您可以使用readelf命令</p>
-<p>找到它</p>
-<p>在这里您有一个readelf用于二进制文件的示例缺少GDB”&gt;已加载文件名的地址缺少[GDB]</p>
 
       
     </div>
