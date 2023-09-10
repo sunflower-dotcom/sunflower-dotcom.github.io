@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>汇编调试 | MyBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="汇编 打印寄存器的值:   i register   打印所有寄存器的值: i all-registers   打印单个寄存器的值 i registers regname 或p $regname”   修改寄存器的值 例子    12345678910#include &lt;stdio.h&gt;int main(void)&amp;#123;               int a &#x3D;0;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编调试">
+<meta property="og:url" content="https://sunflower-dotcom.github.io/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/index.html">
+<meta property="og:site_name" content="MyBlog">
+<meta property="og:description" content="汇编 打印寄存器的值:   i register   打印所有寄存器的值: i all-registers   打印单个寄存器的值 i registers regname 或p $regname”   修改寄存器的值 例子    12345678910#include &lt;stdio.h&gt;int main(void)&amp;#123;               int a &#x3D;0;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-10T14:40:35.306Z">
+<meta property="article:modified_time" content="2023-02-27T11:23:13.432Z">
+<meta property="article:author" content="rains">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="MyBlog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MyBlog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://sunflower-dotcom.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-GDB copy/汇编" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/" class="article-date">
+  <time datetime="2023-09-10T14:40:35.306Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      汇编调试
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h1><ol>
+<li>打印寄存器的值:  <blockquote>
+<p>i register</p>
+</blockquote>
+</li>
+<li>打印所有寄存器的值:<blockquote>
+<p>i all-registers</p>
+</blockquote>
+</li>
+<li>打印单个寄存器的值<blockquote>
+<p>i registers regname 或<br>p $regname”</p>
+</blockquote>
+</li>
+<li>修改寄存器的值<blockquote>
+<p><strong>例子</strong></p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main(void)</span><br><span class="line">&#123;       </span><br><span class="line">        int a =0;               </span><br><span class="line"></span><br><span class="line">        a++;    </span><br><span class="line">        a++;    </span><br><span class="line">        printf(&quot;%d\n&quot;, a);      </span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>   PC寄存器会存储程序下一条要执行的指令，通过修改这个寄存器的值，可以达到改变程序执行流程的目的。上面的程序会输出“a&#x3D;2”，下面介绍一下如何通过修改PC寄存器的值，改变程序执行流程。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">4               int a =0;</span><br><span class="line">(gdb) disassemble main</span><br><span class="line">Dump of assembler code for function main:</span><br><span class="line">0x08050921 &lt;main+0&gt;:    push   %ebp</span><br><span class="line">0x08050922 &lt;main+1&gt;:    mov    %esp,%ebp</span><br><span class="line">0x08050924 &lt;main+3&gt;:    sub    $0x8,%esp</span><br><span class="line">0x08050927 &lt;main+6&gt;:    and    $0xfffffff0,%esp</span><br><span class="line">0x0805092a &lt;main+9&gt;:    mov    $0x0,%eax</span><br><span class="line">0x0805092f &lt;main+14&gt;:   add    $0xf,%eax</span><br><span class="line">0x08050932 &lt;main+17&gt;:   add    $0xf,%eax</span><br><span class="line">0x08050935 &lt;main+20&gt;:   shr    $0x4,%eax</span><br><span class="line">0x08050938 &lt;main+23&gt;:   shl    $0x4,%eax</span><br><span class="line">0x0805093b &lt;main+26&gt;:   sub    %eax,%esp</span><br><span class="line">0x0805093d &lt;main+28&gt;:   movl   $0x0,-0x4(%ebp)</span><br><span class="line">0x08050944 &lt;main+35&gt;:   lea    -0x4(%ebp),%eax</span><br><span class="line">0x08050947 &lt;main+38&gt;:   incl   (%eax)</span><br><span class="line">0x08050949 &lt;main+40&gt;:   lea    -0x4(%ebp),%eax</span><br><span class="line">0x0805094c &lt;main+43&gt;:   incl   (%eax)</span><br><span class="line">0x0805094e &lt;main+45&gt;:   sub    $0x8,%esp</span><br><span class="line">0x08050951 &lt;main+48&gt;:   pushl  -0x4(%ebp)</span><br><span class="line">0x08050954 &lt;main+51&gt;:   push   $0x80509b4</span><br><span class="line">0x08050959 &lt;main+56&gt;:   call   0x80507cc &lt;printf@plt&gt;</span><br><span class="line">0x0805095e &lt;main+61&gt;:   add    $0x10,%esp</span><br><span class="line">0x08050961 &lt;main+64&gt;:   mov    $0x0,%eax</span><br><span class="line">0x08050966 &lt;main+69&gt;:   leave</span><br><span class="line">0x08050967 &lt;main+70&gt;:   ret</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) info line 6</span><br><span class="line">Line 6 of &quot;a.c&quot; starts at address 0x8050944 &lt;main+35&gt; and ends at 0x8050949 &lt;main+40&gt;.</span><br><span class="line">(gdb) info line 7</span><br><span class="line">Line 7 of &quot;a.c&quot; starts at address 0x8050949 &lt;main+40&gt; and ends at 0x805094e &lt;main+45&gt;.</span><br></pre></td></tr></table></figure>
+
+<p>通过“info line 6”和“info line 7”命令可以知道两条“a++;”语句的汇编指令起始地址分别是0x8050944和0x8050949。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(gdb) n</span><br><span class="line">6               a++;</span><br><span class="line">(gdb) p $pc</span><br><span class="line">$3 = (void (*)()) 0x8050944 &lt;main+35&gt;</span><br><span class="line">(gdb) set var $pc=0x08050949</span><br></pre></td></tr></table></figure>
+
+<p>当程序要执行第一条“a++;”语句时，打印pc寄存器的值，看到pc寄存器的值为0x8050944，与“info line 6”命令得到的一致。接下来，把pc寄存器的值改为0x8050949，也就是通过“info line 7”命令得到的第二条“a++;”语句的起始地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(gdb) n</span><br><span class="line">8               printf(&quot;a=%d\n&quot;, a);</span><br><span class="line">(gdb)</span><br><span class="line">a=1</span><br><span class="line">9               return 0;</span><br></pre></td></tr></table></figure>
+
+<p>接下来执行，可以看到程序输出“a&#x3D;1”，也就是跳过了第一条“a++;”语句。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/" data-id="clmdkem8x001auotb4i3c49z9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/09/10/GDB%20copy/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">GDB调试忽略信号</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Do-not-edit/">Do not edit</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Encryption/">Encryption</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/" rel="tag">C/C++</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C-C/" style="font-size: 10px;">C/C++</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/">Do not edit</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/">汇编调试</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/10/GDB%20copy/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/">GDB调试忽略信号</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/10/GDB%20copy/%E5%91%BD%E4%BB%A4/">命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 rains<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>MyBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="符号表如何在gdb中加载多个符号文件.我有一个可执行的foo.out和加载模块栏.我创建了两个符号文件foo.symbol和bar.symbol.如何将两个文件加载到GDB中. # gdb –core core (gdb)(gdb) symbol-file foo.symbol如何加载第二个符号文件.或有什么方法可以加载gdb 中的所有目录文件 推荐答案设置包含符号文件的目录use set deb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBlog">
+<meta property="og:url" content="https://sunflower-dotcom.github.io/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/index.html">
+<meta property="og:site_name" content="MyBlog">
+<meta property="og:description" content="符号表如何在gdb中加载多个符号文件.我有一个可执行的foo.out和加载模块栏.我创建了两个符号文件foo.symbol和bar.symbol.如何将两个文件加载到GDB中. # gdb –core core (gdb)(gdb) symbol-file foo.symbol如何加载第二个符号文件.或有什么方法可以加载gdb 中的所有目录文件 推荐答案设置包含符号文件的目录use set deb">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-10T14:40:35.354Z">
+<meta property="article:modified_time" content="2023-09-10T14:38:28.462Z">
+<meta property="article:author" content="rains">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="MyBlog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MyBlog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://sunflower-dotcom.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-GDB/符号表" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/" class="article-date">
+  <time datetime="2023-09-10T14:40:35.354Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h1><p>如何在gdb中加载多个符号<a target="_blank" rel="noopener" href="https://www.itbaoku.cn/tag/file" title="文件">文件</a>.我有一个可执行的foo.out和加载模块栏.我创建了两个符号文件foo.symbol和bar.symbol.如何将两个文件加载到GDB中.</p>
+<p># gdb –core core</p>
+<h1 id="gdb"><a href="#gdb" class="headerlink" title="(gdb)"></a>(gdb)</h1><h1 id="gdb-symbol-file-foo-symbol"><a href="#gdb-symbol-file-foo-symbol" class="headerlink" title="(gdb) symbol-file foo.symbol"></a>(gdb) symbol-file foo.symbol</h1><p>如何加载第二个符号文件.或有什么方法可以加载gdb</p>
+<p>中的所有目录文件</p>
+<h2 id="推荐答案"><a href="#推荐答案" class="headerlink" title="推荐答案"></a>推荐答案</h2><p>设置包含符号文件的目录use</p>
+<p>set debug-file-directory <directory></directory></p>
+<p>并使用</p>
+<p>show debug-file-directory</p>
+<p>显示当前设置为包含符号文件的目录.</p>
+<p>符号文件是从此目录自动读取的，如果二进制文件以<a target="_blank" rel="noopener" href="https://www.itbaoku.cn/tag/debugging" title="调试">调试</a>链接为单位.</p>
+<p>二进制文件.</p>
+<ul>
+<li></li>
+</ul>
+<p>要添加其他符号，您可能会使用add-symbol-<a target="_blank" rel="noopener" href="https://www.itbaoku.cn/tag/file" title="file">file</a>.</p>
+<p>(如 <a target="_blank" rel="noopener" href="https://sourceware.org/gdb/gdb/onlinedocs/gdb/">gdb onlinedocs</a> 目前我在这里引用此信息，</p>
+<blockquote>
+<p>附加符号文件的文件名地址</p>
+<p>附加符号文件文件名地址[-readNow] [ - 映射]</p>
+<p>附加符号文件文件名-Ssection地址…</p>
+<p>附加符号文件命令从文件文件名中读取其他符号表信息.当将文件名(通过某些其他方式)动态加载到正在运行的程序中时，您将使用此命令.地址应为已加载文件的内存地址； GDB无法自行解决这个问题.您还可以指定任意数量的``ssection地址’’对，以提供该节的明确截面名称和基础地址.您可以将任何地址指定为表达式.</p>
+<p>文件文件名的符号表被添加到最初使用符号文件命令读取的符号表中.您可以多次使用附加符号文件命令；因此，新的符号数据读取不断添加到旧.为了丢弃所有旧符号数据，请使用没有任何参数的符号文件命令.</p>
+<p>尽管文件名通常是共享库文件，可执行文件或已完全重新安置以加载到过程中的其他对象文件，但您也可以从重新定位的.o文件加载符号信息，只要:</p>
+<ul>
+<li>文件的符号信息仅指该文件中定义的链接器符号，而不是由其他对象文件定义的符号，</li>
+<li>每节文件的符号信息涉及实际上已加载到文件中，并且</li>
+<li>您可以确定每个部分加载的地址，并将其提供给附加符号文件命令.</li>
+</ul>
+<p>一些嵌入式操作系统，例如Sun Chorus和VXWorks，可以将可重定位的文件加载到已经运行的程序中；这样的系统通常使上述要求易于满足.但是，重要的是要认识到，许多天然系统都使用复杂的链接程序(例如，链接部分分解和C ++构造函数组件)，使要求难以满足.通常，不能假设使用附加符号文件读取可重新定位对象文件的符号信息的效果与将可重定位对象文件链接到程序中的效果相同.</p>
+<p>.</p>
+<p>加上符号文件在使用后不重复.</p>
+<p>与符号文件命令一样，您可以使用-mapped’ and -ReadNow’选项，以更改GDB管理文件名的符号表信息.</p>
+</blockquote>
+<h2 id="其他推荐答案"><a href="#其他推荐答案" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>其他符号可以加载到gdb调试会话:</p>
+<p>add-symbol-file filename address</p>
+<p>参数address是.text节的地址.可以通过以下方式检索此地址</p>
+<p>readelf -WS path&#x2F;to&#x2F;file.elf | grep .text | awk ‘{ print “0x”$5 }’</p>
+<p>可以通过在gdb中自动化这可以通过添加以下输入到~&#x2F;.gdbinit:</p>
+<p>来自动化.</p>
+<p>define add-symbol-file-auto</p>
+<h1 id="Parse-text-address-to-temp-file"><a href="#Parse-text-address-to-temp-file" class="headerlink" title="Parse .text address to temp file"></a>Parse .text address to temp file</h1><p>  shell echo set \$text_address&#x3D;$(readelf -WS $arg0 | grep .text | awk ‘{ print “0x”$5 }’) &gt;&#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Source-text-address"><a href="#Source-text-address" class="headerlink" title="Source .text address"></a>Source .text address</h1><p>  source &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Clean-tempfile"><a href="#Clean-tempfile" class="headerlink" title="Clean tempfile"></a>Clean tempfile</h1><p>  shell rm -f &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Load-symbol-table"><a href="#Load-symbol-table" class="headerlink" title="Load symbol table"></a>Load symbol table</h1><p>  add-symbol-file $arg0 $text_address<br>end</p>
+<p>以上功能定义add-symbol-file-auto可以使用其他符号:</p>
+<p>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;bootloader.elf<br>add symbol table from file “path&#x2F;to&#x2F;bootloader.elf” at<br>    .text_addr &#x3D; 0x8010400<br>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;application.elf<br>add symbol table from file “path&#x2F;to&#x2F;application.elf” at<br>    .text_addr &#x3D; 0x8000000<br>(gdb) break main<br>Breakpoint 1 at 0x8006cb0: main. (2 locations)<br>(gdb) info break<br>Num     Type           Disp Enb Address    What<br>1       breakpoint     keep y   <MULTIPLE><br>1.1                         y     0x08006cb0 in main() at .&#x2F;source&#x2F;main.cpp:114<br>1.2                         y     0x080106a6 in main() at .&#x2F;main.cpp:10<br>(gdb)</MULTIPLE></p>
+<h2 id="其他推荐答案-1"><a href="#其他推荐答案-1" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>除了ALK的答案及其评论外，地址是.text部分的地址. 您可以使用readelf命令</p>
+<p>找到它</p>
+<p>在这里您有一个readelf用于二进制文件的示例缺少GDB”&gt;已加载文件名的地址缺少[GDB]</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/" data-id="clmdkem8s0010uotbh5ab50io" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Do not edit
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">汇编调试</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Do-not-edit/">Do not edit</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Encryption/">Encryption</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/" rel="tag">C/C++</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C-C/" style="font-size: 10px;">C/C++</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/">Do not edit</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/">汇编调试</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/10/GDB%20copy/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/">GDB调试忽略信号</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/10/GDB%20copy/%E5%91%BD%E4%BB%A4/">命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 rains<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

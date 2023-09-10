@@ -66,6 +66,314 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Questions/问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/03/21/Questions/%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2023-03-21T12:34:15.752Z" itemprop="datePublished">2023-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/21/Questions/%E9%97%AE%E9%A2%98/">Questions</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="脚本问题"><a href="#脚本问题" class="headerlink" title="脚本问题"></a>脚本问题</h1><h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><ol>
+<li>windows脚本不断重复执行同一条命令<br>原因: 脚本名和cmd系统命令重复</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/21/Questions/%E9%97%AE%E9%A2%98/" data-id="clmdkem8z001fuotb7stq0lmg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell/read" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/03/20/Shell/read/" class="article-date">
+  <time datetime="2023-03-20T12:42:02.025Z" itemprop="datePublished">2023-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/shell/">shell</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/20/Shell/read/">read</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
+<p><strong>代码1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/20/Shell/read/" data-id="clmdkem94001puotbcwpq4geh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell/常用命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time datetime="2023-03-20T12:41:56.337Z" itemprop="datePublished">2023-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/shell/">shell</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">常用命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
+<li>杀死进程</li>
+</ol>
+<p>#####查找tomcat进程<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’<br>#####查找tomcat进程并杀死<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’ | xargs kill -9  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="clmdkem93001muotbbul90283" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-GDB/命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time datetime="2023-03-20T12:41:42.735Z" itemprop="datePublished">2023-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GDB/">GDB</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/">命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
+<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/" data-id="clmdkem8g000huotbfqygc8xw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell/if" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/03/19/Shell/if/" class="article-date">
+  <time datetime="2023-03-19T14:13:48.539Z" itemprop="datePublished">2023-03-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Shell/">Shell</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/19/Shell/if/">Shell IF语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SHELL-IF-语法"><a href="#SHELL-IF-语法" class="headerlink" title="SHELL IF 语法"></a>SHELL IF 语法</h1><p>if [ -f file ]; then<br>   echo “yes yes yes”<br>elif [ -z file ]; then<br>   echo “yes yes”<br>else<br>   echo “nonono”<br>fi</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/Shell/if/" data-id="clmdkem90001huotb6y5ldt7y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Redis/集合" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/03/19/Redis/%E9%9B%86%E5%90%88/" class="article-date">
+  <time datetime="2023-03-19T14:13:48.528Z" itemprop="datePublished">2023-03-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Redis/">Redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/19/Redis/%E9%9B%86%E5%90%88/">集合</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
+<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
+<p><img src="/../images/Redis_1.webp"></p>
+<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
+<ol>
+<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
+<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
+<li>skiplist实现简单</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/Redis/%E9%9B%86%E5%90%88/" data-id="clmdkem98001tuotbbyh34knd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Redis/Hash" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/03/19/Redis/Hash/" class="article-date">
+  <time datetime="2023-03-19T14:13:48.524Z" itemprop="datePublished">2023-03-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Redis/">Redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/19/Redis/Hash/">Hash</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Hash算法"><a href="#Hash算法" class="headerlink" title="Hash算法"></a>Hash算法</h2><p>Redis4.0之前使用的Hash算法是MurmurHash, 即使输入的键是有规律的, 该算法计算的结果依然有很好的离散性, 并且计算速度非常快. Redis4.0开始更换为SipHash算法, 应该是出于安全的考虑, 该算法能有效防止Hash表碰撞<br>攻击, 并提供不错的性能</p>
+<blockquote>
+<h3 id="SipHash"><a href="#SipHash" class="headerlink" title="SipHash"></a>SipHash</h3><p>大部分非加密哈希算法的改良，都集中在让哈希速度更快更好上。SipHash 则是个异类，它的提出是为了<a target="_blank" rel="noopener" href="http://emboss.github.io/blog/2012/12/14/breaking-murmur-hash-flooding-dos-reloaded/">解决一类安全问题</a>：hash flooding。通过让&gt; 输出随机化，SipHash 能够有效减缓 hash flooding 攻击。凭借这一点，它逐渐成为 Ruby、Python、Rust 等语言默认的 hash 表实现的一部分。<br>如果你愿意尝试下新技术，可以看看 2016 新出的 <a target="_blank" rel="noopener" href="https://github.com/google/highwayhash">HighwayHash</a>。它宣称可以达到 SipHash 一样的效果，并且凭借 SIMD 的加持，在运算速度上它是 SipHash 的 5.2 倍（参考来源：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1612.06257">https://arxiv.>  org/abs/1612.06257</a> ）。</p>
+</blockquote>
+<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>把ht[0]上的数据迁移到ht[1]shang</p>
+<p>size调整为2的n次幂, 为了ht[1]Hash表数据长度是ht[0]Hash表数据长度的倍数, 有利于ht[0]的数据均匀地迁移到ht[1]</p>
+<p><strong>Hash&amp;ht.sizemask, sizemask&#x3D;size-1, idx&#x3D;hash%(ht.size)</strong>, 因此, 假如ht[0].size为0, ht[1].size&#x3D;2*n, 对于ht[0]上的元素, ht[0].table[k]的数据, 要不迁移到ht[1].table[k], 要不迁移到ht[1].table[k+n]</p>
+<h2 id="缩容"><a href="#缩容" class="headerlink" title="缩容"></a>缩容</h2><p>执行删除操作后, Redis会检查字典是否需要缩容, 当Hash表长度大于4且负载因子小于0.1时, 会执行缩容操作, 以节省内存</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis字典使用SipHash算法计算Hash值, 并使用链表法处理Hash冲突<br>Redis字段使用渐进式扩容方法, 在每次数据操作中都执行一次扩容单步操作, 直到扩容完成<br>散列类型的编码格式可以为OBJ_ENCODING_HT, OBJ_ENCODING_ZIPLIST  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/Redis/Hash/" data-id="clmdkem96001quotbavld79k9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Markdown/速查表" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2023/03/19/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/" class="article-date">
@@ -203,7 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/" data-id="clfs7dy2y001fpktb2030d2iy" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/" data-id="clmdkem9q002euotb60gv7sso" class="article-share-link">Share</a>
       
       
     </footer>
@@ -268,7 +576,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/GDB/%E6%B1%87%E7%BC%96/" data-id="clfs7dy2g000qpktb6km1grzc" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/GDB/%E6%B1%87%E7%BC%96/" data-id="clmdkem8n000quotb2cdy735g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,344 +620,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/" data-id="clfs7dy2e000npktbafqf5ysy" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C/跳表" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/19/C/%E8%B7%B3%E8%A1%A8/" class="article-date">
-  <time datetime="2023-03-19T14:13:48.420Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C-C/">C/C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/19/C/%E8%B7%B3%E8%A1%A8/">Skiplist</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/C/%E8%B7%B3%E8%A1%A8/" data-id="clfs7dy2c000lpktb2i0k0vww" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C/柔性数组" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/" class="article-date">
-  <time datetime="2023-03-19T14:13:48.416Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C-C/">C/C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/">柔性数组</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
-<p>柔型数组有两种定义方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<p>有些编译器会报错无法编译可以改成：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
-<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
-<p><img src="/images/C_1.png"></p>
-<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/C_2.png"></p>
-<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
-<p><img src="/images/C_3.png"></p>
-<p>如果想增加数组元素，使用realloc调整结构体大小</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
-<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/" data-id="clfs7dy21000apktb2hz2cwh4" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C/Epoll" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/19/C/Epoll/" class="article-date">
-  <time datetime="2023-03-19T14:13:48.407Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C-C/">C/C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/19/C/Epoll/">Epoll</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h1><p>**<code>epoll</code>**是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Linux" title="Linux">Linux</a>内核的可扩展I&#x2F;O事件通知机制<sup id="cite_ref-1" class="reference"><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Epoll#cite_note-1">[1]</a></sup>。于Linux 2.5.44首度登场，它设计目的旨在取代既有<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/POSIX" title="POSIX">POSIX</a> <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Select_(Unix)" title="Select (Unix)"><code>select(2)</code></a>与<code>poll(2)</code><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8" title="系统调用">系统函数</a>，让需要大量操作<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%AA%94%E6%A1%88%E6%8F%8F%E8%BF%B0%E5%AD%90" title="文件描述符">文件描述符</a>的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，<code>epoll</code>的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件</p>
-<h2 id="程序接口"><a href="#程序接口" class="headerlink" title="程序接口"></a>程序接口</h2><p>int epoll_create(int size);</p>
-<p>在内核中创建<code>epoll</code>实例并返回一个<code>epoll</code>文件描述符。 在最初的实现中，调用者通过 <code>size</code> 参数告知内核需要监听的文件描述符数量。如果监听的文件描述符数量超过 size, 则内核会自动扩容。而现在 size 已经没有这种语义了，但是调用者调用时 size 依然必须大于 0，以保证后向兼容性。</p>
-<p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</p>
-<p>向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</p>
-<p>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);</p>
-<p>当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</p>
-<h2 id="触发模式-编辑"><a href="#触发模式-编辑" class="headerlink" title="触发模式[编辑]"></a>触发模式[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=2" title="编辑章节：触发模式">编辑</a>]</h2><p><code>epoll</code>提供<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91" title="中断">边沿触发</a>及<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E7%8A%B6%E6%80%81%E8%A7%A6%E5%8F%91" title="中断">状态触发</a>模式。在边沿触发模式中，<code>epoll_wait</code>仅会在新的事件首次被加入<code>epoll</code>队列时返回；于level-triggered模式下，<code>epoll_wait</code>在事件状态未变更前将不断被触发。状态触发模式是默认的模式。</p>
-<p>状态触发模式与边沿触发模式有读和写两种情况，我们先来考虑读的情况。假设我们注册了一个读事件到<code>epoll</code>实例上，<code>epoll</code>实例会通过<code>epoll_wait</code>返回值的形式通知我们哪些读事件已经就绪。简单地来说，在状态触发模式下，如果读事件未被处理，该事件对应的内核读缓冲器非空，则每次调用 <code>epoll_wait</code> 时返回的事件列表都会包含该事件。直到该事件对应的内核读缓冲器为空为止。而在边沿触发模式下，读事件就绪后只会通知一次，不会反复通知。</p>
-<p>然后我们再考虑写的情况。水平触发模式下，只要文件描述符对应的内核写缓冲器未满，就会一直通知可写事件。而在边沿触发模式下，内核写缓冲器由满变为未满后，只会通知一次可写事件。</p>
-<p>举例来说，倘若有一个已经于<code>epoll</code>注册之<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Anonymous_pipe" title="Anonymous pipe">流水线</a>接获资料，<code>epoll_wait</code>将返回，并发出资料读取的信号。现假设缓冲器的资料仅有部分被读取并处理，在level-triggered模式下，任何对<code>epoll_wait</code>之调用都将即刻返回，直到缓冲器中的资料全部被读取；然而，在edge-triggered的情境下，<code>epoll_wait</code>仅会于再次接收到新资料(亦即，新资料被写入流水线)时返回。</p>
-<h3 id="边沿触发模式-编辑"><a href="#边沿触发模式-编辑" class="headerlink" title="边沿触发模式[编辑]"></a>边沿触发模式[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=3" title="编辑章节：边沿触发模式">编辑</a>]</h3><p>边沿触发模式使得程序有可能在用户态缓存 IO 状态。nginx 使用的是边沿触发模式。</p>
-<p>文件描述符有两种情况是推荐使用边沿触发模式的。</p>
-<ol>
-<li>read 或者 write 系统调用返回了 EAGAIN。</li>
-<li>非阻塞的文件描述符。</li>
-</ol>
-<p>可能的缺陷：</p>
-<ol>
-<li>如果 IO 空间很大，你要花很多时间才能把它一次读完，这可能会导致饥饿。举个例子，假设你在监听一个文件描述符列表，而某个文件描述符上有大量的输入（不间断的输入流），那么你在读完它的过程中就没空处理其他就绪的文件描述符。（因为边沿触发模式只会通知一次可读事件，所以你往往会想一次把它读完。）一种解决方案是，程序维护一个就绪队列，当 <code>epoll</code> 实例通知某文件描述符就绪时将它在就绪队列数据结构中标记为就绪，这样程序就会记得哪些文件描述符等待处理。Round-Robin 循环处理就绪队列中就绪的文件描述符即可。</li>
-<li>如果你缓存了所有事件，那么一种可能的情况是 A 事件的发生让程序关闭了另一个文件描述符 B。但是内核的 <code>epoll</code> 实例并不知道这件事，需要你从 <code>epoll</code> 删除掉。</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/C/Epoll/" data-id="clfs7dy1t0006pktb277h80uq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-任务列表语法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/19/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" class="article-date">
-  <time datetime="2023-03-19T14:13:48.399Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<ul>
-<li><input checked disabled type="checkbox"> Write the press release</li>
-<li><input disabled type="checkbox"> Update the website</li>
-<li><input disabled type="checkbox"> Contact the media</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/" data-id="clfs7dy1m0003pktbhbch1ddm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/19/hello-world/" class="article-date">
-  <time datetime="2023-03-19T14:13:48.394Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/19/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/hello-world/" data-id="clfs7dy1f0001pktb6yc2dpcb" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Shortcuts/vscode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/02/24/Shortcuts/vscode/" class="article-date">
-  <time datetime="2023-02-24T09:19:53.000Z" itemprop="datePublished">2023-02-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Shortcuts/">Shortcuts</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/24/Shortcuts/vscode/">VSCode</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
-<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/24/Shortcuts/vscode/" data-id="clfs7dy38001upktb46ed8tz3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-GDB/输出日志记录" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/" class="article-date">
-  <time datetime="2023-02-16T15:49:46.000Z" itemprop="datePublished">2023-02-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/GDB/">GDB</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/">输出日志记录</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="输出日志记录"><a href="#输出日志记录" class="headerlink" title="输出日志记录"></a>输出日志记录</h1><blockquote>
-<p>(gdb) set logging file fileName 设置文件名，文件默认生成在运行gdb命令的目录下；<br>(gdb) set logging on 启动日志记录；<br>(gdb) set height 0 这样gdb需要多行输出时，就会全部输出，中间不会暂停；<br>(gdb) set print elements 0 这样gdb在打印时就没有默认为200个元素的长度限制；<br>(gdb) thread apply all bt 在这里去实际操作，所需要的gdb命令<br>(gdb) set logging off  </p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/" data-id="clfs7dy2i000spktb3js2fuph" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/" data-id="clmdkem8l000nuotbg9w369vo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -674,7 +645,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Do-not-edit/">Do not edit</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Encryption/">Encryption</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
     </div>
   </div>
 
@@ -703,7 +674,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
     </div>
   </div>
 
@@ -716,23 +687,23 @@
       <ul>
         
           <li>
-            <a href="/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/">全密态数据库</a>
+            <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/">Do not edit</a>
           </li>
         
           <li>
-            <a href="/2023/03/28/Redis/msg/">msg</a>
+            <a href="/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2023/03/21/ChatGpt/Questions/">对话记录</a>
+            <a href="/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/">汇编调试</a>
           </li>
         
           <li>
-            <a href="/2023/03/21/Questions/%E9%97%AE%E9%A2%98/">Questions</a>
+            <a href="/2023/09/10/GDB%20copy/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/">GDB调试忽略信号</a>
           </li>
         
           <li>
-            <a href="/2023/03/20/Shell/read/">read</a>
+            <a href="/2023/09/10/GDB%20copy/%E5%91%BD%E4%BB%A4/">命令</a>
           </li>
         
       </ul>

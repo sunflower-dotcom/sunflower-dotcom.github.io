@@ -66,6 +66,679 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-GDB/线程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/" class="article-date">
+  <time datetime="2023-09-10T14:40:35.387Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Do-not-edit/">Do not edit</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/">Do not edit</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/" data-id="clmdkem8r000xuotb8e0ybq8o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-GDB/符号表" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/" class="article-date">
+  <time datetime="2023-09-10T14:40:35.354Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h1><p>如何在gdb中加载多个符号<a target="_blank" rel="noopener" href="https://www.itbaoku.cn/tag/file" title="文件">文件</a>.我有一个可执行的foo.out和加载模块栏.我创建了两个符号文件foo.symbol和bar.symbol.如何将两个文件加载到GDB中.</p>
+<p># gdb –core core</p>
+<h1 id="gdb"><a href="#gdb" class="headerlink" title="(gdb)"></a>(gdb)</h1><h1 id="gdb-symbol-file-foo-symbol"><a href="#gdb-symbol-file-foo-symbol" class="headerlink" title="(gdb) symbol-file foo.symbol"></a>(gdb) symbol-file foo.symbol</h1><p>如何加载第二个符号文件.或有什么方法可以加载gdb</p>
+<p>中的所有目录文件</p>
+<h2 id="推荐答案"><a href="#推荐答案" class="headerlink" title="推荐答案"></a>推荐答案</h2><p>设置包含符号文件的目录use</p>
+<p>set debug-file-directory <directory></directory></p>
+<p>并使用</p>
+<p>show debug-file-directory</p>
+<p>显示当前设置为包含符号文件的目录.</p>
+<p>符号文件是从此目录自动读取的，如果二进制文件以<a target="_blank" rel="noopener" href="https://www.itbaoku.cn/tag/debugging" title="调试">调试</a>链接为单位.</p>
+<p>二进制文件.</p>
+<ul>
+<li></li>
+</ul>
+<p>要添加其他符号，您可能会使用add-symbol-<a target="_blank" rel="noopener" href="https://www.itbaoku.cn/tag/file" title="file">file</a>.</p>
+<p>(如 <a target="_blank" rel="noopener" href="https://sourceware.org/gdb/gdb/onlinedocs/gdb/">gdb onlinedocs</a> 目前我在这里引用此信息，</p>
+<blockquote>
+<p>附加符号文件的文件名地址</p>
+<p>附加符号文件文件名地址[-readNow] [ - 映射]</p>
+<p>附加符号文件文件名-Ssection地址…</p>
+<p>附加符号文件命令从文件文件名中读取其他符号表信息.当将文件名(通过某些其他方式)动态加载到正在运行的程序中时，您将使用此命令.地址应为已加载文件的内存地址； GDB无法自行解决这个问题.您还可以指定任意数量的``ssection地址’’对，以提供该节的明确截面名称和基础地址.您可以将任何地址指定为表达式.</p>
+<p>文件文件名的符号表被添加到最初使用符号文件命令读取的符号表中.您可以多次使用附加符号文件命令；因此，新的符号数据读取不断添加到旧.为了丢弃所有旧符号数据，请使用没有任何参数的符号文件命令.</p>
+<p>尽管文件名通常是共享库文件，可执行文件或已完全重新安置以加载到过程中的其他对象文件，但您也可以从重新定位的.o文件加载符号信息，只要:</p>
+<ul>
+<li>文件的符号信息仅指该文件中定义的链接器符号，而不是由其他对象文件定义的符号，</li>
+<li>每节文件的符号信息涉及实际上已加载到文件中，并且</li>
+<li>您可以确定每个部分加载的地址，并将其提供给附加符号文件命令.</li>
+</ul>
+<p>一些嵌入式操作系统，例如Sun Chorus和VXWorks，可以将可重定位的文件加载到已经运行的程序中；这样的系统通常使上述要求易于满足.但是，重要的是要认识到，许多天然系统都使用复杂的链接程序(例如，链接部分分解和C ++构造函数组件)，使要求难以满足.通常，不能假设使用附加符号文件读取可重新定位对象文件的符号信息的效果与将可重定位对象文件链接到程序中的效果相同.</p>
+<p>.</p>
+<p>加上符号文件在使用后不重复.</p>
+<p>与符号文件命令一样，您可以使用-mapped’ and -ReadNow’选项，以更改GDB管理文件名的符号表信息.</p>
+</blockquote>
+<h2 id="其他推荐答案"><a href="#其他推荐答案" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>其他符号可以加载到gdb调试会话:</p>
+<p>add-symbol-file filename address</p>
+<p>参数address是.text节的地址.可以通过以下方式检索此地址</p>
+<p>readelf -WS path&#x2F;to&#x2F;file.elf | grep .text | awk ‘{ print “0x”$5 }’</p>
+<p>可以通过在gdb中自动化这可以通过添加以下输入到~&#x2F;.gdbinit:</p>
+<p>来自动化.</p>
+<p>define add-symbol-file-auto</p>
+<h1 id="Parse-text-address-to-temp-file"><a href="#Parse-text-address-to-temp-file" class="headerlink" title="Parse .text address to temp file"></a>Parse .text address to temp file</h1><p>  shell echo set \$text_address&#x3D;$(readelf -WS $arg0 | grep .text | awk ‘{ print “0x”$5 }’) &gt;&#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Source-text-address"><a href="#Source-text-address" class="headerlink" title="Source .text address"></a>Source .text address</h1><p>  source &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Clean-tempfile"><a href="#Clean-tempfile" class="headerlink" title="Clean tempfile"></a>Clean tempfile</h1><p>  shell rm -f &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Load-symbol-table"><a href="#Load-symbol-table" class="headerlink" title="Load symbol table"></a>Load symbol table</h1><p>  add-symbol-file $arg0 $text_address<br>end</p>
+<p>以上功能定义add-symbol-file-auto可以使用其他符号:</p>
+<p>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;bootloader.elf<br>add symbol table from file “path&#x2F;to&#x2F;bootloader.elf” at<br>    .text_addr &#x3D; 0x8010400<br>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;application.elf<br>add symbol table from file “path&#x2F;to&#x2F;application.elf” at<br>    .text_addr &#x3D; 0x8000000<br>(gdb) break main<br>Breakpoint 1 at 0x8006cb0: main. (2 locations)<br>(gdb) info break<br>Num     Type           Disp Enb Address    What<br>1       breakpoint     keep y   <MULTIPLE><br>1.1                         y     0x08006cb0 in main() at .&#x2F;source&#x2F;main.cpp:114<br>1.2                         y     0x080106a6 in main() at .&#x2F;main.cpp:10<br>(gdb)</MULTIPLE></p>
+<h2 id="其他推荐答案-1"><a href="#其他推荐答案-1" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>除了ALK的答案及其评论外，地址是.text部分的地址. 您可以使用readelf命令</p>
+<p>找到它</p>
+<p>在这里您有一个readelf用于二进制文件的示例缺少GDB”&gt;已加载文件名的地址缺少[GDB]</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/" data-id="clmdkem8s0010uotbh5ab50io" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-GDB copy/汇编" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/" class="article-date">
+  <time datetime="2023-09-10T14:40:35.306Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/">汇编调试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h1><ol>
+<li>打印寄存器的值:  <blockquote>
+<p>i register</p>
+</blockquote>
+</li>
+<li>打印所有寄存器的值:<blockquote>
+<p>i all-registers</p>
+</blockquote>
+</li>
+<li>打印单个寄存器的值<blockquote>
+<p>i registers regname 或<br>p $regname”</p>
+</blockquote>
+</li>
+<li>修改寄存器的值<blockquote>
+<p><strong>例子</strong></p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main(void)</span><br><span class="line">&#123;       </span><br><span class="line">        int a =0;               </span><br><span class="line"></span><br><span class="line">        a++;    </span><br><span class="line">        a++;    </span><br><span class="line">        printf(&quot;%d\n&quot;, a);      </span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>   PC寄存器会存储程序下一条要执行的指令，通过修改这个寄存器的值，可以达到改变程序执行流程的目的。上面的程序会输出“a&#x3D;2”，下面介绍一下如何通过修改PC寄存器的值，改变程序执行流程。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">4               int a =0;</span><br><span class="line">(gdb) disassemble main</span><br><span class="line">Dump of assembler code for function main:</span><br><span class="line">0x08050921 &lt;main+0&gt;:    push   %ebp</span><br><span class="line">0x08050922 &lt;main+1&gt;:    mov    %esp,%ebp</span><br><span class="line">0x08050924 &lt;main+3&gt;:    sub    $0x8,%esp</span><br><span class="line">0x08050927 &lt;main+6&gt;:    and    $0xfffffff0,%esp</span><br><span class="line">0x0805092a &lt;main+9&gt;:    mov    $0x0,%eax</span><br><span class="line">0x0805092f &lt;main+14&gt;:   add    $0xf,%eax</span><br><span class="line">0x08050932 &lt;main+17&gt;:   add    $0xf,%eax</span><br><span class="line">0x08050935 &lt;main+20&gt;:   shr    $0x4,%eax</span><br><span class="line">0x08050938 &lt;main+23&gt;:   shl    $0x4,%eax</span><br><span class="line">0x0805093b &lt;main+26&gt;:   sub    %eax,%esp</span><br><span class="line">0x0805093d &lt;main+28&gt;:   movl   $0x0,-0x4(%ebp)</span><br><span class="line">0x08050944 &lt;main+35&gt;:   lea    -0x4(%ebp),%eax</span><br><span class="line">0x08050947 &lt;main+38&gt;:   incl   (%eax)</span><br><span class="line">0x08050949 &lt;main+40&gt;:   lea    -0x4(%ebp),%eax</span><br><span class="line">0x0805094c &lt;main+43&gt;:   incl   (%eax)</span><br><span class="line">0x0805094e &lt;main+45&gt;:   sub    $0x8,%esp</span><br><span class="line">0x08050951 &lt;main+48&gt;:   pushl  -0x4(%ebp)</span><br><span class="line">0x08050954 &lt;main+51&gt;:   push   $0x80509b4</span><br><span class="line">0x08050959 &lt;main+56&gt;:   call   0x80507cc &lt;printf@plt&gt;</span><br><span class="line">0x0805095e &lt;main+61&gt;:   add    $0x10,%esp</span><br><span class="line">0x08050961 &lt;main+64&gt;:   mov    $0x0,%eax</span><br><span class="line">0x08050966 &lt;main+69&gt;:   leave</span><br><span class="line">0x08050967 &lt;main+70&gt;:   ret</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) info line 6</span><br><span class="line">Line 6 of &quot;a.c&quot; starts at address 0x8050944 &lt;main+35&gt; and ends at 0x8050949 &lt;main+40&gt;.</span><br><span class="line">(gdb) info line 7</span><br><span class="line">Line 7 of &quot;a.c&quot; starts at address 0x8050949 &lt;main+40&gt; and ends at 0x805094e &lt;main+45&gt;.</span><br></pre></td></tr></table></figure>
+
+<p>通过“info line 6”和“info line 7”命令可以知道两条“a++;”语句的汇编指令起始地址分别是0x8050944和0x8050949。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(gdb) n</span><br><span class="line">6               a++;</span><br><span class="line">(gdb) p $pc</span><br><span class="line">$3 = (void (*)()) 0x8050944 &lt;main+35&gt;</span><br><span class="line">(gdb) set var $pc=0x08050949</span><br></pre></td></tr></table></figure>
+
+<p>当程序要执行第一条“a++;”语句时，打印pc寄存器的值，看到pc寄存器的值为0x8050944，与“info line 6”命令得到的一致。接下来，把pc寄存器的值改为0x8050949，也就是通过“info line 7”命令得到的第二条“a++;”语句的起始地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(gdb) n</span><br><span class="line">8               printf(&quot;a=%d\n&quot;, a);</span><br><span class="line">(gdb)</span><br><span class="line">a=1</span><br><span class="line">9               return 0;</span><br></pre></td></tr></table></figure>
+
+<p>接下来执行，可以看到程序输出“a&#x3D;1”，也就是跳过了第一条“a++;”语句。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/" data-id="clmdkem8x001auotb4i3c49z9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-GDB copy/忽略信号" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/GDB%20copy/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/" class="article-date">
+  <time datetime="2023-09-10T14:40:35.302Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GDB/">GDB</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/10/GDB%20copy/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/">GDB调试忽略信号</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="GDB调试忽略信号"><a href="#GDB调试忽略信号" class="headerlink" title="GDB调试忽略信号"></a>GDB调试忽略信号</h1><p>在linux平台，用gdb调试程序时，可以在gdb attach到运行中程序后，用以下命令忽略一些不关注的信号：</p>
+<p>handle SIGUSR2 noprint nostop</p>
+<p>handle SIGPIPE noprint nostop</p>
+<p><img src="/images/GDB_1.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB%20copy/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/" data-id="clmdkem8w0018uotb6rxqc6t0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-GDB copy/命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/GDB%20copy/%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time datetime="2023-09-10T14:40:35.299Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GDB/">GDB</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/10/GDB%20copy/%E5%91%BD%E4%BB%A4/">命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
+<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB%20copy/%E5%91%BD%E4%BB%A4/" data-id="clmdkem8t0011uotb7z376zjh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Encryption/AES_NI" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/Encryption/AES_NI/" class="article-date">
+  <time datetime="2023-09-10T14:39:59.660Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Encryption/">Encryption</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/10/Encryption/AES_NI/">AES_NI</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="AES-NI"><a href="#AES-NI" class="headerlink" title="AES_NI"></a>AES_NI</h1><h2 id="How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System"><a href="#How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System" class="headerlink" title="How to find out AES-NI (Advanced Encryption) Enabled on Linux System"></a>How to find out AES-NI (Advanced Encryption) Enabled on Linux System</h2><p>One can find out that the processor has the AES&#x2F;AES-NI instruction set using the lscpu command:</p>
+<blockquote>
+<p>lscpu</p>
+</blockquote>
+<p>Type the following grep command to make sure that the processor has the AES instruction set and enabled in the BIOS:</p>
+<blockquote>
+<p>grep -o aes &#x2F;proc&#x2F;cpuinfo</p>
+</blockquote>
+<p>OR</p>
+<blockquote>
+<p>grep -m1 -o aes &#x2F;proc&#x2F;cpuinfo</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/Encryption/AES_NI/" data-id="clmdkem8i000luotb3cnnax6e" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Code/Base64" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/09/10/Code/Base64/" class="article-date">
+  <time datetime="2023-09-10T14:39:33.158Z" itemprop="datePublished">2023-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Code/">Code</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/10/Code/Base64/">Base64</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Base64-Wikipedia"><a href="#Base64-Wikipedia" class="headerlink" title="Base64 - Wikipedia"></a>Base64 - Wikipedia</h1><blockquote>
+<h2 id="Excerpt"><a href="#Excerpt" class="headerlink" title="Excerpt"></a>Excerpt</h2><p>In computer programming, Base64 is a group of binary-to-text encoding schemes that represent binary data (more specifically, a sequence of 8-bit bytes) in sequences of 24 bits that can be represented by four 6-bit Base64 digits.</p>
+</blockquote>
+<hr>
+<p>In <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Computer_programming" title="Computer programming">computer programming</a>, <strong>Base64</strong> is a group of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary-to-text_encoding" title="Binary-to-text encoding">binary-to-text encoding</a> schemes that represent <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary_data" title="Binary data">binary data</a> (more specifically, a sequence of 8-bit <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Byte" title="Byte">bytes</a>) in sequences of 24 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bit" title="Bit">bits</a> that can be represented by four 6-bit Base64 digits.</p>
+<p>Common to all binary-to-text encoding schemes, Base64 is designed to carry data stored in binary formats across channels that only reliably support text content. Base64 is particularly prevalent on the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/World_Wide_Web" title="World Wide Web">World Wide Web</a><sup id="cite_ref-1"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-1">[1]</a></sup> where one of its uses is the ability to embed <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Image_files" title="Image files">image files</a> or other binary assets inside textual assets such as <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/HTML" title="HTML">HTML</a> and <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/CSS" title="CSS">CSS</a> files.<sup id="cite_ref-2"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-2">[2]</a></sup></p>
+<p>Base64 is also widely used for sending <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/E-mail" title="E-mail">e-mail</a> attachments. This is required because <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol" title="Simple Mail Transfer Protocol">SMTP</a> – in its original form – was designed to transport <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/7-bit_ASCII" title="7-bit ASCII">7-bit ASCII</a> characters only. This encoding causes an overhead of 33–37% (33% by the encoding itself; up to 4% more by the inserted line breaks).</p>
+<h2 id="Design-edit"><a href="#Design-edit" class="headerlink" title="Design[edit]"></a>Design[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=1" title="Edit section: Design">edit</a>]</h2><p>The particular set of 64 characters chosen to represent the 64-digit values for the base varies between implementations. The general strategy is to choose 64 characters that are common to most encodings and that are also <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Graphic_character" title="Graphic character">printable</a>. This combination leaves the data unlikely to be modified in transit through information systems, such as email, that were traditionally not <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/8-bit_clean" title="8-bit clean">8-bit clean</a>.<sup id="cite_ref-autogenerated2006_3-0"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-autogenerated2006-3">[3]</a></sup> For example, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MIME" title="MIME">MIME</a>‘s Base64 implementation uses <code>A</code>–<code>Z</code>, <code>a</code>–<code>z</code>, and <code>0</code>–<code>9</code> for the first 62 values. Other variations share this property but differ in the symbols chosen for the last two values; an example is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/UTF-7" title="UTF-7">UTF-7</a>.</p>
+<p>The earliest instances of this type of encoding were created for dial-up communication between systems running the same <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Operating_system" title="Operating system">OS</a>, for example, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Uuencoding" title="Uuencoding">uuencode</a> for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/UNIX" title="UNIX">UNIX</a> and <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/BinHex" title="BinHex">BinHex</a> for the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/TRS-80" title="TRS-80">TRS-80</a> (later adapted for the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Macintosh" title="Macintosh">Macintosh</a>), and could therefore make more assumptions about what characters were safe to use. For instance, uuencode uses uppercase letters, digits, and many punctuation characters, but no lowercase.<sup id="cite_ref-rfc_1421_4-0"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-rfc_1421-4">[4]</a></sup><sup id="cite_ref-rfc_2045_5-0"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-rfc_2045-5">[5]</a></sup><sup id="cite_ref-rfc_3548_6-0"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-rfc_3548-6">[6]</a></sup><sup id="cite_ref-autogenerated2006_3-1"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-autogenerated2006-3">[3]</a></sup></p>
+<h2 id="Base64-table-from-RFC-4648-edit"><a href="#Base64-table-from-RFC-4648-edit" class="headerlink" title="Base64 table from RFC 4648[edit]"></a>Base64 table from RFC 4648[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=2" title="Edit section: Base64 table from RFC 4648">edit</a>]</h2><p>This is the Base64 alphabet defined in <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4648#section-4">RFC 4648 §4</a> . See also <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#Variants_summary_table">Variants summary</a> (below).</p>
+<table><tbody><tr><th scope="col">Index</th><th scope="col">Binary</th><th scope="col">Char</th><td rowspan="17"></td><th scope="col">Index</th><th scope="col">Binary</th><th scope="col">Char</th><td rowspan="17"></td><th scope="col">Index</th><th scope="col">Binary</th><th scope="col">Char</th><td rowspan="17"></td><th scope="col">Index</th><th scope="col">Binary</th><th scope="col">Char</th></tr><tr><td>0</td><td>000000</td><td><code>A</code></td><td>16</td><td>010000</td><td><code>Q</code></td><td>32</td><td>100000</td><td><code>g</code></td><td>48</td><td>110000</td><td><code>w</code></td></tr><tr><td>1</td><td>000001</td><td><code>B</code></td><td>17</td><td>010001</td><td><code>R</code></td><td>33</td><td>100001</td><td><code>h</code></td><td>49</td><td>110001</td><td><code>x</code></td></tr><tr><td>2</td><td>000010</td><td><code>C</code></td><td>18</td><td>010010</td><td><code>S</code></td><td>34</td><td>100010</td><td><code>i</code></td><td>50</td><td>110010</td><td><code>y</code></td></tr><tr><td>3</td><td>000011</td><td><code>D</code></td><td>19</td><td>010011</td><td><code>T</code></td><td>35</td><td>100011</td><td><code>j</code></td><td>51</td><td>110011</td><td><code>z</code></td></tr><tr><td>4</td><td>000100</td><td><code>E</code></td><td>20</td><td>010100</td><td><code>U</code></td><td>36</td><td>100100</td><td><code>k</code></td><td>52</td><td>110100</td><td><code>0</code></td></tr><tr><td>5</td><td>000101</td><td><code>F</code></td><td>21</td><td>010101</td><td><code>V</code></td><td>37</td><td>100101</td><td><code>l</code></td><td>53</td><td>110101</td><td><code>1</code></td></tr><tr><td>6</td><td>000110</td><td><code>G</code></td><td>22</td><td>010110</td><td><code>W</code></td><td>38</td><td>100110</td><td><code>m</code></td><td>54</td><td>110110</td><td><code>2</code></td></tr><tr><td>7</td><td>000111</td><td><code>H</code></td><td>23</td><td>010111</td><td><code>X</code></td><td>39</td><td>100111</td><td><code>n</code></td><td>55</td><td>110111</td><td><code>3</code></td></tr><tr><td>8</td><td>001000</td><td><code>I</code></td><td>24</td><td>011000</td><td><code>Y</code></td><td>40</td><td>101000</td><td><code>o</code></td><td>56</td><td>111000</td><td><code>4</code></td></tr><tr><td>9</td><td>001001</td><td><code>J</code></td><td>25</td><td>011001</td><td><code>Z</code></td><td>41</td><td>101001</td><td><code>p</code></td><td>57</td><td>111001</td><td><code>5</code></td></tr><tr><td>10</td><td>001010</td><td><code>K</code></td><td>26</td><td>011010</td><td><code>a</code></td><td>42</td><td>101010</td><td><code>q</code></td><td>58</td><td>111010</td><td><code>6</code></td></tr><tr><td>11</td><td>001011</td><td><code>L</code></td><td>27</td><td>011011</td><td><code>b</code></td><td>43</td><td>101011</td><td><code>r</code></td><td>59</td><td>111011</td><td><code>7</code></td></tr><tr><td>12</td><td>001100</td><td><code>M</code></td><td>28</td><td>011100</td><td><code>c</code></td><td>44</td><td>101100</td><td><code>s</code></td><td>60</td><td>111100</td><td><code>8</code></td></tr><tr><td>13</td><td>001101</td><td><code>N</code></td><td>29</td><td>011101</td><td><code>d</code></td><td>45</td><td>101101</td><td><code>t</code></td><td>61</td><td>111101</td><td><code>9</code></td></tr><tr><td>14</td><td>001110</td><td><code>O</code></td><td>30</td><td>011110</td><td><code>e</code></td><td>46</td><td>101110</td><td><code>u</code></td><td>62</td><td>111110</td><td><code>+</code></td></tr><tr><td>15</td><td>001111</td><td><code>P</code></td><td>31</td><td>011111</td><td><code>f</code></td><td>47</td><td>101111</td><td><code>v</code></td><td>63</td><td>111111</td><td><code>/</code></td></tr><tr><td colspan="2" data-sort-value>Padding</td><td>=</td><td colspan="12"></td></tr></tbody></table>
+
+<h2 id="Examples-edit"><a href="#Examples-edit" class="headerlink" title="Examples[edit]"></a>Examples[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=3" title="Edit section: Examples">edit</a>]</h2><p>The example below uses <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ASCII" title="ASCII">ASCII</a> text for simplicity, but this is not a typical use case, as it can already be safely transferred across all systems that can handle Base64. The more typical use is to encode <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary_data" title="Binary data">binary data</a> (such as an image); the resulting Base64 data will only contain 64 different ASCII characters, all of which can reliably be transferred across systems that may corrupt the raw source bytes.</p>
+<p>Here is a well-known <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Idiom" title="Idiom">idiom</a> from <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Distributed_computing" title="Distributed computing">distributed computing</a>:</p>
+<blockquote>
+<p>Many hands make light work.</p>
+</blockquote>
+<p>When the quote (without trailing whitespace) is encoded into Base64, it is represented as a byte sequence of 8-bit-padded <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ASCII" title="ASCII">ASCII</a> characters encoded in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MIME" title="MIME">MIME</a>‘s Base64 scheme as follows (newlines and white spaces may be present anywhere but are to be ignored on decoding):</p>
+<blockquote>
+<p>TWFueSBoYW5kcyBtYWtlIGxpZ2h0IHdvcmsu</p>
+</blockquote>
+<p>In the above quote, the encoded value of <em>Man</em> is <em>TWFu</em>. Encoded in ASCII, the characters <em>M</em>, <em>a</em>, and <em>n</em> are stored as the byte values <code>77</code>, <code>97</code>, and <code>110</code>, which are the 8-bit binary values <code>01001101</code>, <code>01100001</code>, and <code>01101110</code>. These three values are joined together into a 24-bit string, producing <code>010011010110000101101110</code>. Groups of 6 bits (6 bits have a maximum of 2<sup>6</sup> &#x3D; 64 different binary values) are <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary_number#Counting_in_binary" title="Binary number">converted into individual numbers</a> from start to end (in this case, there are four numbers in a 24-bit string), which are then converted into their corresponding Base64 character values.</p>
+<p>As this example illustrates, Base64 encoding converts three <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Octet_(computing)" title="Octet (computing)">octets</a> into four encoded characters.</p>
+<table><tbody><tr><th rowspan="2" scope="row">Source</th><th scope="row">Text (ASCII)</th><td colspan="8">M</td><td colspan="8">a</td><td colspan="8">n</td></tr><tr><th scope="row">Octets</th><td colspan="8">77 (0x4d)</td><td colspan="8">97 (0x61)</td><td colspan="8">110 (0x6e)</td></tr><tr><th colspan="2" scope="row">Bits</th><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr><tr><th rowspan="3" scope="row">Base64<br>encoded</th><th scope="row">Sextets</th><td colspan="6">19</td><td colspan="6">22</td><td colspan="6">5</td><td colspan="6">46</td></tr><tr><th scope="row">Character</th><td colspan="6">T</td><td colspan="6">W</td><td colspan="6">F</td><td colspan="6">u</td></tr><tr><th scope="row">Octets</th><td colspan="6">84 (0x54)</td><td colspan="6">87 (0x57)</td><td colspan="6">70 (0x46)</td><td colspan="6">117 (0x75)</td></tr></tbody></table>
+
+<p><code>=</code> padding characters might be added to make the last encoded block contain four Base64 characters.</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Hexadecimal" title="Hexadecimal">Hexadecimal</a> to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Octal" title="Octal">octal</a> transformation is useful to convert between binary and Base64. Such conversion is available for both advanced calculators and programming languages. For example, the hexadecimal representation of the 24 bits above is 4D616E. The octal representation is 23260556. Those 8 octal digits can be split into pairs (23 26 05 56), and each pair is converted to decimal to yield 19 22 05 46. Using those four decimal numbers as indices for the Base64 alphabet, the corresponding ASCII characters are <em>TWFu</em>.</p>
+<p>If there are only two significant input octets (e.g., ‘Ma’), or when the last input group contains only two octets, all 16 bits will be captured in the first three Base64 digits (18 bits); the two <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Least_significant_bit" title="Least significant bit">least significant bits</a> of the last content-bearing 6-bit block will turn out to be zero, and discarded on decoding (along with the succeeding <code>=</code> padding character):</p>
+<table><tbody><tr><th rowspan="2" scope="row">Source</th><th scope="row">Text (ASCII)</th><td colspan="8">M</td><td colspan="8">a</td><td colspan="8" rowspan="2" data-sort-value></td></tr><tr><th scope="row">Octets</th><td colspan="8">77 (0x4d)</td><td colspan="8">97 (0x61)</td></tr><tr><th colspan="2" scope="row">Bits</th><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td></tr><tr><th rowspan="3" scope="row">Base64<br>encoded</th><th scope="row">Sextets</th><td colspan="6">19</td><td colspan="6">22</td><td colspan="6">4</td><td colspan="6" data-sort-value>Padding</td></tr><tr><th scope="row">Character</th><td colspan="6">T</td><td colspan="6">W</td><td colspan="6">E</td><td colspan="6">=</td></tr><tr><th scope="row">Octets</th><td colspan="6">84 (0x54)</td><td colspan="6">87 (0x57)</td><td colspan="6">69 (0x45)</td><td colspan="6">61 (0x3D)</td></tr></tbody></table>
+
+<p>If there is only one significant input octet (e.g., ‘M’), or when the last input group contains only one octet, all 8 bits will be captured in the first two Base64 digits (12 bits); the four <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Least_significant_bit" title="Least significant bit">least significant bits</a> of the last content-bearing 6-bit block will turn out to be zero, and discarded on decoding (along with the succeeding two <code>=</code> padding characters):</p>
+<table><tbody><tr><th rowspan="2" scope="row">Source</th><th scope="row">Text (ASCII)</th><td colspan="8">M</td><td colspan="16" rowspan="2" data-sort-value></td></tr><tr><th scope="row">Octets</th><td colspan="8">77 (0x4d)</td></tr><tr><th colspan="2" scope="row">Bits</th><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td><td data-sort-value><span> </span></td></tr><tr><th rowspan="3" scope="row">Base64<br>encoded</th><th scope="row">Sextets</th><td colspan="6">19</td><td colspan="6">16</td><td colspan="6" data-sort-value>Padding</td><td colspan="6" data-sort-value>Padding</td></tr><tr><th scope="row">Character</th><td colspan="6">T</td><td colspan="6">Q</td><td colspan="6">=</td><td colspan="6">=</td></tr><tr><th scope="row">Octets</th><td colspan="6">84 (0x54)</td><td colspan="6">81 (0x51)</td><td colspan="6">61 (0x3D)</td><td colspan="6">61 (0x3D)</td></tr></tbody></table>
+
+<h3 id="Output-padding-edit"><a href="#Output-padding-edit" class="headerlink" title="Output padding[edit]"></a>Output padding[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=4" title="Edit section: Output padding">edit</a>]</h3><p>Because Base64 is a six-bit encoding, and because the decoded values are divided into 8-bit octets, every four characters of Base64-encoded text (4 sextets &#x3D; 4 × 6 &#x3D; 24 bits) represents three octets of unencoded text or data (3 octets &#x3D; 3 × 8 &#x3D; 24 bits). This means that when the length of the unencoded input is not a multiple of three, the encoded output must have padding added so that its length is a multiple of four. The padding character is <code>=</code>, which indicates that no further bits are needed to fully encode the input. (This is different from <code>A</code>, which means that the remaining bits are all zeros.) The example below illustrates how truncating the input of the above quote changes the output padding:</p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Output</th>
+<th>Padding</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Text</td>
+<td>Length</td>
+<td>Text</td>
+</tr>
+<tr>
+<td><em>light work.</em></td>
+<td>11</td>
+<td>bGlnaHQgd29yay4&#x3D;</td>
+</tr>
+<tr>
+<td><em>light work</em></td>
+<td>10</td>
+<td>bGlnaHQgd29yaw&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td><em>light wor</em></td>
+<td>9</td>
+<td>bGlnaHQgd29y</td>
+</tr>
+<tr>
+<td><em>light wo</em></td>
+<td>8</td>
+<td>bGlnaHQgd28&#x3D;</td>
+</tr>
+<tr>
+<td><em>light w</em></td>
+<td>7</td>
+<td>bGlnaHQgdw&#x3D;&#x3D;</td>
+</tr>
+</tbody></table>
+<p>The padding character is not essential for decoding, since the number of missing bytes can be inferred from the length of the encoded text. In some implementations, the padding character is mandatory, while for others it is not used. An exception in which padding characters are required is when multiple Base64 encoded files have been concatenated.</p>
+<h3 id="Decoding-Base64-with-padding-edit"><a href="#Decoding-Base64-with-padding-edit" class="headerlink" title="Decoding Base64 with padding[edit]"></a>Decoding Base64 with padding[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=5" title="Edit section: Decoding Base64 with padding">edit</a>]</h3><p>When decoding Base64 text, four characters are typically converted back to three bytes. The only exceptions are when padding characters exist. A single <code>=</code> indicates that the four characters will decode to only two bytes, while <code>==</code> indicates that the four characters will decode to only a single byte. For example:</p>
+<table>
+<thead>
+<tr>
+<th>Encoded</th>
+<th>Padding</th>
+<th>Length</th>
+<th>Decoded</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bGlnaHQgdw&#x3D;&#x3D;</td>
+<td><code>==</code></td>
+<td>1</td>
+<td><em>light w</em></td>
+</tr>
+<tr>
+<td>bGlnaHQgd28&#x3D;</td>
+<td><code>=</code></td>
+<td>2</td>
+<td><em>light wo</em></td>
+</tr>
+<tr>
+<td>bGlnaHQgd29y</td>
+<td>None</td>
+<td>3</td>
+<td><em>light wor</em></td>
+</tr>
+</tbody></table>
+<p>Another way to interpret the padding character is to consider it as an instruction to discard 2 trailing bits from the bit string each time a <code>=</code> is encountered. For example, when `bGlnaHQgdw&#x3D;&#x3D;` is decoded, we convert each character (except the trailing occurrences of <code>=</code>) into their corresponding 6-bit representation, and then discard 2 trailing bits for the first <code>=</code> and another 2 trailing bits for the other <code>=</code>. In this instance, we would get 6 bits from the <code>d</code>, and another 6 bits from the <code>w</code> for a bit string of length 12, but since we remove 2 bits for each <code>=</code> (for a total of 4 bits), the <code>dw==</code> ends up producing 8 bits (1 byte) when decoded.</p>
+<h3 id="Decoding-Base64-without-padding-edit"><a href="#Decoding-Base64-without-padding-edit" class="headerlink" title="Decoding Base64 without padding[edit]"></a>Decoding Base64 without padding[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=6" title="Edit section: Decoding Base64 without padding">edit</a>]</h3><p>Without padding, after normal decoding of four characters to three bytes over and over again, fewer than four encoded characters may remain. In this situation, only two or three characters can remain. A single remaining encoded character is not possible, because a single Base64 character only contains 6 bits, and 8 bits are required to create a byte, so a minimum of two Base64 characters are required: The first character contributes 6 bits, and the second character contributes its first 2 bits. For example:</p>
+<table>
+<thead>
+<tr>
+<th>Length</th>
+<th>Encoded</th>
+<th>Length</th>
+<th>Decoded</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>bGlnaHQgdw</td>
+<td>1</td>
+<td><em>light w</em></td>
+</tr>
+<tr>
+<td>3</td>
+<td>bGlnaHQgd28</td>
+<td>2</td>
+<td><em>light wo</em></td>
+</tr>
+<tr>
+<td>4</td>
+<td>bGlnaHQgd29y</td>
+<td>3</td>
+<td><em>light wor</em></td>
+</tr>
+</tbody></table>
+<h2 id="Implementations-and-history-edit"><a href="#Implementations-and-history-edit" class="headerlink" title="Implementations and history[edit]"></a>Implementations and history[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=7" title="Edit section: Implementations and history">edit</a>]</h2><h3 id="Variants-summary-table-edit"><a href="#Variants-summary-table-edit" class="headerlink" title="Variants summary table[edit]"></a>Variants summary table[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=8" title="Edit section: Variants summary table">edit</a>]</h3><p>Implementations may have some constraints on the alphabet used for representing some bit patterns. This notably concerns the last two characters used in the alphabet at positions 62 and 63, and the character used for padding (which may be mandatory in some protocols or removed in others). The table below summarizes these known variants and provides links to the subsections below.</p>
+<table>
+<thead>
+<tr>
+<th>Encoding</th>
+<th>Encoding characters</th>
+<th>Separate encoding of lines</th>
+<th>Decoding non-encoding characters</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>62nd</td>
+<td>63rd</td>
+<td><em>pad</em></td>
+<td>Separators</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1421">RFC 1421</a>: Base64 for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#Privacy-enhanced_mail">Privacy-Enhanced Mail</a> (deprecated)</td>
+<td><code>+</code></td>
+<td><code>/</code></td>
+<td><code>=</code> mandatory</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2045">RFC 2045</a>: Base64 transfer encoding for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#MIME">MIME</a></td>
+<td><code>+</code></td>
+<td><code>/</code></td>
+<td><code>=</code> mandatory</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2152">RFC 2152</a>: Base64 for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#UTF-7">UTF-7</a></td>
+<td><code>+</code></td>
+<td><code>/</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc3501#section-5.1.3">RFC 3501</a>: Base64 encoding for IMAP mailbox names</td>
+<td><code>+</code></td>
+<td><code>,</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4648#section-4">RFC 4648 §4</a>: base64 (standard)<sup id="cite_ref-common_7-0"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-common-7">[a]</a></sup></td>
+<td><code>+</code></td>
+<td><code>/</code></td>
+<td><code>=</code> optional</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4648#section-5">RFC 4648 §5</a>: base64url (URL- and filename-safe standard)<sup id="cite_ref-common_7-1"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-common-7">[a]</a></sup></td>
+<td><code>-</code></td>
+<td><code>_</code></td>
+<td><code>=</code> optional</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4880">RFC 4880</a>: Radix-64 for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#OpenPGP">OpenPGP</a></td>
+<td><code>+</code></td>
+<td><code>/</code></td>
+<td><code>=</code> mandatory</td>
+</tr>
+<tr>
+<td>Other variations</td>
+<td>see <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#Applications_not_compatible_with_RFC_4648_Base64">Applications not compatible with RFC 4648 Base64</a> (below)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ol>
+<li>^ <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-common_7-0">Jump up to: <sup><i><b>a</b></i></sup></a> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-common_7-1"><sup><i><b>b</b></i></sup></a> It is important to note that this variant is intended to provide common features where they are not desired to be specialized by implementations, ensuring robust engineering. This is particularly in light of separate line encodings and restrictions, which have not been considered when previous standards have been co-opted for use elsewhere. Thus, the features indicated here may be overridden.</li>
+</ol>
+<h3 id="Privacy-enhanced-mail-edit"><a href="#Privacy-enhanced-mail-edit" class="headerlink" title="Privacy-enhanced mail[edit]"></a>Privacy-enhanced mail[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=9" title="Edit section: Privacy-enhanced mail">edit</a>]</h3><p>The first known standardized use of the encoding now called MIME Base64 was in the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Privacy-enhanced_Electronic_Mail" title="Privacy-enhanced Electronic Mail">Privacy-enhanced Electronic Mail</a> (PEM) protocol, proposed by <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc989">989</a> in 1987. PEM defines a “printable encoding” scheme that uses Base64 encoding to transform an arbitrary sequence of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Octet_(computing)" title="Octet (computing)">octets</a> to a format that can be expressed in short lines of 6-bit characters, as required by transfer protocols such as <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SMTP" title="SMTP">SMTP</a>.<sup id="cite_ref-8"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-8">[7]</a></sup></p>
+<p>The current version of PEM (specified in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1421">1421</a>) uses a 64-character alphabet consisting of upper- and lower-case <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Roman_letters" title="Roman letters">Roman letters</a> (<code>A</code>–<code>Z</code>, <code>a</code>–<code>z</code>), the numerals (<code>0</code>–<code>9</code>), and the <code>+</code> and <code>/</code> symbols. The <code>=</code> symbol is also used as a padding suffix.<sup id="cite_ref-rfc_1421_4-1"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-rfc_1421-4">[4]</a></sup> The original specification, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc989">989</a>, additionally used the <code>*</code> symbol to delimit encoded but unencrypted data within the output stream.</p>
+<p>To convert data to PEM printable encoding, the first byte is placed in the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Most_significant_bit" title="Most significant bit">most significant</a> eight bits of a 24-bit <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Data_buffer" title="Data buffer">buffer</a>, the next in the middle eight, and the third in the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Least_significant_bit" title="Least significant bit">least significant</a> eight bits. If there are fewer than three bytes left to encode (or in total), the remaining buffer bits will be zero. The buffer is then used, six bits at a time, most significant first, as indices into the string: “<code>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/</code>“, and the indicated character is output.</p>
+<p>The process is repeated on the remaining data until fewer than four octets remain. If three octets remain, they are processed normally. If fewer than three octets (24 bits) are remaining to encode, the input data is right-padded with zero bits to form an integral multiple of six bits.</p>
+<p>After encoding the non-padded data, if two octets of the 24-bit buffer are padded-zeros, two <code>=</code> characters are appended to the output; if one octet of the 24-bit buffer is filled with padded-zeros, one <code>=</code> character is appended. This signals the decoder that the zero bits added due to padding should be excluded from the reconstructed data. This also guarantees that the encoded output length is a multiple of 4 bytes.</p>
+<p>PEM requires that all encoded lines consist of exactly 64 printable characters, with the exception of the last line, which may contain fewer printable characters. Lines are delimited by whitespace characters according to local (platform-specific) conventions.</p>
+<h3 id="MIME-edit"><a href="#MIME-edit" class="headerlink" title="MIME[edit]"></a>MIME[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=10" title="Edit section: MIME">edit</a>]</h3><p>Main article: <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MIME" title="MIME">MIME</a></p>
+<p>The <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MIME" title="MIME">MIME</a> (Multipurpose Internet Mail Extensions) specification lists Base64 as one of two <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary-to-text_encoding" title="Binary-to-text encoding">binary-to-text encoding</a> schemes (the other being <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Quoted-printable" title="Quoted-printable">quoted-printable</a>).<sup id="cite_ref-RFC_2045_9-0"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-RFC_2045-9">[8]</a></sup> MIME’s Base64 encoding is based on that of the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1421">1421</a> version of PEM: it uses the same 64-character alphabet and encoding mechanism as PEM and uses the <code>=</code> symbol for output padding in the same way, as described at <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2045">2045</a>.</p>
+<p>MIME does not specify a fixed length for Base64-encoded lines, but it does specify a maximum line length of 76 characters. Additionally, it specifies that any character outside the standard set of 64 encoding characters (For example CRLF sequences), must be ignored by a compliant decoder, although most implementations use a CR&#x2F;LF <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Newline" title="Newline">newline</a> pair to delimit encoded lines.</p>
+<p>Thus, the actual length of MIME-compliant Base64-encoded binary data is usually about 137% of the original data length (4⁄3×78⁄76), though for very short messages the overhead can be much higher due to the overhead of the headers. Very roughly, the final size of Base64-encoded binary data is equal to 1.37 times the original data size + 814 bytes (for headers). The size of the decoded data can be approximated with this formula:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bytes = (string_length(encoded_string) − 814) / 1.37</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="UTF-7-edit"><a href="#UTF-7-edit" class="headerlink" title="UTF-7[edit]"></a>UTF-7[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=11" title="Edit section: UTF-7">edit</a>]</h3><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/UTF-7" title="UTF-7">UTF-7</a>, described first in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1642">1642</a>, which was later superseded by <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2152">2152</a>, introduced a system called <em>modified Base64</em>. This data encoding scheme is used to encode <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/UTF-16" title="UTF-16">UTF-16</a> as <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ASCII" title="ASCII">ASCII</a> characters for use in 7-bit transports such as <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SMTP" title="SMTP">SMTP</a>. It is a variant of the Base64 encoding used in MIME.<sup id="cite_ref-10"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-10">[9]</a></sup><sup id="cite_ref-11"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-11">[10]</a></sup></p>
+<p>The “Modified Base64” alphabet consists of the MIME Base64 alphabet, but does not use the “<code>=</code>“ padding character. UTF-7 is intended for use in mail headers (defined in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2047">2047</a>), and the “<code>=</code>“ character is reserved in that context as the escape character for “quoted-printable” encoding. Modified Base64 simply omits the padding and ends immediately after the last Base64 digit containing useful bits leaving up to three unused bits in the last Base64 digit.</p>
+<h3 id="OpenPGP-edit"><a href="#OpenPGP-edit" class="headerlink" title="OpenPGP[edit]"></a>OpenPGP[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=12" title="Edit section: OpenPGP">edit</a>]</h3><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/OpenPGP" title="OpenPGP">OpenPGP</a>, described in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4880">4880</a>, describes <strong>Radix-64</strong> encoding, also known as “<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ASCII_armor" title="ASCII armor">ASCII armor</a>“. Radix-64 is identical to the “Base64” encoding described by MIME, with the addition of an optional 24-bit <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cyclic_redundancy_check" title="Cyclic redundancy check">CRC</a>. The <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Checksum" title="Checksum">checksum</a> is calculated on the input data before encoding; the checksum is then encoded with the same Base64 algorithm and, prefixed by the “<code>=</code>“ symbol as the separator, appended to the encoded output data.<sup id="cite_ref-12"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-12">[11]</a></sup></p>
+<h3 id="RFC-3548-edit"><a href="#RFC-3548-edit" class="headerlink" title="RFC 3548[edit]"></a>RFC 3548[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=13" title="Edit section: RFC 3548">edit</a>]</h3><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc3548">3548</a>, entitled <em>The Base16, Base32, and Base64 Data Encodings</em>, is an informational (non-normative) memo that attempts to unify the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1421">1421</a> and <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2045">2045</a> specifications of Base64 encodings, alternative-alphabet encodings, and the Base32 (which is seldom used) and Base16 encodings.</p>
+<p>Unless implementations are written to a specification that refers to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc3548">3548</a> and specifically requires otherwise, RFC 3548 forbids implementations from generating messages containing characters outside the encoding alphabet or without padding, and it also declares that decoder implementations must reject data that contain characters outside the encoding alphabet.<sup id="cite_ref-rfc_3548_6-1"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-rfc_3548-6">[6]</a></sup></p>
+<h3 id="RFC-4648-edit"><a href="#RFC-4648-edit" class="headerlink" title="RFC 4648[edit]"></a>RFC 4648[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=14" title="Edit section: RFC 4648">edit</a>]</h3><p>This RFC obsoletes RFC 3548 and focuses on Base64&#x2F;32&#x2F;16:</p>
+<p><em>This document describes the commonly used Base64, Base32, and Base16 encoding schemes. It also discusses the use of line feeds in encoded data, the use of padding in encoded data, the use of non-alphabet characters in encoded data, use of different encoding alphabets, and canonical encodings.</em></p>
+<h3 id="URL-applications-edit"><a href="#URL-applications-edit" class="headerlink" title="URL applications[edit]"></a>URL applications[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=15" title="Edit section: URL applications">edit</a>]</h3><p>Base64 encoding can be helpful when fairly lengthy identifying information is used in an HTTP environment. For example, a database persistence framework for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Java_(programming_language)" title="Java (programming language)">Java</a> objects might use Base64 encoding to encode a relatively large unique id (generally 128-bit <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/UUID" title="UUID">UUIDs</a>) into a string for use as an HTTP parameter in HTTP forms or HTTP GET <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Uniform_Resource_Locator" title="Uniform Resource Locator">URLs</a>. Also, many applications need to encode binary data in a way that is convenient for inclusion in URLs, including in hidden web form fields, and Base64 is a convenient encoding to render them in a compact way.</p>
+<p>Using standard Base64 in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/URL" title="URL">URL</a> requires encoding of ‘<code>+</code>‘, ‘<code>/</code>‘ and ‘<code>=</code>‘ characters into special <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Percent-encoding" title="Percent-encoding">percent-encoded</a> hexadecimal sequences (‘<code>+</code>‘ becomes ‘<code>%2B</code>‘, ‘<code>/</code>‘ becomes ‘<code>%2F</code>‘ and ‘<code>=</code>‘ becomes ‘<code>%3D</code>‘), which makes the string unnecessarily longer.</p>
+<p>For this reason, <strong>modified Base64 for URL</strong> variants exist (such as <strong>base64url</strong> in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4648">4648</a>), where the ‘<code>+</code>‘ and ‘<code>/</code>‘ characters of standard Base64 are respectively replaced by ‘<code>-</code>‘ and ‘<code>_</code>‘, so that using <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Percent-encoding" title="Percent-encoding">URL encoders&#x2F;decoders</a> is no longer necessary and has no effect on the length of the encoded value, leaving the same encoded form intact for use in relational databases, web forms, and object identifiers in general. A popular site to make use of such is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/YouTube#Uploading" title="YouTube">YouTube</a>.<sup id="cite_ref-13"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-13">[12]</a></sup> Some variants allow or require omitting the padding ‘<code>=</code>‘ signs to avoid them being confused with field separators, or require that any such padding be percent-encoded. Some libraries<sup>[<i><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Wikipedia:Avoid_weasel_words" title="Wikipedia:Avoid weasel words"><span title="The material near this tag possibly uses too vague attribution or weasel words. (December 2020)">which?</span></a></i>]</sup> will encode ‘<code>=</code>‘ to ‘<code>.</code>‘, potentially exposing applications to relative path attacks when a folder name is encoded from user data.<sup>[<i><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Wikipedia:Citation_needed" title="Wikipedia:Citation needed"><span title="This claim needs references to reliable sources. (June 2022)">citation needed</span></a></i>]</sup></p>
+<h3 id="HTML-edit"><a href="#HTML-edit" class="headerlink" title="HTML[edit]"></a>HTML[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=16" title="Edit section: HTML">edit</a>]</h3><p>The <code>atob()</code> and <code>btoa()</code> JavaScript methods, defined in the HTML5 draft specification,<sup id="cite_ref-14"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-14">[13]</a></sup> provide Base64 encoding and decoding functionality to web pages. The <code>btoa()</code> method outputs padding characters, but these are optional in the input of the <code>atob()</code> method. This is real life example website that uses <code>atob()</code> <a target="_blank" rel="noopener" href="https://base64-encoder.com/">Base64-Encoder</a></p>
+<h3 id="Other-applications-edit"><a href="#Other-applications-edit" class="headerlink" title="Other applications[edit]"></a>Other applications[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=17" title="Edit section: Other applications">edit</a>]</h3><p><a target="_blank" rel="noopener" href="https://upload.wikimedia.org/wikipedia/commons/d/d3/35_mm_angle_of_view_vs_focal_length.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/35_mm_angle_of_view_vs_focal_length.svg/220px-35_mm_angle_of_view_vs_focal_length.svg.png"></a></p>
+<p>Example of an SVG containing embedded JPEG images encoded in Base64<sup id="cite_ref-15"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-15">[14]</a></sup></p>
+<p>Base64 can be used in a variety of contexts:</p>
+<ul>
+<li>Base64 can be used to transmit and store text that might otherwise cause <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Delimiter_collision" title="Delimiter collision">delimiter collision</a></li>
+<li>Base64 is used to encode character strings in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/LDAP_Data_Interchange_Format" title="LDAP Data Interchange Format">LDAP Data Interchange Format</a> files</li>
+<li>Base64 is often used to embed binary data in an <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/XML" title="XML">XML</a> file, using a syntax similar to <code>&lt;data encoding=&quot;base64&quot;&gt;…&lt;/data&gt;</code> e.g. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Favicon" title="Favicon">favicons</a> in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Firefox" title="Firefox">Firefox</a>‘s exported <code>bookmarks.html</code>.</li>
+<li>Base64 is used to encode binary files such as images within scripts, to avoid depending on external files.</li>
+<li>The <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Data_URI_scheme" title="Data URI scheme">data URI scheme</a> can use Base64 to represent file contents. For instance, background images and fonts can be specified in a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cascading_Style_Sheets" title="Cascading Style Sheets">CSS</a> stylesheet file as <code>data:</code> URIs, instead of being supplied in separate files.</li>
+<li>Although not part of the official specification for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SVG" title="SVG">SVG</a>, some viewers can interpret Base64 when used for embedded elements, such as images inside SVG.<sup id="cite_ref-16"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-16">[15]</a></sup></li>
+<li>Base64 can be used to store&#x2F;transmit relatively small amounts of binary data via a computer’s text <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Clipboard_(computing)" title="Clipboard (computing)">clipboard</a> functionality, especially in cases where the information doesn’t warrant being permanently saved or when information must be quickly sent between a wide variety of different, potentially incompatible programs. An example is the representation of the public keys of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cryptocurrency" title="Cryptocurrency">cryptocurrency</a> recipients as Base64 encoded text strings, which can be easily copied and pasted into users’ <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cryptocurrency_wallet" title="Cryptocurrency wallet">wallet software</a>.</li>
+<li>Binary data that must be quickly verified by humans as a safety mechanism, such as <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Checksum" title="Checksum">file checksums</a> or <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Public_key_fingerprint" title="Public key fingerprint">key fingerprints</a>, is often represented in Base64 for easy checking, sometimes with additional formattings, such as separating each group of four characters in the representation of a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy" title="Pretty Good Privacy">PGP</a> key fingerprint with a space.</li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/QR_code" title="QR code">QR codes</a> which contain binary data will sometimes store it encoded in Base64 rather than simply storing the raw binary data, as there is a stronger guarantee that all QR code readers will accurately decode text, as well as the fact that some devices will more readily save text from a QR code than potentially malicious binary data.</li>
+</ul>
+<h3 id="Applications-are-not-compatible-with-RFC-4648-Base64-edit"><a href="#Applications-are-not-compatible-with-RFC-4648-Base64-edit" class="headerlink" title="Applications are not compatible with RFC 4648 Base64[edit]"></a>Applications are not compatible with RFC 4648 Base64[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=18" title="Edit section: Applications are not compatible with RFC 4648 Base64">edit</a>]</h3><p>Some applications use a Base64 alphabet that is significantly different from the alphabets used in the most common Base64 variants (see <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#Variants_summary_table">Variants summary table</a> above).</p>
+<ul>
+<li>The <strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Uuencoding" title="Uuencoding">Uuencoding</a></strong> alphabet includes no lowercase characters, instead using ASCII codes 32 (“ “ (space)) through 95 (“<code>_</code>“), consecutively. Uuencoding uses the alphabet “ <code>!&quot;#$%&amp;&#39;()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_</code>“. Avoiding all lower-case letters was helpful, because many older printers only printed uppercase. Using consecutive ASCII characters saved computing power, because it was only necessary to add 32, without requiring a lookup table. Its use of most punctuation characters and the space character may limit its usefulness in some applications, such as those that use these characters as syntax.<sup>[<i><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Wikipedia:Citation_needed" title="Wikipedia:Citation needed"><span title="This claim needs references to reliable sources. (April 2016)">citation needed</span></a></i>]</sup></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/BinHex" title="BinHex"><strong>BinHex 4</strong></a> (HQX), which was used within the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Classic_Mac_OS" title="Classic Mac OS">classic Mac OS</a>, excludes some visually confusable characters like ‘<code>7</code>‘, ‘<code>O</code>‘, ‘<code>g</code>‘ and ‘<code>o</code>‘. Its alphabet includes additional punctuation characters. It uses the alphabet “<code>!&quot;#$%&amp;&#39;()*+,-012345689@ABCDEFGHIJKLMNPQRSTUVXYZ[`abcdefhijklmpqr</code>“.</li>
+<li>A <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/UTF-8" title="UTF-8">UTF-8</a> environment can use non-synchronized continuation bytes as base64: <code>0b10**xxxxxx**</code>. See <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/UTF-8#Comparison_with_other_encodings" title="UTF-8">UTF-8#Self-synchronization</a>.</li>
+<li>Several other applications use alphabets similar to the common variations, but in a different order:<ul>
+<li>Unix stores password hashes computed with <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Crypt_(C)" title="Crypt (C)"><strong>crypt</strong></a> in the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Passwd#Password_file" title="Passwd"><code>/etc/passwd</code> file</a> using an encoding called B64. crypt’s alphabet puts the punctuation <code>.</code> and <code>/</code> before the alphanumeric characters. crypt uses the alphabet “<code>./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</code>“. Padding is not used.</li>
+<li>The <strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/GEDCOM" title="GEDCOM">GEDCOM</a></strong> 5.5 standard for genealogical data interchange encodes multimedia files in its text-line hierarchical file format. GEDCOM uses the same alphabet as crypt, which is “<code>./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</code>“.<sup id="cite_ref-17"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-17">[16]</a></sup></li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bcrypt" title="Bcrypt">bcrypt</a></strong> hashes are designed to be used in the same way as traditional crypt(3) hashes, but bcrypt’s alphabet is in a different order than crypt’s. bcrypt uses the alphabet “<code>./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</code>“.<sup id="cite_ref-18"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-18">[17]</a></sup></li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Xxencoding" title="Xxencoding">Xxencoding</a></strong> uses a mostly-alphanumeric character set similar to crypt, but using <code>+</code> and <code>-</code> rather than <code>.</code> and <code>/</code>. Xxencoding uses the alphabet “<code>+-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</code>“.</li>
+<li><strong>6PACK</strong>, used with some <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Terminal_node_controller" title="Terminal node controller">terminal node controllers</a>, uses an alphabet from 0x00 to 0x3f.<sup id="cite_ref-19"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-19">[18]</a></sup></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)" title="Bash (Unix shell)"><strong>Bash</strong></a> supports numeric literals in Base64. Bash uses the alphabet “<code>0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@_</code>“.<sup id="cite_ref-20"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_note-20">[19]</a></sup></li>
+</ul>
+</li>
+</ul>
+<p>One issue with the RFC 4648 alphabet is that, when a sorted list of ASCII-encoded strings is Base64-transformed and sorted again, the order of elements changes. This is because the padding character and the characters in the substitution alphabet are not ordered by ASCII character value (which can be seen by using the following sample table’s sort buttons). Alphabets like (unpadded) <em>B64</em> address this.</p>
+<table>
+<thead>
+<tr>
+<th>ASCII</th>
+<th>Base64</th>
+<th>Base64, no padding</th>
+<th>B64</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>light w</em></td>
+<td><code>bGlnaHQgdw==</code></td>
+<td><code>bGlnaHQgdw</code></td>
+<td><code>P4ZbO5EURk</code></td>
+</tr>
+<tr>
+<td><em>light wo</em></td>
+<td><code>bGlnaHQgd28=</code></td>
+<td><code>bGlnaHQgd28</code></td>
+<td><code>P4ZbO5EURqw</code></td>
+</tr>
+<tr>
+<td><em>light wor</em></td>
+<td><code>bGlnaHQgd29y</code></td>
+<td><code>bGlnaHQgd29y</code></td>
+<td><code>P4ZbO5EURqxm</code></td>
+</tr>
+</tbody></table>
+<h2 id="See-also-edit"><a href="#See-also-edit" class="headerlink" title="See also[edit]"></a>See also[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=19" title="Edit section: See also">edit</a>]</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/8BITMIME" title="8BITMIME">8BITMIME</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ascii85" title="Ascii85">Ascii85</a> (also called Base85)</li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base16" title="Base16">Base16</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base32" title="Base32">Base32</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base36" title="Base36">Base36</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base62" title="Base62">Base62</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary-to-text_encoding" title="Binary-to-text encoding">Binary-to-text encoding</a> for a comparison of various encoding algorithms</li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary_number" title="Binary number">Binary number</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/URL" title="URL">URL</a></li>
+</ul>
+<h2 id="References-edit"><a href="#References-edit" class="headerlink" title="References[edit]"></a>References[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Base64&action=edit&section=20" title="Edit section: References">edit</a>]</h2><ol>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-1" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding">“Base64 encoding and decoding – Web APIs”</a>. MDN Web Docs.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-2" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://www.davidbcalhoun.com/2011/when-to-base64-encode-images-and-when-not-to/">“When to base64 encode images (and when not to)”</a>. 28 August 2011.</li>
+<li>^ <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-autogenerated2006_3-0">Jump up to: <sup><i><b>a</b></i></sup></a> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-autogenerated2006_3-1"><sup><i><b>b</b></i></sup></a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4648"><em>The Base16,Base32,and Base64 Data Encodings</em></a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. October 2006. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)">doi</a>:<a target="_blank" rel="noopener" href="https://doi.org/10.17487%2FRFC4648">10.17487&#x2F;RFC4648</a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4648">4648</a>. Retrieved March 18, 2010.</li>
+<li>^ <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-rfc_1421_4-0">Jump up to: <sup><i><b>a</b></i></sup></a> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-rfc_1421_4-1"><sup><i><b>b</b></i></sup></a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1421"><em>Privacy Enhancement for InternetElectronic Mail: Part I: Message Encryption and Authentication Procedures</em></a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. February 1993. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)">doi</a>:<a target="_blank" rel="noopener" href="https://doi.org/10.17487%2FRFC1421">10.17487&#x2F;RFC1421</a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1421">1421</a>. Retrieved March 18, 2010.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-rfc_2045_5-0" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2045"><em>Multipurpose Internet Mail Extensions: (MIME) Part One: Format of Internet Message Bodies</em></a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. November 1996. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)">doi</a>:<a target="_blank" rel="noopener" href="https://doi.org/10.17487%2FRFC2045">10.17487&#x2F;RFC2045</a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2045">2045</a>. Retrieved March 18, 2010.</li>
+<li>^ <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-rfc_3548_6-0">Jump up to: <sup><i><b>a</b></i></sup></a> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-rfc_3548_6-1"><sup><i><b>b</b></i></sup></a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc3548"><em>The Base16, Base32, and Base64 Data Encodings</em></a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. July 2003. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)">doi</a>:<a target="_blank" rel="noopener" href="https://doi.org/10.17487%2FRFC3548">10.17487&#x2F;RFC3548</a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc3548">3548</a>. Retrieved March 18, 2010.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-8" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc989"><em>Privacy Enhancement for Internet Electronic Mail</em></a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. February 1987. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)">doi</a>:<a target="_blank" rel="noopener" href="https://doi.org/10.17487%2FRFC0989">10.17487&#x2F;RFC0989</a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc989">989</a>. Retrieved March 18, 2010.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-RFC_2045_9-0" title="Jump up">^</a></strong> Cite error: The named reference <code>RFC 2045</code> was invoked but never defined (see the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Help:Cite_errors/Cite_error_references_no_text" title="Help:Cite errors/Cite error references no text">help page</a>).</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-10" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1642"><em>UTF-7 A Mail-Safe Transformation Format of Unicode</em></a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. July 1994. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)">doi</a>:<a target="_blank" rel="noopener" href="https://doi.org/10.17487%2FRFC1642">10.17487&#x2F;RFC1642</a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1642">1642</a>. Retrieved March 18, 2010.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-11" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2152"><em>UTF-7 A Mail-Safe Transformation Format of Unicode</em></a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. May 1997. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)">doi</a>:<a target="_blank" rel="noopener" href="https://doi.org/10.17487%2FRFC2152">10.17487&#x2F;RFC2152</a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2152">2152</a>. Retrieved March 18, 2010.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-12" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4880"><em>OpenPGP Message Format</em></a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. November 2007. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)">doi</a>:<a target="_blank" rel="noopener" href="https://doi.org/10.17487%2FRFC4880">10.17487&#x2F;RFC4880</a>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RFC_(identifier)" title="RFC (identifier)">RFC</a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc4880">4880</a>. Retrieved March 18, 2010.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-13" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://www.mentalfloss.com/article/77598/heres-why-youtube-will-never-run-out-unique-video-ids">“Here’s Why YouTube Will Practically Never Run Out of Unique Video IDs”</a>. <em><a target="_blank" rel="noopener" href="http://www.mentalfloss.com/">www.mentalfloss.com</a></em>. 23 March 2016. Retrieved 27 December 2021.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-14" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://w3c.github.io/html/webappapis.html#atob">“7.3. Base64 utility methods”</a>. <em>HTML 5.2 Editor’s Draft</em>. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/World_Wide_Web_Consortium" title="World Wide Web Consortium">World Wide Web Consortium</a>. Retrieved 2 January 2018. Introduced by <a target="_blank" rel="noopener" href="https://html5.org/tools/web-apps-tracker?from=5813&to=5814">changeset 5814</a>, 2021-02-01.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-15" title="Jump up">^</a></strong> &lt;image xlink:href&#x3D;”data:image&#x2F;jpeg;base64,<code>JPEG contents encoded in Base64</code>“ … &#x2F;&gt;</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-16" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="http://jsfiddle.net/MxHPq/">“Edit fiddle”</a>. <em>jsfiddle.net</em>.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-17" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://homepages.rootsweb.ancestry.com/~pmcbride/gedcom/55gctoc.htm">“The GEDCOM Standard Release 5.5”</a>. Homepages.rootsweb.ancestry.com. Retrieved 2012-06-21.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-18" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Niels_Provos" title="Niels Provos">Provos, Niels</a> (1997-02-13). <a target="_blank" rel="noopener" href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/src/lib/libc/crypt/bcrypt.c?rev=1.1&content-type=text/x-cvsweb-markup">“src&#x2F;lib&#x2F;libc&#x2F;crypt&#x2F;bcrypt.c r1.1”</a>. Retrieved 2018-05-18.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-19" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="http://private.freepage.de/cgi-bin/feets/freepage_ext/41030x030A/rewrite/alexs/xfr/flexnet/6pack_en/6pack.htm">“6PACK a “real time” PC to TNC protocol”</a>. Retrieved 2013-05-19.</li>
+<li><strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base64#cite_ref-20" title="Jump up">^</a></strong> <a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/manual/html_node/Shell-Arithmetic.html">“Shell Arithmetic”</a>. <em>Bash Reference Manual</em>. Retrieved 8 April 2020. Otherwise, numbers take the form [base#]n, where the optional base is a decimal number between 2 and 64 representing the arithmetic base, and n is a number in that base.</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/Code/Base64/" data-id="clmdkem8q000vuotb99mtcq3l" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Database/全密态数据库" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/" class="article-date">
@@ -105,7 +778,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/" data-id="clfs7dy2l000xpktbbn5q4l3s" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/" data-id="clmdkem8p000suotb5tt8abfh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -151,7 +824,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/28/Redis/msg/" data-id="clfs7dy33001mpktbgsg8h30r" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/28/Redis/msg/" data-id="clmdkem99001uuotb5wwlhmny" class="article-share-link">Share</a>
       
       
     </footer>
@@ -252,315 +925,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/21/ChatGpt/Questions/" data-id="clfs7dy27000fpktb1wdsfs6z" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Questions/问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/21/Questions/%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2023-03-21T12:34:15.752Z" itemprop="datePublished">2023-03-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/21/Questions/%E9%97%AE%E9%A2%98/">Questions</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="脚本问题"><a href="#脚本问题" class="headerlink" title="脚本问题"></a>脚本问题</h1><h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><ol>
-<li>windows脚本不断重复执行同一条命令<br>原因: 脚本名和cmd系统命令重复</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/21/Questions/%E9%97%AE%E9%A2%98/" data-id="clfs7dy30001ipktb5yu14hx3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Shell/read" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/20/Shell/read/" class="article-date">
-  <time datetime="2023-03-20T12:42:02.025Z" itemprop="datePublished">2023-03-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/shell/">shell</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/20/Shell/read/">read</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
-<p><strong>代码1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/20/Shell/read/" data-id="clfs7dy37001tpktb5q0o8lf6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Shell/常用命令" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
-  <time datetime="2023-03-20T12:41:56.337Z" itemprop="datePublished">2023-03-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/shell/">shell</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">常用命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
-<li>杀死进程</li>
-</ol>
-<p>#####查找tomcat进程<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’<br>#####查找tomcat进程并杀死<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’ | xargs kill -9  </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="clfs7dy35001qpktb2xw4by25" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-GDB/命令" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/" class="article-date">
-  <time datetime="2023-03-20T12:41:42.735Z" itemprop="datePublished">2023-03-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/GDB/">GDB</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/">命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
-<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/" data-id="clfs7dy29000hpktb3xio2if7" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Shell/if" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/19/Shell/if/" class="article-date">
-  <time datetime="2023-03-19T14:13:48.539Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Shell/">Shell</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/19/Shell/if/">Shell IF语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="SHELL-IF-语法"><a href="#SHELL-IF-语法" class="headerlink" title="SHELL IF 语法"></a>SHELL IF 语法</h1><p>if [ -f file ]; then<br>   echo “yes yes yes”<br>elif [ -z file ]; then<br>   echo “yes yes”<br>else<br>   echo “nonono”<br>fi</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/Shell/if/" data-id="clfs7dy34001ppktb0lvccbpo" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Redis/集合" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/19/Redis/%E9%9B%86%E5%90%88/" class="article-date">
-  <time datetime="2023-03-19T14:13:48.528Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Redis/">Redis</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/19/Redis/%E9%9B%86%E5%90%88/">集合</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
-<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
-<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
-<p><img src="/../images/Redis_1.webp"></p>
-<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
-<ol>
-<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
-<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
-<li>skiplist实现简单</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/Redis/%E9%9B%86%E5%90%88/" data-id="clfs7dy32001lpktba1sc7ro9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Redis/Hash" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/19/Redis/Hash/" class="article-date">
-  <time datetime="2023-03-19T14:13:48.524Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Redis/">Redis</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/19/Redis/Hash/">Hash</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Hash算法"><a href="#Hash算法" class="headerlink" title="Hash算法"></a>Hash算法</h2><p>Redis4.0之前使用的Hash算法是MurmurHash, 即使输入的键是有规律的, 该算法计算的结果依然有很好的离散性, 并且计算速度非常快. Redis4.0开始更换为SipHash算法, 应该是出于安全的考虑, 该算法能有效防止Hash表碰撞<br>攻击, 并提供不错的性能</p>
-<blockquote>
-<h3 id="SipHash"><a href="#SipHash" class="headerlink" title="SipHash"></a>SipHash</h3><p>大部分非加密哈希算法的改良，都集中在让哈希速度更快更好上。SipHash 则是个异类，它的提出是为了<a target="_blank" rel="noopener" href="http://emboss.github.io/blog/2012/12/14/breaking-murmur-hash-flooding-dos-reloaded/">解决一类安全问题</a>：hash flooding。通过让&gt; 输出随机化，SipHash 能够有效减缓 hash flooding 攻击。凭借这一点，它逐渐成为 Ruby、Python、Rust 等语言默认的 hash 表实现的一部分。<br>如果你愿意尝试下新技术，可以看看 2016 新出的 <a target="_blank" rel="noopener" href="https://github.com/google/highwayhash">HighwayHash</a>。它宣称可以达到 SipHash 一样的效果，并且凭借 SIMD 的加持，在运算速度上它是 SipHash 的 5.2 倍（参考来源：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1612.06257">https://arxiv.>  org/abs/1612.06257</a> ）。</p>
-</blockquote>
-<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>把ht[0]上的数据迁移到ht[1]shang</p>
-<p>size调整为2的n次幂, 为了ht[1]Hash表数据长度是ht[0]Hash表数据长度的倍数, 有利于ht[0]的数据均匀地迁移到ht[1]</p>
-<p><strong>Hash&amp;ht.sizemask, sizemask&#x3D;size-1, idx&#x3D;hash%(ht.size)</strong>, 因此, 假如ht[0].size为0, ht[1].size&#x3D;2*n, 对于ht[0]上的元素, ht[0].table[k]的数据, 要不迁移到ht[1].table[k], 要不迁移到ht[1].table[k+n]</p>
-<h2 id="缩容"><a href="#缩容" class="headerlink" title="缩容"></a>缩容</h2><p>执行删除操作后, Redis会检查字典是否需要缩容, 当Hash表长度大于4且负载因子小于0.1时, 会执行缩容操作, 以节省内存</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis字典使用SipHash算法计算Hash值, 并使用链表法处理Hash冲突<br>Redis字段使用渐进式扩容方法, 在每次数据操作中都执行一次扩容单步操作, 直到扩容完成<br>散列类型的编码格式可以为OBJ_ENCODING_HT, OBJ_ENCODING_ZIPLIST  </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/19/Redis/Hash/" data-id="clfs7dy2z001hpktbbm4oad4m" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/03/21/ChatGpt/Questions/" data-id="clmdkem91001kuotbdv005k8c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -585,7 +950,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Do-not-edit/">Do not edit</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Encryption/">Encryption</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
     </div>
   </div>
 
@@ -614,7 +979,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
     </div>
   </div>
 
@@ -627,23 +992,23 @@
       <ul>
         
           <li>
-            <a href="/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/">全密态数据库</a>
+            <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/">Do not edit</a>
           </li>
         
           <li>
-            <a href="/2023/03/28/Redis/msg/">msg</a>
+            <a href="/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2023/03/21/ChatGpt/Questions/">对话记录</a>
+            <a href="/2023/09/10/GDB%20copy/%E6%B1%87%E7%BC%96/">汇编调试</a>
           </li>
         
           <li>
-            <a href="/2023/03/21/Questions/%E9%97%AE%E9%A2%98/">Questions</a>
+            <a href="/2023/09/10/GDB%20copy/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/">GDB调试忽略信号</a>
           </li>
         
           <li>
-            <a href="/2023/03/20/Shell/read/">read</a>
+            <a href="/2023/09/10/GDB%20copy/%E5%91%BD%E4%BB%A4/">命令</a>
           </li>
         
       </ul>
