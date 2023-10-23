@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>/2023/03/19/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<ul>
+<li><input checked disabled type="checkbox"> Write the press release</li>
+<li><input disabled type="checkbox"> Update the website</li>
+<li><input disabled type="checkbox"> Contact the media</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2023/03/19/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -17,55 +31,6 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/03/19/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<ul>
-<li><input checked disabled type="checkbox"> Write the press release</li>
-<li><input disabled type="checkbox"> Update the website</li>
-<li><input disabled type="checkbox"> Contact the media</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>静态成员</title>
-    <url>/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/</url>
-    <content><![CDATA[<h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>我们可以使用 <strong>static</strong> 关键字来把类成员定义为静态的。当我们声明类的成员为静态时，这意味着无论创建多少个类的对象，静态成员都只有一个副本。</p>
-<p>静态成员在类的所有对象中是共享的。如果不存在其他的初始化语句，在创建第一个对象时，所有的静态数据都会被初始化为零。我们不能把静态成员的初始化放置在类的定义中，但是可以在类的外部通过使用范围解析运算符 <strong>::</strong> 来重新声明静态变量从而对它进行初始化，如下面的实例所示。</p>
-<h1 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h1><p>如果把函数成员声明为静态的，就可以把函数与类的任何特定对象独立开来。静态成员函数即使在类对象不存在的情况下也能被调用，<strong>静态函数</strong>只要使用类名加范围解析运算符 <strong>::</strong> 就可以访问。</p>
-<p>静态成员函数只能访问静态成员数据、其他静态成员函数和类外部的其他函数。</p>
-<p>静态成员函数有一个类范围，他们不能访问类的 this 指针。您可以使用静态成员函数来判断类的某些对象是否已被创建。</p>
-<blockquote>
-<p><strong>静态成员函数与普通成员函数的区别：</strong></p>
-<ul>
-<li>静态成员函数没有 this 指针，只能访问静态成员（包括静态成员变量和静态成员函数）。</li>
-<li>普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针。</li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>内联函数</title>
-    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
   </entry>
   <entry>
     <title>Epoll</title>
@@ -95,6 +60,153 @@
 ]]></content>
       <categories>
         <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>柔性数组</title>
+    <url>/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
+<p>柔型数组有两种定义方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<p>有些编译器会报错无法编译可以改成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
+<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
+<p><img src="/images/C_1.png"></p>
+<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/C_2.png"></p>
+<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
+<p><img src="/images/C_3.png"></p>
+<p>如果想增加数组元素，使用realloc调整结构体大小</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
+<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>对话记录</title>
+    <url>/2023/03/21/ChatGpt/Questions/</url>
+    <content><![CDATA[<h1 id="对话记录"><a href="#对话记录" class="headerlink" title="对话记录"></a>对话记录</h1><p>1. </p>
+<h2 id="Question"><a href="#Question" class="headerlink" title="Question :"></a>Question :</h2><p>the bignum  generated by bn_bin2bn needs to be free&gt;</p>
+<h2 id="Answer"><a href="#Answer" class="headerlink" title="Answer :"></a>Answer :</h2><p>As an AI language model, I don’t have enough context to understand what you’re referring to. Can you please provide more information or context so I can better assist you?</p>
+<p>2. </p>
+<h2 id="Question-1"><a href="#Question-1" class="headerlink" title="Question :"></a>Question :</h2><p>the bignum  generated by bn_bin2bn needs to be free?</p>
+<h2 id="Answer-1"><a href="#Answer-1" class="headerlink" title="Answer :"></a>Answer :</h2><p>As a language model, I can infer that you might be referring to the OpenSSL library function <code>bn_bin2bn()</code>, which converts an array of bytes to a BIGNUM (big integer) structure. If that’s the case, then yes, you would need to free the BIGNUM object returned by <code>bn_bin2bn()</code> after you’re done using it to avoid memory leaks. You can do this by calling the <code>BN_free()</code> function on the BIGNUM object.</p>
+<p>3. </p>
+<h2 id="Question-2"><a href="#Question-2" class="headerlink" title="Question :"></a>Question :</h2><p>how to use bn_bin2bn?</p>
+<h2 id="Answer-2"><a href="#Answer-2" class="headerlink" title="Answer :"></a>Answer :</h2><p>bn_bin2bn()  is a function provided by the OpenSSL library that converts an array of bytes to a BIGNUM (big integer) structure. Here’s an example of how you can use it:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/bn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// The byte array you want to convert to a BIGNUM</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> bytes[] = &#123;<span class="number">0x02</span>, <span class="number">0x4A</span>, <span class="number">0xFC</span>, <span class="number">0x1A</span>, <span class="number">0x6F</span>&#125;;</span><br><span class="line">    <span class="type">int</span> numBytes = <span class="keyword">sizeof</span>(bytes) / <span class="keyword">sizeof</span>(bytes[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a new BIGNUM object and convert the byte array to it</span></span><br><span class="line">    BIGNUM *bn = BN_bin2bn(bytes, numBytes, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (!bn) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do something with the BIGNUM...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Free the BIGNUM object to avoid memory leaks</span></span><br><span class="line">    BN_free(bn);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The  BN_bin2bn()  function takes three parameters: </p>
+<ol>
+<li>const unsigned char *s : A pointer to the byte array you want to convert to a BIGNUM. </li>
+<li>int len : The length of the byte array. </li>
+<li>BIGNUM *ret : A pointer to a BIGNUM object that will hold the converted value.</li>
+</ol>
+<p>If everything goes well,  BN_bin2bn()  returns a pointer to the BIGNUM object that holds the converted value. Don’t forget to free the BIGNUM object when you’re done with it, using the  BN_free()  function.<br>Question :</p>
+<p>the third parameter of bn_bin2bn is same to the return value of that function?<br>Answer :</p>
+<p>Share icon<br>Yes, the third parameter ( BIGNUM *ret ) of the  BN_bin2bn()  function is used to pass a pointer to a BIGNUM object in which the converted big integer will be stored. If the conversion is successful, the function returns the same pointer as the third parameter, which points to the BIGNUM object.  </p>
+<p>Here is an example of how you can use  BN_bin2bn()  and its return value:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/bn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> bin[] = &#123;<span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>&#125;;</span><br><span class="line">    <span class="type">int</span> len = <span class="keyword">sizeof</span>(bin);</span><br><span class="line">    BIGNUM *bn = <span class="literal">NULL</span>;</span><br><span class="line">    bn = BN_bin2bn(bin, len, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (bn == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do something with bn</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Free the memory used by bn</span></span><br><span class="line">    BN_free(bn);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In this example,  BN_bin2bn()  is used to convert the  bin  byte array into a BIGNUM. The  NULL  as the third parameter tells the function to create a new BIGNUM object to store the converted big integer. If the conversion is successful,  bn  will hold the pointer to the new BIGNUM object. After using  bn , you should free its memory by calling  BN_free(bn) .<br>Question :</p>
+<p>how to use DH_new?<br>Answer :</p>
+<p>Share icon<br>DH_new()  is a function provided by the OpenSSL library that creates a new  DH  (Diffie-Hellman) key exchange. Here is an example of how to use  DH_new() :</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/dh.h&gt;</span></span></span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Create a new DH object</span></span><br><span class="line">    DH *dh = DH_new();</span><br><span class="line">    <span class="keyword">if</span> (!dh) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Do something with the DH object...</span></span><br><span class="line">     <span class="comment">// Free the DH object to avoid memory leaks</span></span><br><span class="line">    DH_free(dh);</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The  DH_new()  function creates a new  DH  object and initializes it with default values. If the function returns  NULL , it means that an error occurred and you should handle it appropriately. Once you’re finished with the  DH  object, you should free it by calling  DH_free(dh)  to avoid memory leaks.</p>
+<p>4. </p>
+<h2 id="Question-3"><a href="#Question-3" class="headerlink" title="Question :"></a>Question :</h2><p>how to user “for” in shell?</p>
+<h2 id="Answer-3"><a href="#Answer-3" class="headerlink" title="Answer :"></a>Answer :</h2><p>In shell scripting, a  for  loop is used for repeating a set of commands for a specified number of times. The syntax of the  for  loop in shell is as follows:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">for variable in list</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>Here,  variable  represents a variable that will take on the value of each item in the  list , and  command1 ,  command2 , and so on represent the commands that will be executed for each item in the  list . </p>
+<p>Here is an example of using a  for  loop in shell:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Define a list of files</span></span><br><span class="line">files=(&quot;file1.txt&quot; &quot;file2.txt&quot; &quot;file3.txt&quot;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Loop through each file <span class="keyword">in</span> the list</span></span><br><span class="line">for file in &quot;$&#123;files[@]&#125;&quot;</span><br><span class="line">do</span><br><span class="line">    echo &quot;Processing file: $file&quot;</span><br><span class="line">    # Add your commands to process the file here</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>This example shows how to loop over a list of files and perform some action on each file. You can modify this example to use your own list of items and commands.</p>
+<p>5. </p>
+<h2 id="Question-4"><a href="#Question-4" class="headerlink" title="Question :"></a>Question :</h2><p>in shell, how to loop n times?</p>
+<h2 id="Answer-4"><a href="#Answer-4" class="headerlink" title="Answer :"></a>Answer :</h2><p>In shell scripting, you can loop a specified number of times using a  for  loop with a numeric sequence. Here’s an example of how to loop  n  times in shell:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"> # </span><span class="language-bash">Set the number of loops you want to perform</span></span><br><span class="line">n=10</span><br><span class="line"><span class="meta prompt_"> # </span><span class="language-bash">Loop n <span class="built_in">times</span></span></span><br><span class="line">for i in $(seq 1 $n)</span><br><span class="line">do</span><br><span class="line">    echo &quot;This is loop number $i&quot;</span><br><span class="line">    # Add your commands to be executed here</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>In this example, we’ve set the value of  n  to 10, so the loop will execute 10 times. We use the  seq  command to generate a sequence of numbers from 1 to  n  and use this sequence in the  for  loop. You can replace  echo “This is loop number $i”  with any commands you want to execute in each iteration of the loop.</p>
+<p>6. </p>
+<h2 id="Question-5"><a href="#Question-5" class="headerlink" title="Question :"></a>Question :</h2><p>how to show file context when it is changing in linux shell?</p>
+<h2 id="Answer-5"><a href="#Answer-5" class="headerlink" title="Answer :"></a>Answer :</h2><p>In Linux shell, you can use the  tail  command with the  -f  option to view the contents of a file as it changes in real-time. Here’s an example:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tail -f /path/to/file.log</span><br></pre></td></tr></table></figure>
+<p>This command will display the last 10 lines of the file specified by  &#x2F;path&#x2F;to&#x2F;file.log  and then keep the file open and display any new content that is appended to the end of the file. As new lines are added to the file, they will be displayed in the terminal.<br>You can use  Ctrl + C  to stop the  tail  command and return to the command prompt.</p>
+<p>7. </p>
+<h2 id="Question-6"><a href="#Question-6" class="headerlink" title="Question :"></a>Question :</h2><p>why DH_compute_key error with stack like SLL_next failed?</p>
+<h2 id="Answer-6"><a href="#Answer-6" class="headerlink" title="Answer :"></a>Answer :</h2><p>The error “SLL_next failed” usually occurs when there is an issue with the OpenSSL library’s linked list data structure. This error can occur for several reasons, but most commonly it happens when there is a memory corruption or invalid pointer. </p>
+<p>When using <code>DH_compute_key()</code> function in OpenSSL to compute a shared secret key using Diffie-Hellman key exchange, make sure that you have properly initialized the DH object before calling this function. Also, check that both parties have the same DH parameters (p, g, and possibly q) and that their public keys have been exchanged correctly. </p>
+<p>If you continue to encounter the “SLL_next failed” error, you may need to debug your code and look for any memory corruption or invalid pointer issues. You can use memory profiling tools like Valgrind to help in this process or consider reviewing and improving your code.</p>
+<p>8. </p>
+<h2 id="Question-7"><a href="#Question-7" class="headerlink" title="Question"></a>Question</h2><p>how to find the version of a lib?</p>
+<h2 id="Answer-7"><a href="#Answer-7" class="headerlink" title="Answer :"></a>Answer :</h2><p>To find the version of a library in Linux or Unix-based systems, you can use the  ldd  command followed by the path to the library file. Here is the syntax for the command:<br>ldd &#x2F;path&#x2F;to&#x2F;library<br>When you run this command, it will display the libraries that the specified library depends on, along with their paths. The version of each library should be listed next to the library name.  </p>
+<p>Alternatively, you can also use the  strings  command to search for the version string in the library. Here is the syntax for the command:<br>strings &#x2F;path&#x2F;to&#x2F;library | grep LIBRARY_NAME<br>Replace  LIBRARY_NAME  with the name of the library you want to find the version string for. This command will search for all occurrences of the specified library name in the library file and display any version strings that it finds.</p>
+<p>9. </p>
+<h2 id="Question-8"><a href="#Question-8" class="headerlink" title="Question :"></a>Question :</h2><p>how to use DH_generate_key?</p>
+<h2 id="Answer-8"><a href="#Answer-8" class="headerlink" title="Answer :"></a>Answer :</h2><p>DH_generate_key()  is a function provided by the OpenSSL library that generates a new Diffie-Hellman key pair. Here is an example of how to use  DH_generate_key()  with  DH_new() :</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/dh.h&gt;</span></span></span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Create a new DH object</span></span><br><span class="line">    DH *dh = DH_new();</span><br><span class="line">    <span class="keyword">if</span> (!dh) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Generate a new key pair</span></span><br><span class="line">    <span class="keyword">if</span> (DH_generate_key(dh) != <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Do something with the DH object...</span></span><br><span class="line">     <span class="comment">// Free the DH object to avoid memory leaks</span></span><br><span class="line">    DH_free(dh);</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In this example,  DH_new()  is used to create a new  DH  object.  DH_generate_key()  is then called to generate a new key pair for the  DH  object. If the function returns a value other than  1 , it means that an error occurred and you should handle it appropriately. Once you’re finished with the  DH  object, you should free it by calling  DH_free(dh)  to avoid memory leaks. </p>
+<p>After the key pair is generated, you can access the private key using the  priv_key  member of the  DH  object and the public key using the  pub_key  member. For example: </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">BIGNUM *private_key = dh-&gt;priv_key; </span><br><span class="line">BIGNUM *public_key = dh-&gt;pub_key; </span><br></pre></td></tr></table></figure>
+<p>You can then use these keys to perform a Diffie-Hellman key exchange to generate a shared secret key between two parties.</p>
+]]></content>
+      <categories>
+        <category>ChatGPT</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Skiplist</title>
+    <url>/2023/03/19/C/%E8%B7%B3%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>AES_NI</title>
+    <url>/2023/09/10/Encryption/AES_NI/</url>
+    <content><![CDATA[<h1 id="AES-NI"><a href="#AES-NI" class="headerlink" title="AES_NI"></a>AES_NI</h1><h2 id="How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System"><a href="#How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System" class="headerlink" title="How to find out AES-NI (Advanced Encryption) Enabled on Linux System"></a>How to find out AES-NI (Advanced Encryption) Enabled on Linux System</h2><p>One can find out that the processor has the AES&#x2F;AES-NI instruction set using the lscpu command:</p>
+<blockquote>
+<p>lscpu</p>
+</blockquote>
+<p>Type the following grep command to make sure that the processor has the AES instruction set and enabled in the BIOS:</p>
+<blockquote>
+<p>grep -o aes &#x2F;proc&#x2F;cpuinfo</p>
+</blockquote>
+<p>OR</p>
+<blockquote>
+<p>grep -m1 -o aes &#x2F;proc&#x2F;cpuinfo</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Encryption</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>全密态数据库</title>
+    <url>/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="全密态数据库"><a href="#全密态数据库" class="headerlink" title="全密态数据库"></a>全密态数据库</h1><p>可信硬件(TEE)</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性:"></a>特性:</h2><ol>
+<li><p>密钥管理</p>
+</li>
+<li><p>索引</p>
+</li>
+<li><p>TEE计算</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Database</category>
       </categories>
   </entry>
   <entry>
@@ -194,114 +306,113 @@
       </tags>
   </entry>
   <entry>
-    <title>柔性数组</title>
-    <url>/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
-<p>柔型数组有两种定义方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<p>有些编译器会报错无法编译可以改成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
-<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
-<p><img src="/images/C_1.png"></p>
-<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/C_2.png"></p>
-<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
-<p><img src="/images/C_3.png"></p>
-<p>如果想增加数组元素，使用realloc调整结构体大小</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
-<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
+    <title>内联函数</title>
+    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
 ]]></content>
       <categories>
         <category>C/C++</category>
       </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
   </entry>
   <entry>
-    <title>Skiplist</title>
-    <url>/2023/03/19/C/%E8%B7%B3%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
+    <title>静态成员</title>
+    <url>/2023/02/12/C++/C++%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98/</url>
+    <content><![CDATA[<h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>我们可以使用 <strong>static</strong> 关键字来把类成员定义为静态的。当我们声明类的成员为静态时，这意味着无论创建多少个类的对象，静态成员都只有一个副本。</p>
+<p>静态成员在类的所有对象中是共享的。如果不存在其他的初始化语句，在创建第一个对象时，所有的静态数据都会被初始化为零。我们不能把静态成员的初始化放置在类的定义中，但是可以在类的外部通过使用范围解析运算符 <strong>::</strong> 来重新声明静态变量从而对它进行初始化，如下面的实例所示。</p>
+<h1 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h1><p>如果把函数成员声明为静态的，就可以把函数与类的任何特定对象独立开来。静态成员函数即使在类对象不存在的情况下也能被调用，<strong>静态函数</strong>只要使用类名加范围解析运算符 <strong>::</strong> 就可以访问。</p>
+<p>静态成员函数只能访问静态成员数据、其他静态成员函数和类外部的其他函数。</p>
+<p>静态成员函数有一个类范围，他们不能访问类的 this 指针。您可以使用静态成员函数来判断类的某些对象是否已被创建。</p>
+<blockquote>
+<p><strong>静态成员函数与普通成员函数的区别：</strong></p>
+<ul>
+<li>静态成员函数没有 this 指针，只能访问静态成员（包括静态成员变量和静态成员函数）。</li>
+<li>普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针。</li>
+</ul>
+</blockquote>
 ]]></content>
       <categories>
         <category>C/C++</category>
       </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
   </entry>
   <entry>
-    <title>对话记录</title>
-    <url>/2023/03/21/ChatGpt/Questions/</url>
-    <content><![CDATA[<h1 id="对话记录"><a href="#对话记录" class="headerlink" title="对话记录"></a>对话记录</h1><p>1. </p>
-<h2 id="Question"><a href="#Question" class="headerlink" title="Question :"></a>Question :</h2><p>the bignum  generated by bn_bin2bn needs to be free&gt;</p>
-<h2 id="Answer"><a href="#Answer" class="headerlink" title="Answer :"></a>Answer :</h2><p>As an AI language model, I don’t have enough context to understand what you’re referring to. Can you please provide more information or context so I can better assist you?</p>
-<p>2. </p>
-<h2 id="Question-1"><a href="#Question-1" class="headerlink" title="Question :"></a>Question :</h2><p>the bignum  generated by bn_bin2bn needs to be free?</p>
-<h2 id="Answer-1"><a href="#Answer-1" class="headerlink" title="Answer :"></a>Answer :</h2><p>As a language model, I can infer that you might be referring to the OpenSSL library function <code>bn_bin2bn()</code>, which converts an array of bytes to a BIGNUM (big integer) structure. If that’s the case, then yes, you would need to free the BIGNUM object returned by <code>bn_bin2bn()</code> after you’re done using it to avoid memory leaks. You can do this by calling the <code>BN_free()</code> function on the BIGNUM object.</p>
-<p>3. </p>
-<h2 id="Question-2"><a href="#Question-2" class="headerlink" title="Question :"></a>Question :</h2><p>how to use bn_bin2bn?</p>
-<h2 id="Answer-2"><a href="#Answer-2" class="headerlink" title="Answer :"></a>Answer :</h2><p>bn_bin2bn()  is a function provided by the OpenSSL library that converts an array of bytes to a BIGNUM (big integer) structure. Here’s an example of how you can use it:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/bn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// The byte array you want to convert to a BIGNUM</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> bytes[] = &#123;<span class="number">0x02</span>, <span class="number">0x4A</span>, <span class="number">0xFC</span>, <span class="number">0x1A</span>, <span class="number">0x6F</span>&#125;;</span><br><span class="line">    <span class="type">int</span> numBytes = <span class="keyword">sizeof</span>(bytes) / <span class="keyword">sizeof</span>(bytes[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a new BIGNUM object and convert the byte array to it</span></span><br><span class="line">    BIGNUM *bn = BN_bin2bn(bytes, numBytes, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (!bn) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do something with the BIGNUM...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Free the BIGNUM object to avoid memory leaks</span></span><br><span class="line">    BN_free(bn);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The  BN_bin2bn()  function takes three parameters: </p>
-<ol>
-<li>const unsigned char *s : A pointer to the byte array you want to convert to a BIGNUM. </li>
-<li>int len : The length of the byte array. </li>
-<li>BIGNUM *ret : A pointer to a BIGNUM object that will hold the converted value.</li>
+    <title>命令</title>
+    <url>/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
+<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
 </ol>
-<p>If everything goes well,  BN_bin2bn()  returns a pointer to the BIGNUM object that holds the converted value. Don’t forget to free the BIGNUM object when you’re done with it, using the  BN_free()  function.<br>Question :</p>
-<p>the third parameter of bn_bin2bn is same to the return value of that function?<br>Answer :</p>
-<p>Share icon<br>Yes, the third parameter ( BIGNUM *ret ) of the  BN_bin2bn()  function is used to pass a pointer to a BIGNUM object in which the converted big integer will be stored. If the conversion is successful, the function returns the same pointer as the third parameter, which points to the BIGNUM object.  </p>
-<p>Here is an example of how you can use  BN_bin2bn()  and its return value:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/bn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> bin[] = &#123;<span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>&#125;;</span><br><span class="line">    <span class="type">int</span> len = <span class="keyword">sizeof</span>(bin);</span><br><span class="line">    BIGNUM *bn = <span class="literal">NULL</span>;</span><br><span class="line">    bn = BN_bin2bn(bin, len, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (bn == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do something with bn</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Free the memory used by bn</span></span><br><span class="line">    BN_free(bn);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>In this example,  BN_bin2bn()  is used to convert the  bin  byte array into a BIGNUM. The  NULL  as the third parameter tells the function to create a new BIGNUM object to store the converted big integer. If the conversion is successful,  bn  will hold the pointer to the new BIGNUM object. After using  bn , you should free its memory by calling  BN_free(bn) .<br>Question :</p>
-<p>how to use DH_new?<br>Answer :</p>
-<p>Share icon<br>DH_new()  is a function provided by the OpenSSL library that creates a new  DH  (Diffie-Hellman) key exchange. Here is an example of how to use  DH_new() :</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/dh.h&gt;</span></span></span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Create a new DH object</span></span><br><span class="line">    DH *dh = DH_new();</span><br><span class="line">    <span class="keyword">if</span> (!dh) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Do something with the DH object...</span></span><br><span class="line">     <span class="comment">// Free the DH object to avoid memory leaks</span></span><br><span class="line">    DH_free(dh);</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The  DH_new()  function creates a new  DH  object and initializes it with default values. If the function returns  NULL , it means that an error occurred and you should handle it appropriately. Once you’re finished with the  DH  object, you should free it by calling  DH_free(dh)  to avoid memory leaks.</p>
-<p>4. </p>
-<h2 id="Question-3"><a href="#Question-3" class="headerlink" title="Question :"></a>Question :</h2><p>how to user “for” in shell?</p>
-<h2 id="Answer-3"><a href="#Answer-3" class="headerlink" title="Answer :"></a>Answer :</h2><p>In shell scripting, a  for  loop is used for repeating a set of commands for a specified number of times. The syntax of the  for  loop in shell is as follows:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">for variable in list</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>Here,  variable  represents a variable that will take on the value of each item in the  list , and  command1 ,  command2 , and so on represent the commands that will be executed for each item in the  list . </p>
-<p>Here is an example of using a  for  loop in shell:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Define a list of files</span></span><br><span class="line">files=(&quot;file1.txt&quot; &quot;file2.txt&quot; &quot;file3.txt&quot;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Loop through each file <span class="keyword">in</span> the list</span></span><br><span class="line">for file in &quot;$&#123;files[@]&#125;&quot;</span><br><span class="line">do</span><br><span class="line">    echo &quot;Processing file: $file&quot;</span><br><span class="line">    # Add your commands to process the file here</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>This example shows how to loop over a list of files and perform some action on each file. You can modify this example to use your own list of items and commands.</p>
-<p>5. </p>
-<h2 id="Question-4"><a href="#Question-4" class="headerlink" title="Question :"></a>Question :</h2><p>in shell, how to loop n times?</p>
-<h2 id="Answer-4"><a href="#Answer-4" class="headerlink" title="Answer :"></a>Answer :</h2><p>In shell scripting, you can loop a specified number of times using a  for  loop with a numeric sequence. Here’s an example of how to loop  n  times in shell:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"> # </span><span class="language-bash">Set the number of loops you want to perform</span></span><br><span class="line">n=10</span><br><span class="line"><span class="meta prompt_"> # </span><span class="language-bash">Loop n <span class="built_in">times</span></span></span><br><span class="line">for i in $(seq 1 $n)</span><br><span class="line">do</span><br><span class="line">    echo &quot;This is loop number $i&quot;</span><br><span class="line">    # Add your commands to be executed here</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>In this example, we’ve set the value of  n  to 10, so the loop will execute 10 times. We use the  seq  command to generate a sequence of numbers from 1 to  n  and use this sequence in the  for  loop. You can replace  echo “This is loop number $i”  with any commands you want to execute in each iteration of the loop.</p>
-<p>6. </p>
-<h2 id="Question-5"><a href="#Question-5" class="headerlink" title="Question :"></a>Question :</h2><p>how to show file context when it is changing in linux shell?</p>
-<h2 id="Answer-5"><a href="#Answer-5" class="headerlink" title="Answer :"></a>Answer :</h2><p>In Linux shell, you can use the  tail  command with the  -f  option to view the contents of a file as it changes in real-time. Here’s an example:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tail -f /path/to/file.log</span><br></pre></td></tr></table></figure>
-<p>This command will display the last 10 lines of the file specified by  &#x2F;path&#x2F;to&#x2F;file.log  and then keep the file open and display any new content that is appended to the end of the file. As new lines are added to the file, they will be displayed in the terminal.<br>You can use  Ctrl + C  to stop the  tail  command and return to the command prompt.</p>
-<p>7. </p>
-<h2 id="Question-6"><a href="#Question-6" class="headerlink" title="Question :"></a>Question :</h2><p>why DH_compute_key error with stack like SLL_next failed?</p>
-<h2 id="Answer-6"><a href="#Answer-6" class="headerlink" title="Answer :"></a>Answer :</h2><p>The error “SLL_next failed” usually occurs when there is an issue with the OpenSSL library’s linked list data structure. This error can occur for several reasons, but most commonly it happens when there is a memory corruption or invalid pointer. </p>
-<p>When using <code>DH_compute_key()</code> function in OpenSSL to compute a shared secret key using Diffie-Hellman key exchange, make sure that you have properly initialized the DH object before calling this function. Also, check that both parties have the same DH parameters (p, g, and possibly q) and that their public keys have been exchanged correctly. </p>
-<p>If you continue to encounter the “SLL_next failed” error, you may need to debug your code and look for any memory corruption or invalid pointer issues. You can use memory profiling tools like Valgrind to help in this process or consider reviewing and improving your code.</p>
-<p>8. </p>
-<h2 id="Question-7"><a href="#Question-7" class="headerlink" title="Question"></a>Question</h2><p>how to find the version of a lib?</p>
-<h2 id="Answer-7"><a href="#Answer-7" class="headerlink" title="Answer :"></a>Answer :</h2><p>To find the version of a library in Linux or Unix-based systems, you can use the  ldd  command followed by the path to the library file. Here is the syntax for the command:<br>ldd &#x2F;path&#x2F;to&#x2F;library<br>When you run this command, it will display the libraries that the specified library depends on, along with their paths. The version of each library should be listed next to the library name.  </p>
-<p>Alternatively, you can also use the  strings  command to search for the version string in the library. Here is the syntax for the command:<br>strings &#x2F;path&#x2F;to&#x2F;library | grep LIBRARY_NAME<br>Replace  LIBRARY_NAME  with the name of the library you want to find the version string for. This command will search for all occurrences of the specified library name in the library file and display any version strings that it finds.</p>
-<p>9. </p>
-<h2 id="Question-8"><a href="#Question-8" class="headerlink" title="Question :"></a>Question :</h2><p>how to use DH_generate_key?</p>
-<h2 id="Answer-8"><a href="#Answer-8" class="headerlink" title="Answer :"></a>Answer :</h2><p>DH_generate_key()  is a function provided by the OpenSSL library that generates a new Diffie-Hellman key pair. Here is an example of how to use  DH_generate_key()  with  DH_new() :</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/dh.h&gt;</span></span></span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Create a new DH object</span></span><br><span class="line">    DH *dh = DH_new();</span><br><span class="line">    <span class="keyword">if</span> (!dh) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Generate a new key pair</span></span><br><span class="line">    <span class="keyword">if</span> (DH_generate_key(dh) != <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Do something with the DH object...</span></span><br><span class="line">     <span class="comment">// Free the DH object to avoid memory leaks</span></span><br><span class="line">    DH_free(dh);</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>In this example,  DH_new()  is used to create a new  DH  object.  DH_generate_key()  is then called to generate a new key pair for the  DH  object. If the function returns a value other than  1 , it means that an error occurred and you should handle it appropriately. Once you’re finished with the  DH  object, you should free it by calling  DH_free(dh)  to avoid memory leaks. </p>
-<p>After the key pair is generated, you can access the private key using the  priv_key  member of the  DH  object and the public key using the  pub_key  member. For example: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">BIGNUM *private_key = dh-&gt;priv_key; </span><br><span class="line">BIGNUM *public_key = dh-&gt;pub_key; </span><br></pre></td></tr></table></figure>
-<p>You can then use these keys to perform a Diffie-Hellman key exchange to generate a shared secret key between two parties.</p>
 ]]></content>
       <categories>
-        <category>ChatGPT</category>
+        <category>GDB</category>
       </categories>
+  </entry>
+  <entry>
+    <title>GDB调试忽略信号</title>
+    <url>/2023/03/19/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/</url>
+    <content><![CDATA[<h1 id="GDB调试忽略信号"><a href="#GDB调试忽略信号" class="headerlink" title="GDB调试忽略信号"></a>GDB调试忽略信号</h1><p>在linux平台，用gdb调试程序时，可以在gdb attach到运行中程序后，用以下命令忽略一些不关注的信号：</p>
+<p>handle SIGUSR2 noprint nostop</p>
+<p>handle SIGPIPE noprint nostop</p>
+<p><img src="/images/GDB_1.png"></p>
+]]></content>
+      <categories>
+        <category>GDB</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h1><p>如何在gdb中加载多个符号<a href="https://www.itbaoku.cn/tag/file" title="文件">文件</a>.我有一个可执行的foo.out和加载模块栏.我创建了两个符号文件foo.symbol和bar.symbol.如何将两个文件加载到GDB中.</p>
+<p># gdb –core core</p>
+<h1 id="gdb"><a href="#gdb" class="headerlink" title="(gdb)"></a>(gdb)</h1><h1 id="gdb-symbol-file-foo-symbol"><a href="#gdb-symbol-file-foo-symbol" class="headerlink" title="(gdb) symbol-file foo.symbol"></a>(gdb) symbol-file foo.symbol</h1><p>如何加载第二个符号文件.或有什么方法可以加载gdb</p>
+<p>中的所有目录文件</p>
+<h2 id="推荐答案"><a href="#推荐答案" class="headerlink" title="推荐答案"></a>推荐答案</h2><p>设置包含符号文件的目录use</p>
+<p>set debug-file-directory <directory></directory></p>
+<p>并使用</p>
+<p>show debug-file-directory</p>
+<p>显示当前设置为包含符号文件的目录.</p>
+<p>符号文件是从此目录自动读取的，如果二进制文件以<a href="https://www.itbaoku.cn/tag/debugging" title="调试">调试</a>链接为单位.</p>
+<p>二进制文件.</p>
+<ul>
+<li></li>
+</ul>
+<p>要添加其他符号，您可能会使用add-symbol-<a href="https://www.itbaoku.cn/tag/file" title="file">file</a>.</p>
+<p>(如 <a href="https://sourceware.org/gdb/gdb/onlinedocs/gdb/">gdb onlinedocs</a> 目前我在这里引用此信息，</p>
+<blockquote>
+<p>附加符号文件的文件名地址</p>
+<p>附加符号文件文件名地址[-readNow] [ - 映射]</p>
+<p>附加符号文件文件名-Ssection地址…</p>
+<p>附加符号文件命令从文件文件名中读取其他符号表信息.当将文件名(通过某些其他方式)动态加载到正在运行的程序中时，您将使用此命令.地址应为已加载文件的内存地址； GDB无法自行解决这个问题.您还可以指定任意数量的``ssection地址’’对，以提供该节的明确截面名称和基础地址.您可以将任何地址指定为表达式.</p>
+<p>文件文件名的符号表被添加到最初使用符号文件命令读取的符号表中.您可以多次使用附加符号文件命令；因此，新的符号数据读取不断添加到旧.为了丢弃所有旧符号数据，请使用没有任何参数的符号文件命令.</p>
+<p>尽管文件名通常是共享库文件，可执行文件或已完全重新安置以加载到过程中的其他对象文件，但您也可以从重新定位的.o文件加载符号信息，只要:</p>
+<ul>
+<li>文件的符号信息仅指该文件中定义的链接器符号，而不是由其他对象文件定义的符号，</li>
+<li>每节文件的符号信息涉及实际上已加载到文件中，并且</li>
+<li>您可以确定每个部分加载的地址，并将其提供给附加符号文件命令.</li>
+</ul>
+<p>一些嵌入式操作系统，例如Sun Chorus和VXWorks，可以将可重定位的文件加载到已经运行的程序中；这样的系统通常使上述要求易于满足.但是，重要的是要认识到，许多天然系统都使用复杂的链接程序(例如，链接部分分解和C ++构造函数组件)，使要求难以满足.通常，不能假设使用附加符号文件读取可重新定位对象文件的符号信息的效果与将可重定位对象文件链接到程序中的效果相同.</p>
+<p>.</p>
+<p>加上符号文件在使用后不重复.</p>
+<p>与符号文件命令一样，您可以使用-mapped’ and -ReadNow’选项，以更改GDB管理文件名的符号表信息.</p>
+</blockquote>
+<h2 id="其他推荐答案"><a href="#其他推荐答案" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>其他符号可以加载到gdb调试会话:</p>
+<p>add-symbol-file filename address</p>
+<p>参数address是.text节的地址.可以通过以下方式检索此地址</p>
+<p>readelf -WS path&#x2F;to&#x2F;file.elf | grep .text | awk ‘{ print “0x”$5 }’</p>
+<p>可以通过在gdb中自动化这可以通过添加以下输入到~&#x2F;.gdbinit:</p>
+<p>来自动化.</p>
+<p>define add-symbol-file-auto</p>
+<h1 id="Parse-text-address-to-temp-file"><a href="#Parse-text-address-to-temp-file" class="headerlink" title="Parse .text address to temp file"></a>Parse .text address to temp file</h1><p>  shell echo set \$text_address&#x3D;$(readelf -WS $arg0 | grep .text | awk ‘{ print “0x”$5 }’) &gt;&#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Source-text-address"><a href="#Source-text-address" class="headerlink" title="Source .text address"></a>Source .text address</h1><p>  source &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Clean-tempfile"><a href="#Clean-tempfile" class="headerlink" title="Clean tempfile"></a>Clean tempfile</h1><p>  shell rm -f &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Load-symbol-table"><a href="#Load-symbol-table" class="headerlink" title="Load symbol table"></a>Load symbol table</h1><p>  add-symbol-file $arg0 $text_address<br>end</p>
+<p>以上功能定义add-symbol-file-auto可以使用其他符号:</p>
+<p>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;bootloader.elf<br>add symbol table from file “path&#x2F;to&#x2F;bootloader.elf” at<br>    .text_addr &#x3D; 0x8010400<br>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;application.elf<br>add symbol table from file “path&#x2F;to&#x2F;application.elf” at<br>    .text_addr &#x3D; 0x8000000<br>(gdb) break main<br>Breakpoint 1 at 0x8006cb0: main. (2 locations)<br>(gdb) info break<br>Num     Type           Disp Enb Address    What<br>1       breakpoint     keep y   <MULTIPLE><br>1.1                         y     0x08006cb0 in main() at .&#x2F;source&#x2F;main.cpp:114<br>1.2                         y     0x080106a6 in main() at .&#x2F;main.cpp:10<br>(gdb)</MULTIPLE></p>
+]]></content>
   </entry>
   <entry>
     <title>Base64</title>
@@ -626,63 +737,11 @@
       </categories>
   </entry>
   <entry>
-    <title>AES_NI</title>
-    <url>/2023/09/10/Encryption/AES_NI/</url>
-    <content><![CDATA[<h1 id="AES-NI"><a href="#AES-NI" class="headerlink" title="AES_NI"></a>AES_NI</h1><h2 id="How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System"><a href="#How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System" class="headerlink" title="How to find out AES-NI (Advanced Encryption) Enabled on Linux System"></a>How to find out AES-NI (Advanced Encryption) Enabled on Linux System</h2><p>One can find out that the processor has the AES&#x2F;AES-NI instruction set using the lscpu command:</p>
-<blockquote>
-<p>lscpu</p>
-</blockquote>
-<p>Type the following grep command to make sure that the processor has the AES instruction set and enabled in the BIOS:</p>
-<blockquote>
-<p>grep -o aes &#x2F;proc&#x2F;cpuinfo</p>
-</blockquote>
-<p>OR</p>
-<blockquote>
-<p>grep -m1 -o aes &#x2F;proc&#x2F;cpuinfo</p>
-</blockquote>
-]]></content>
+    <title>Do not edit</title>
+    <url>/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>Encryption</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>全密态数据库</title>
-    <url>/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="全密态数据库"><a href="#全密态数据库" class="headerlink" title="全密态数据库"></a>全密态数据库</h1><p>可信硬件(TEE)</p>
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性:"></a>特性:</h2><ol>
-<li><p>密钥管理</p>
-</li>
-<li><p>索引</p>
-</li>
-<li><p>TEE计算</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Database</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>命令</title>
-    <url>/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
-<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <categories>
-        <category>GDB</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>GDB调试忽略信号</title>
-    <url>/2023/03/19/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/</url>
-    <content><![CDATA[<h1 id="GDB调试忽略信号"><a href="#GDB调试忽略信号" class="headerlink" title="GDB调试忽略信号"></a>GDB调试忽略信号</h1><p>在linux平台，用gdb调试程序时，可以在gdb attach到运行中程序后，用以下命令忽略一些不关注的信号：</p>
-<p>handle SIGUSR2 noprint nostop</p>
-<p>handle SIGPIPE noprint nostop</p>
-<p><img src="/images/GDB_1.png"></p>
-]]></content>
-      <categories>
-        <category>GDB</category>
+        <category>Do not edit</category>
       </categories>
   </entry>
   <entry>
@@ -720,65 +779,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
-    <url>/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h1><p>如何在gdb中加载多个符号<a href="https://www.itbaoku.cn/tag/file" title="文件">文件</a>.我有一个可执行的foo.out和加载模块栏.我创建了两个符号文件foo.symbol和bar.symbol.如何将两个文件加载到GDB中.</p>
-<p># gdb –core core</p>
-<h1 id="gdb"><a href="#gdb" class="headerlink" title="(gdb)"></a>(gdb)</h1><h1 id="gdb-symbol-file-foo-symbol"><a href="#gdb-symbol-file-foo-symbol" class="headerlink" title="(gdb) symbol-file foo.symbol"></a>(gdb) symbol-file foo.symbol</h1><p>如何加载第二个符号文件.或有什么方法可以加载gdb</p>
-<p>中的所有目录文件</p>
-<h2 id="推荐答案"><a href="#推荐答案" class="headerlink" title="推荐答案"></a>推荐答案</h2><p>设置包含符号文件的目录use</p>
-<p>set debug-file-directory <directory></directory></p>
-<p>并使用</p>
-<p>show debug-file-directory</p>
-<p>显示当前设置为包含符号文件的目录.</p>
-<p>符号文件是从此目录自动读取的，如果二进制文件以<a href="https://www.itbaoku.cn/tag/debugging" title="调试">调试</a>链接为单位.</p>
-<p>二进制文件.</p>
-<ul>
-<li></li>
-</ul>
-<p>要添加其他符号，您可能会使用add-symbol-<a href="https://www.itbaoku.cn/tag/file" title="file">file</a>.</p>
-<p>(如 <a href="https://sourceware.org/gdb/gdb/onlinedocs/gdb/">gdb onlinedocs</a> 目前我在这里引用此信息，</p>
-<blockquote>
-<p>附加符号文件的文件名地址</p>
-<p>附加符号文件文件名地址[-readNow] [ - 映射]</p>
-<p>附加符号文件文件名-Ssection地址…</p>
-<p>附加符号文件命令从文件文件名中读取其他符号表信息.当将文件名(通过某些其他方式)动态加载到正在运行的程序中时，您将使用此命令.地址应为已加载文件的内存地址； GDB无法自行解决这个问题.您还可以指定任意数量的``ssection地址’’对，以提供该节的明确截面名称和基础地址.您可以将任何地址指定为表达式.</p>
-<p>文件文件名的符号表被添加到最初使用符号文件命令读取的符号表中.您可以多次使用附加符号文件命令；因此，新的符号数据读取不断添加到旧.为了丢弃所有旧符号数据，请使用没有任何参数的符号文件命令.</p>
-<p>尽管文件名通常是共享库文件，可执行文件或已完全重新安置以加载到过程中的其他对象文件，但您也可以从重新定位的.o文件加载符号信息，只要:</p>
-<ul>
-<li>文件的符号信息仅指该文件中定义的链接器符号，而不是由其他对象文件定义的符号，</li>
-<li>每节文件的符号信息涉及实际上已加载到文件中，并且</li>
-<li>您可以确定每个部分加载的地址，并将其提供给附加符号文件命令.</li>
-</ul>
-<p>一些嵌入式操作系统，例如Sun Chorus和VXWorks，可以将可重定位的文件加载到已经运行的程序中；这样的系统通常使上述要求易于满足.但是，重要的是要认识到，许多天然系统都使用复杂的链接程序(例如，链接部分分解和C ++构造函数组件)，使要求难以满足.通常，不能假设使用附加符号文件读取可重新定位对象文件的符号信息的效果与将可重定位对象文件链接到程序中的效果相同.</p>
-<p>.</p>
-<p>加上符号文件在使用后不重复.</p>
-<p>与符号文件命令一样，您可以使用-mapped’ and -ReadNow’选项，以更改GDB管理文件名的符号表信息.</p>
-</blockquote>
-<h2 id="其他推荐答案"><a href="#其他推荐答案" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>其他符号可以加载到gdb调试会话:</p>
-<p>add-symbol-file filename address</p>
-<p>参数address是.text节的地址.可以通过以下方式检索此地址</p>
-<p>readelf -WS path&#x2F;to&#x2F;file.elf | grep .text | awk ‘{ print “0x”$5 }’</p>
-<p>可以通过在gdb中自动化这可以通过添加以下输入到~&#x2F;.gdbinit:</p>
-<p>来自动化.</p>
-<p>define add-symbol-file-auto</p>
-<h1 id="Parse-text-address-to-temp-file"><a href="#Parse-text-address-to-temp-file" class="headerlink" title="Parse .text address to temp file"></a>Parse .text address to temp file</h1><p>  shell echo set \$text_address&#x3D;$(readelf -WS $arg0 | grep .text | awk ‘{ print “0x”$5 }’) &gt;&#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
-<h1 id="Source-text-address"><a href="#Source-text-address" class="headerlink" title="Source .text address"></a>Source .text address</h1><p>  source &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
-<h1 id="Clean-tempfile"><a href="#Clean-tempfile" class="headerlink" title="Clean tempfile"></a>Clean tempfile</h1><p>  shell rm -f &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
-<h1 id="Load-symbol-table"><a href="#Load-symbol-table" class="headerlink" title="Load symbol table"></a>Load symbol table</h1><p>  add-symbol-file $arg0 $text_address<br>end</p>
-<p>以上功能定义add-symbol-file-auto可以使用其他符号:</p>
-<p>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;bootloader.elf<br>add symbol table from file “path&#x2F;to&#x2F;bootloader.elf” at<br>    .text_addr &#x3D; 0x8010400<br>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;application.elf<br>add symbol table from file “path&#x2F;to&#x2F;application.elf” at<br>    .text_addr &#x3D; 0x8000000<br>(gdb) break main<br>Breakpoint 1 at 0x8006cb0: main. (2 locations)<br>(gdb) info break<br>Num     Type           Disp Enb Address    What<br>1       breakpoint     keep y   <MULTIPLE><br>1.1                         y     0x08006cb0 in main() at .&#x2F;source&#x2F;main.cpp:114<br>1.2                         y     0x080106a6 in main() at .&#x2F;main.cpp:10<br>(gdb)</MULTIPLE></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Do not edit</title>
-    <url>/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Do not edit</category>
-      </categories>
-  </entry>
-  <entry>
     <title>输出日志记录</title>
     <url>/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h1 id="输出日志记录"><a href="#输出日志记录" class="headerlink" title="输出日志记录"></a>输出日志记录</h1><blockquote>
@@ -810,20 +810,82 @@
 ]]></content>
   </entry>
   <entry>
-    <title>任务列表语法</title>
-    <url>/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<ul>
-<li><input checked disabled type="checkbox"> Write the press release</li>
-<li><input disabled type="checkbox"> Update the website</li>
-<li><input disabled type="checkbox"> Contact the media</li>
-</ul>
+    <title>Hash</title>
+    <url>/2023/03/19/Redis/Hash/</url>
+    <content><![CDATA[<h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Hash算法"><a href="#Hash算法" class="headerlink" title="Hash算法"></a>Hash算法</h2><p>Redis4.0之前使用的Hash算法是MurmurHash, 即使输入的键是有规律的, 该算法计算的结果依然有很好的离散性, 并且计算速度非常快. Redis4.0开始更换为SipHash算法, 应该是出于安全的考虑, 该算法能有效防止Hash表碰撞<br>攻击, 并提供不错的性能</p>
+<blockquote>
+<h3 id="SipHash"><a href="#SipHash" class="headerlink" title="SipHash"></a>SipHash</h3><p>大部分非加密哈希算法的改良，都集中在让哈希速度更快更好上。SipHash 则是个异类，它的提出是为了<a href="http://emboss.github.io/blog/2012/12/14/breaking-murmur-hash-flooding-dos-reloaded/">解决一类安全问题</a>：hash flooding。通过让&gt; 输出随机化，SipHash 能够有效减缓 hash flooding 攻击。凭借这一点，它逐渐成为 Ruby、Python、Rust 等语言默认的 hash 表实现的一部分。<br>如果你愿意尝试下新技术，可以看看 2016 新出的 <a href="https://github.com/google/highwayhash">HighwayHash</a>。它宣称可以达到 SipHash 一样的效果，并且凭借 SIMD 的加持，在运算速度上它是 SipHash 的 5.2 倍（参考来源：<a href="https://arxiv.org/abs/1612.06257">https://arxiv.>  org/abs/1612.06257</a> ）。</p>
+</blockquote>
+<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>把ht[0]上的数据迁移到ht[1]shang</p>
+<p>size调整为2的n次幂, 为了ht[1]Hash表数据长度是ht[0]Hash表数据长度的倍数, 有利于ht[0]的数据均匀地迁移到ht[1]</p>
+<p><strong>Hash&amp;ht.sizemask, sizemask&#x3D;size-1, idx&#x3D;hash%(ht.size)</strong>, 因此, 假如ht[0].size为0, ht[1].size&#x3D;2*n, 对于ht[0]上的元素, ht[0].table[k]的数据, 要不迁移到ht[1].table[k], 要不迁移到ht[1].table[k+n]</p>
+<h2 id="缩容"><a href="#缩容" class="headerlink" title="缩容"></a>缩容</h2><p>执行删除操作后, Redis会检查字典是否需要缩容, 当Hash表长度大于4且负载因子小于0.1时, 会执行缩容操作, 以节省内存</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis字典使用SipHash算法计算Hash值, 并使用链表法处理Hash冲突<br>Redis字段使用渐进式扩容方法, 在每次数据操作中都执行一次扩容单步操作, 直到扩容完成<br>散列类型的编码格式可以为OBJ_ENCODING_HT, OBJ_ENCODING_ZIPLIST  </p>
 ]]></content>
       <categories>
-        <category>Markdown</category>
+        <category>Redis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>集合</title>
+    <url>/2023/03/19/Redis/%E9%9B%86%E5%90%88/</url>
+    <content><![CDATA[<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
+<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
+<p><img src="/../images/Redis_1.webp"></p>
+<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
+<ol>
+<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
+<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
+<li>skiplist实现简单</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>VSCode</title>
+    <url>/2023/02/24/Shortcuts/vscode/</url>
+    <content><![CDATA[<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
+<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Shortcuts</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>msg</title>
+    <url>/2023/03/28/Redis/msg/</url>
+    <content><![CDATA[<h1 id="msg"><a href="#msg" class="headerlink" title="msg"></a>msg</h1><ol>
+<li>skiplist</li>
+<li>cpu绑定</li>
+<li>unix编程</li>
+<li>事件机制</li>
+</ol>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Shell IF语法</title>
+    <url>/2023/03/19/Shell/if/</url>
+    <content><![CDATA[<h1 id="SHELL-IF-语法"><a href="#SHELL-IF-语法" class="headerlink" title="SHELL IF 语法"></a>SHELL IF 语法</h1><p>if [ -f file ]; then<br>   echo “yes yes yes”<br>elif [ -z file ]; then<br>   echo “yes yes”<br>else<br>   echo “nonono”<br>fi</p>
+]]></content>
+      <categories>
+        <category>Shell</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>read</title>
+    <url>/2023/03/20/Shell/read/</url>
+    <content><![CDATA[<h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
+<p><strong>代码1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>shell</category>
       </categories>
   </entry>
   <entry>
@@ -851,6 +913,35 @@
 </tbody></table>
 <hr>
 <h2 id="…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading"><a href="#…and-after-a-horizontal-rule-Without-blank-lines-this-would-be-a-heading" class="headerlink" title="…and after a horizontal rule.|Without blank lines, this would be a heading.  "></a>…and after a horizontal rule.<code>|</code>Without blank lines, this would be a heading.  </h2><p>Don’t do this!&#96; |</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>常用命令</title>
+    <url>/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
+<li>杀死进程</li>
+</ol>
+<p>#####查找tomcat进程<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’<br>#####查找tomcat进程并杀死<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’ | xargs kill -9  </p>
+]]></content>
+      <categories>
+        <category>shell</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>任务列表语法</title>
+    <url>/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<ul>
+<li><input checked disabled type="checkbox"> Write the press release</li>
+<li><input disabled type="checkbox"> Update the website</li>
+<li><input disabled type="checkbox"> Contact the media</li>
+</ul>
 ]]></content>
       <categories>
         <category>Markdown</category>
@@ -1121,104 +1212,6 @@
       </categories>
   </entry>
   <entry>
-    <title>转义字符语法</title>
-    <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<p>* Without the backslash, this would be a bullet in an unordered list.</p>
-<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
-<table>
-<thead>
-<tr>
-<th>Character</th>
-<th>Name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>\</td>
-<td>backslash</td>
-</tr>
-<tr>
-<td>`</td>
-<td>backtick (see also <a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
-</tr>
-<tr>
-<td>*</td>
-<td>asterisk</td>
-</tr>
-<tr>
-<td>_</td>
-<td>underscore</td>
-</tr>
-<tr>
-<td>{ }</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>[ ]</td>
-<td>brackets</td>
-</tr>
-<tr>
-<td>( )</td>
-<td>parentheses</td>
-</tr>
-<tr>
-<td>#</td>
-<td>pound sign</td>
-</tr>
-<tr>
-<td>+</td>
-<td>plus sign</td>
-</tr>
-<tr>
-<td>-</td>
-<td>minus sign (hyphen)</td>
-</tr>
-<tr>
-<td>.</td>
-<td>dot</td>
-</tr>
-<tr>
-<td>!</td>
-<td>exclamation mark</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
-<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
-
-<p>你必须要把网址转成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
-
-<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
-<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 就会将它转为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
-
-<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 将会把它转换为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
-
-<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
     <title>语法速查表</title>
     <url>/2023/03/19/Markdown/%E9%80%9F%E6%9F%A5%E8%A1%A8/</url>
     <content><![CDATA[<h1 id="Markdown-语法速查表-Markdown-官方教程"><a href="#Markdown-语法速查表-Markdown-官方教程" class="headerlink" title="Markdown 语法速查表 | Markdown 官方教程"></a>Markdown 语法速查表 | Markdown 官方教程</h1><blockquote>
@@ -1334,94 +1327,101 @@
       </categories>
   </entry>
   <entry>
-    <title>Hash</title>
-    <url>/2023/03/19/Redis/Hash/</url>
-    <content><![CDATA[<h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Hash算法"><a href="#Hash算法" class="headerlink" title="Hash算法"></a>Hash算法</h2><p>Redis4.0之前使用的Hash算法是MurmurHash, 即使输入的键是有规律的, 该算法计算的结果依然有很好的离散性, 并且计算速度非常快. Redis4.0开始更换为SipHash算法, 应该是出于安全的考虑, 该算法能有效防止Hash表碰撞<br>攻击, 并提供不错的性能</p>
-<blockquote>
-<h3 id="SipHash"><a href="#SipHash" class="headerlink" title="SipHash"></a>SipHash</h3><p>大部分非加密哈希算法的改良，都集中在让哈希速度更快更好上。SipHash 则是个异类，它的提出是为了<a href="http://emboss.github.io/blog/2012/12/14/breaking-murmur-hash-flooding-dos-reloaded/">解决一类安全问题</a>：hash flooding。通过让&gt; 输出随机化，SipHash 能够有效减缓 hash flooding 攻击。凭借这一点，它逐渐成为 Ruby、Python、Rust 等语言默认的 hash 表实现的一部分。<br>如果你愿意尝试下新技术，可以看看 2016 新出的 <a href="https://github.com/google/highwayhash">HighwayHash</a>。它宣称可以达到 SipHash 一样的效果，并且凭借 SIMD 的加持，在运算速度上它是 SipHash 的 5.2 倍（参考来源：<a href="https://arxiv.org/abs/1612.06257">https://arxiv.>  org/abs/1612.06257</a> ）。</p>
-</blockquote>
-<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>把ht[0]上的数据迁移到ht[1]shang</p>
-<p>size调整为2的n次幂, 为了ht[1]Hash表数据长度是ht[0]Hash表数据长度的倍数, 有利于ht[0]的数据均匀地迁移到ht[1]</p>
-<p><strong>Hash&amp;ht.sizemask, sizemask&#x3D;size-1, idx&#x3D;hash%(ht.size)</strong>, 因此, 假如ht[0].size为0, ht[1].size&#x3D;2*n, 对于ht[0]上的元素, ht[0].table[k]的数据, 要不迁移到ht[1].table[k], 要不迁移到ht[1].table[k+n]</p>
-<h2 id="缩容"><a href="#缩容" class="headerlink" title="缩容"></a>缩容</h2><p>执行删除操作后, Redis会检查字典是否需要缩容, 当Hash表长度大于4且负载因子小于0.1时, 会执行缩容操作, 以节省内存</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis字典使用SipHash算法计算Hash值, 并使用链表法处理Hash冲突<br>Redis字段使用渐进式扩容方法, 在每次数据操作中都执行一次扩容单步操作, 直到扩容完成<br>散列类型的编码格式可以为OBJ_ENCODING_HT, OBJ_ENCODING_ZIPLIST  </p>
+    <title>转义字符语法</title>
+    <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<p>* Without the backslash, this would be a bullet in an unordered list.</p>
+<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\</td>
+<td>backslash</td>
+</tr>
+<tr>
+<td>`</td>
+<td>backtick (see also <a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
+</tr>
+<tr>
+<td>*</td>
+<td>asterisk</td>
+</tr>
+<tr>
+<td>_</td>
+<td>underscore</td>
+</tr>
+<tr>
+<td>{ }</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>brackets</td>
+</tr>
+<tr>
+<td>( )</td>
+<td>parentheses</td>
+</tr>
+<tr>
+<td>#</td>
+<td>pound sign</td>
+</tr>
+<tr>
+<td>+</td>
+<td>plus sign</td>
+</tr>
+<tr>
+<td>-</td>
+<td>minus sign (hyphen)</td>
+</tr>
+<tr>
+<td>.</td>
+<td>dot</td>
+</tr>
+<tr>
+<td>!</td>
+<td>exclamation mark</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
+<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>你必须要把网址转成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
+<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 就会将它转为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
+
+<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将会把它转换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
 ]]></content>
       <categories>
-        <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>msg</title>
-    <url>/2023/03/28/Redis/msg/</url>
-    <content><![CDATA[<h1 id="msg"><a href="#msg" class="headerlink" title="msg"></a>msg</h1><ol>
-<li>skiplist</li>
-<li>cpu绑定</li>
-<li>unix编程</li>
-<li>事件机制</li>
-</ol>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>集合</title>
-    <url>/2023/03/19/Redis/%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
-<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
-<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
-<p><img src="/../images/Redis_1.webp"></p>
-<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
-<ol>
-<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
-<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
-<li>skiplist实现简单</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>VSCode</title>
-    <url>/2023/02/24/Shortcuts/vscode/</url>
-    <content><![CDATA[<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
-<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Shortcuts</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Shell IF语法</title>
-    <url>/2023/03/19/Shell/if/</url>
-    <content><![CDATA[<h1 id="SHELL-IF-语法"><a href="#SHELL-IF-语法" class="headerlink" title="SHELL IF 语法"></a>SHELL IF 语法</h1><p>if [ -f file ]; then<br>   echo “yes yes yes”<br>elif [ -z file ]; then<br>   echo “yes yes”<br>else<br>   echo “nonono”<br>fi</p>
-]]></content>
-      <categories>
-        <category>Shell</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>常用命令</title>
-    <url>/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
-<li>杀死进程</li>
-</ol>
-<p>#####查找tomcat进程<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’<br>#####查找tomcat进程并杀死<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’ | xargs kill -9  </p>
-]]></content>
-      <categories>
-        <category>shell</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>read</title>
-    <url>/2023/03/20/Shell/read/</url>
-    <content><![CDATA[<h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
-<p><strong>代码1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>shell</category>
+        <category>Markdown</category>
       </categories>
   </entry>
 </search>
