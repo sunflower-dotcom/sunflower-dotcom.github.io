@@ -1,50 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>/2023/03/19/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<ul>
-<li><input checked disabled type="checkbox"> Write the press release</li>
-<li><input disabled type="checkbox"> Update the website</li>
-<li><input disabled type="checkbox"> Contact the media</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>Epoll</title>
-    <url>/2023/03/19/C/Epoll/</url>
-    <content><![CDATA[<h1 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h1><p>**<code>epoll</code>**是<a href="https://zh.wikipedia.org/wiki/Linux" title="Linux">Linux</a>内核的可扩展I&#x2F;O事件通知机制<sup id="cite_ref-1" class="reference"><a href="https://zh.wikipedia.org/wiki/Epoll#cite_note-1">[1]</a></sup>。于Linux 2.5.44首度登场，它设计目的旨在取代既有<a href="https://zh.wikipedia.org/wiki/POSIX" title="POSIX">POSIX</a> <a href="https://zh.wikipedia.org/wiki/Select_(Unix)" title="Select (Unix)"><code>select(2)</code></a>与<code>poll(2)</code><a href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8" title="系统调用">系统函数</a>，让需要大量操作<a href="https://zh.wikipedia.org/wiki/%E6%AA%94%E6%A1%88%E6%8F%8F%E8%BF%B0%E5%AD%90" title="文件描述符">文件描述符</a>的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，<code>epoll</code>的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件</p>
-<h2 id="程序接口"><a href="#程序接口" class="headerlink" title="程序接口"></a>程序接口</h2><p>int epoll_create(int size);</p>
-<p>在内核中创建<code>epoll</code>实例并返回一个<code>epoll</code>文件描述符。 在最初的实现中，调用者通过 <code>size</code> 参数告知内核需要监听的文件描述符数量。如果监听的文件描述符数量超过 size, 则内核会自动扩容。而现在 size 已经没有这种语义了，但是调用者调用时 size 依然必须大于 0，以保证后向兼容性。</p>
-<p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</p>
-<p>向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</p>
-<p>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);</p>
-<p>当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</p>
-<h2 id="触发模式-编辑"><a href="#触发模式-编辑" class="headerlink" title="触发模式[编辑]"></a>触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=2" title="编辑章节：触发模式">编辑</a>]</h2><p><code>epoll</code>提供<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91" title="中断">边沿触发</a>及<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E7%8A%B6%E6%80%81%E8%A7%A6%E5%8F%91" title="中断">状态触发</a>模式。在边沿触发模式中，<code>epoll_wait</code>仅会在新的事件首次被加入<code>epoll</code>队列时返回；于level-triggered模式下，<code>epoll_wait</code>在事件状态未变更前将不断被触发。状态触发模式是默认的模式。</p>
-<p>状态触发模式与边沿触发模式有读和写两种情况，我们先来考虑读的情况。假设我们注册了一个读事件到<code>epoll</code>实例上，<code>epoll</code>实例会通过<code>epoll_wait</code>返回值的形式通知我们哪些读事件已经就绪。简单地来说，在状态触发模式下，如果读事件未被处理，该事件对应的内核读缓冲器非空，则每次调用 <code>epoll_wait</code> 时返回的事件列表都会包含该事件。直到该事件对应的内核读缓冲器为空为止。而在边沿触发模式下，读事件就绪后只会通知一次，不会反复通知。</p>
-<p>然后我们再考虑写的情况。水平触发模式下，只要文件描述符对应的内核写缓冲器未满，就会一直通知可写事件。而在边沿触发模式下，内核写缓冲器由满变为未满后，只会通知一次可写事件。</p>
-<p>举例来说，倘若有一个已经于<code>epoll</code>注册之<a href="https://zh.wikipedia.org/wiki/Anonymous_pipe" title="Anonymous pipe">流水线</a>接获资料，<code>epoll_wait</code>将返回，并发出资料读取的信号。现假设缓冲器的资料仅有部分被读取并处理，在level-triggered模式下，任何对<code>epoll_wait</code>之调用都将即刻返回，直到缓冲器中的资料全部被读取；然而，在edge-triggered的情境下，<code>epoll_wait</code>仅会于再次接收到新资料(亦即，新资料被写入流水线)时返回。</p>
-<h3 id="边沿触发模式-编辑"><a href="#边沿触发模式-编辑" class="headerlink" title="边沿触发模式[编辑]"></a>边沿触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=3" title="编辑章节：边沿触发模式">编辑</a>]</h3><p>边沿触发模式使得程序有可能在用户态缓存 IO 状态。nginx 使用的是边沿触发模式。</p>
-<p>文件描述符有两种情况是推荐使用边沿触发模式的。</p>
-<ol>
-<li>read 或者 write 系统调用返回了 EAGAIN。</li>
-<li>非阻塞的文件描述符。</li>
-</ol>
-<p>可能的缺陷：</p>
-<ol>
-<li>如果 IO 空间很大，你要花很多时间才能把它一次读完，这可能会导致饥饿。举个例子，假设你在监听一个文件描述符列表，而某个文件描述符上有大量的输入（不间断的输入流），那么你在读完它的过程中就没空处理其他就绪的文件描述符。（因为边沿触发模式只会通知一次可读事件，所以你往往会想一次把它读完。）一种解决方案是，程序维护一个就绪队列，当 <code>epoll</code> 实例通知某文件描述符就绪时将它在就绪队列数据结构中标记为就绪，这样程序就会记得哪些文件描述符等待处理。Round-Robin 循环处理就绪队列中就绪的文件描述符即可。</li>
-<li>如果你缓存了所有事件，那么一种可能的情况是 A 事件的发生让程序关闭了另一个文件描述符 B。但是内核的 <code>epoll</code> 实例并不知道这件事，需要你从 <code>epoll</code> 删除掉。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2023/03/19/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -64,12 +20,16 @@
   </entry>
   <entry>
     <title></title>
-    <url>/2024/06/02/C/%E4%BC%98%E5%85%88%E7%BA%A7/</url>
-    <content><![CDATA[<h1 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h1><p><strong><a href="http://lib.csdn.net/base/c" title="C语言知识库">C语言</a>运算符优先级</strong></p>
-<table border="1" cellspacing="0" cellpadding="0" width="612"><tbody><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>优先级</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>运算符</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>名称或含义</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>使用形式</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>结合方向</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>说明</strong></p></td></tr><tr><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>1</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">[]</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">数组下标</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">数组名[常量表达式]</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">()</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">圆括号</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">(表达式）/函数名(形参表)</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">.</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">成员选择（对象）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">对象.成员名</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-&gt;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">成员选择（指针）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">对象指针-&gt;成员名</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="9"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>2</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">负号运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">-表达式</p></td><td rowspan="9"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td rowspan="7"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">单目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">~</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位取反运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">~表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">++</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">自增运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">++变量名/变量名++</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">--</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">自减运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--变量名/变量名--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取值运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">*指针变量</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取地址运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&amp;变量名</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">!</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑非运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">!表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">(</span><span style="color:blue">类型</span><span style="color:blue">)</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">强制类型转换</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">(数据类型)表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">sizeof</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">长度运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">sizeof(表达式)</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>3</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">/</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">除</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式/表达式</p></td><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">乘</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式*表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">%</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">余数（取模）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">整型表达式%整型表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>4</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">+</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">加</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式+表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">减</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式-表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>5</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&lt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左移</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&lt;&lt;表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&gt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">右移</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&gt;&gt;表达式</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>6</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">大于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&gt;表达式</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">大于等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&gt;=表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">小于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&lt;表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">小于等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&lt;=表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>7</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">==</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式==表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">！</span><span style="color:blue">=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">不等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式!= 表达式</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>8</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位与</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&amp;表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>9</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">^</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位异或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式^表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>10</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">|</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式|表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>11</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑与</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&amp;&amp;表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>12</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">||</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式||表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>13</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">?:</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">条件运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式1?</p><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式2: 表达式3</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><span style="color:red">三目运算符</span></p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><span style="color:red">&nbsp;</span></p></td></tr><tr><td rowspan="11"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>14</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">赋值运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量=表达式</p></td><td rowspan="11"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">/=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">除后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量/=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">乘后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量*=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">%=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取模后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量%=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">+=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">加后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量+=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">减后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量-=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&lt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左移后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&lt;&lt;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&gt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">右移后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&gt;&gt;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位与后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&amp;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">^=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位异或后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量^=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">|=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位或后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量|=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>15</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">，</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逗号运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式,表达式,…</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr></tbody></table>
+    <url>/2023/03/19/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
 
-<p><strong>说明：</strong></p>
-<p> <strong>同一优先级的运算符，运算次序由结合方向所决定。<br> 简单记就是：！ &gt; 算术运算符 &gt; 关系运算符 &gt; &amp;&amp; &gt; || &gt; 赋值运算符</strong></p>
+<p>呈现的输出如下所示：</p>
+<ul>
+<li><input checked disabled type="checkbox"> Write the press release</li>
+<li><input disabled type="checkbox"> Update the website</li>
+<li><input disabled type="checkbox"> Contact the media</li>
+</ul>
 ]]></content>
   </entry>
   <entry>
@@ -142,93 +102,9 @@
       </categories>
   </entry>
   <entry>
-    <title>位域</title>
-    <url>/2023/02/12/C/%E4%BD%8D%E5%9F%9F/</url>
-    <content><![CDATA[<h1 id="位域"><a href="#位域" class="headerlink" title="位域"></a>位域</h1><h1 id="让人疑惑的C语言位域-知乎"><a href="#让人疑惑的C语言位域-知乎" class="headerlink" title="让人疑惑的C语言位域 - 知乎"></a>让人疑惑的C语言位域 - 知乎</h1><blockquote>
-<h2 id="Excerpt"><a href="#Excerpt" class="headerlink" title="Excerpt"></a>Excerpt</h2><p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念 位…</p>
-</blockquote>
-<hr>
-<p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念</p>
-<h3 id="位域是什么"><a href="#位域是什么" class="headerlink" title="位域是什么"></a>位域是什么</h3><p>位域是一种数据结构，可以把数据以二进制位的形式紧凑的存储，它允许程序对此结构的位进行操作</p>
-<p>在计算机早期，内存是非常稀缺的，需要尽可能的节省每一个字节，所以，C 语言中就出现了能针对二进制位进行操作的位域</p>
-<h3 id="为什么要用位域"><a href="#为什么要用位域" class="headerlink" title="为什么要用位域"></a>为什么要用位域</h3><p>位域这种数据结构，可以最大限度的节省存储空间，对于一些非常频繁的操作，需要尽可能的减少操作的数据，比如：在开发网络应用时，数据的序列化和反序列化是很频繁的，如果能减少数据的长度，对提升数据打包效率是很有帮助的</p>
-<p>位域的出现，让我们可以用变量名代表某些bit，并通过变量名获取和设置 bit 的值，而不是通过晦涩难理解的位操作来进行，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct field</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char b0 : 3,</span><br><span class="line">                  b1 : 2,</span><br><span class="line">                  b2 : 3;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct field bf;</span><br><span class="line">bf.b1 = 3;</span><br></pre></td></tr></table></figure>
-
-<p>通过位域设置中间 2 个bit 的值，只需要设置结构体中 <code>b1</code> 字段值即可，如果使不用位域字段，就需要进行位的 “或” 和 “与” 运算</p>
-<h3 id="位域的使用"><a href="#位域的使用" class="headerlink" title="位域的使用"></a>位域的使用</h3><p>C 语言中，位域的表示形式如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct bitfield</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int b0 : n0,</span><br><span class="line">                 b1 : n1,</span><br><span class="line">                 b2 : n2,</span><br><span class="line">                 ...</span><br><span class="line">                 bn : nk;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><code>b0、b1、b2 ... bn</code> 表示位域成员，<code>n0、n1、n2 ... nk</code> 表示成员占用多少个 bit</p>
-<p>位域表示的范围通常不能超过其所依附类型所能表示的 bit 数，比如：上面 <code>bitfield</code> 结构体中 位域所依附的类型是 <code>unsigned int</code>, 最大能表示 32 个 bit，也就是说，<code>n0、n1、n2 ... nk</code> 总 bit 数不能超过 32，每个成员超过指定 bit 表示的最大数值时会被截断，具体请看下面的例子</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">        </span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    fs.a = 0x8F;</span><br><span class="line">    fs.b = 0x1A;</span><br><span class="line">    fs.c = 0x19;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%#x, %#x, %#x \n&quot;,fs.a, fs.b, fs.c);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>用 <code>gcc -g -o bitfield bitfield.c</code> 编译并运行，结果为</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">0xf, 0x1a, 0x9</span><br></pre></td></tr></table></figure>
-
-<p>字段 <code>a</code> 赋值为 <code>0x8F</code> 对应的二进制为 <strong>1000 1111</strong>，由于 <code>a</code> 只有 7 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 7 位，最终结果为 <strong>000 1111</strong> ，换成十六进制是 <strong>0xf</strong></p>
-<p>字段 <code>b</code> 赋值为 <code>0x1A</code> 对应的二进制为 <strong>1 1010</strong>， <code>b</code> 包含 5 个bit，取结果中的低 5 位，最终结果为 <strong>1 1010</strong> ，换成十六进制是 <strong>0x1a</strong> , 输出结果和赋值相同，即没有超出限定 bit 数</p>
-<p>字段 <code>c</code> 赋值为 <code>0x19</code> 对应的二进制为 <strong>1</strong> <strong>1001</strong>，由于 <code>c</code> 只有 4 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 4 位，最终结果为 <strong>1001</strong> ，换成十六进制是 <strong>0x9</strong></p>
-<p>位域的使用有一定的限制，机器最小粒度的寻址单位是字节，我们无法像获得某一个字节的地址一样去获得某个 bit 的地址，下面是一个错误的示例</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述代码功能是打印出成员 <code>a</code> 的地址，它无法通过编译，错误如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bitfield.c: 在函数‘main’中:</span><br><span class="line">bitfield.c:11:5: 错误：无法取得位段‘a’的地址</span><br><span class="line">     printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">     ^</span><br></pre></td></tr></table></figure>
-
-<h3 id="位域的存储"><a href="#位域的存储" class="headerlink" title="位域的存储"></a>位域的存储</h3><p>C 标准中只允许 <code>unsigned int</code>、<code>signed int</code>、<code>int</code> 类型的位域申明，后面又增加了 <code>bool</code> 类型的支持，一些编译器像 <code>gcc</code>、<code>msvc</code>等自行加入了一些扩展，使得其他的类型(<code>short、char</code>等)也支持位域</p>
-<p>位域的存储跟编译器相关，不同的编译器，存储位域的方式可能不一样，总的来说可以分成下面几类</p>
-<p><strong>1、相邻位域成员，它们的类型相同时</strong></p>
-<p>如果它们的 bit 数之和小于等于所依附类型的 bit 数，那么，后面的成员紧接着前面的成员存储</p>
-<p>如果它们的 bit 数之和大于所依附类型的 bit 数，那么超过的成员会存储到新的存储单元中，新存储单元会偏移成员所依附类型的 sizeof 字节数</p>
-<p>以下面的代码为例来说明</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned short b:4;</span><br><span class="line">        unsigned short c:2;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>编译运行，结果如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">2</span><br></pre></td></tr></table></figure>
-
-<p><code>a 、b、c</code> 字段都是 <code>unsigned short</code> 类型，它们的 bit 数之和为 <strong>10 + 4 + 2 &#x3D; 16</strong>, 刚好等于 <strong>unsigned short</strong> 的 bit 数，所以它们会紧凑的存储，没有任何空隙</p>
-<p>如果把 <code>a</code> 的 bit 数改成 11，即 **unsigned short a:11;**，此时，<code>a</code> 和 <code>b</code> 的 bit 数之和为 <strong>11 + 4 &#x3D; 15</strong>，没有超过 <code>unsigned short</code> 的 bit 数</p>
-<p>如果再加上 <code>c</code> 的 bit 数，结果变成了 <strong>17</strong>，超过了 <code>unsigned short</code> 的 bit 数，这种情况下，<code>a</code> 和 <code>b</code> 还是会紧凑的存储，而 <code>c</code> 会存储到新的存储单元中，新的存储单元字节数为 <code>sizeof(unsigned short) = 2</code>， 所以此时 <strong>sizeof(fg)</strong> 是 <strong>4</strong></p>
-<p><strong>2、相邻位域成员，它们的类型不同时</strong></p>
-<p>这种情况跟具体的编译器相关，以下面的代码为例来说明</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
-<p>gcc的结果</p>
-<p><img src="https://pic1.zhimg.com/v2-d24b60824986660fedafe38d419a983c_b.png"></p>
-<p>vs2013的结果</p>
-<p><img src="https://pic4.zhimg.com/v2-bbd2e82b112cd1c50f3bf58278c4a41f_b.jpg"></p>
-<p>可以看到，当相邻位域成员所依附的类型不同时，不同的编译器产生的结果是不一样的</p>
-<p>在 gcc 下的运行结果是 2 ，表示 <code>a</code> 和 <code>b</code> 还是紧凑存储的</p>
-<p>而在 vs2013 下运行的结果是 4，这说明 <code>a</code> 和 <code>b</code> 完全按照他们所依附的类型来存储，此时位域没有进行压缩存储</p>
-<p><strong>3、位域成员之间存在非位域成员时</strong></p>
-<p>这种情况 gcc 和 vs2013 都不会进行压缩存储，按照内存对齐的规则来存储</p>
-<p>还是以下面的代码为例来说明</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned int i;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
-<p>gcc的结果</p>
-<p><img src="https://pic2.zhimg.com/v2-7cc4101dd6c9bfb9b5355545ab9ad28d_b.png"></p>
-<p>vs2013的结果</p>
-<p><img src="https://pic2.zhimg.com/v2-0232a27563e369319790c6cdc634cba5_b.jpg"></p>
-<p>不管在 gcc 还是在 vs2013 下，结果都相同，为了提高访问效率，成员按照 4 字节对齐，所以 <code>sizeof(fg)</code> 结果是 12</p>
-<p><strong>现在位域使用得也比较少了，大概有以下几个的原因</strong></p>
-<p>1、早期计算机内存很稀缺，在内存的使用上需要精打细算，但是，现代的计算机内存容量有了很大的提升，一般不需要为了节省几个字节而使用内存更加紧凑的位域</p>
-<p>2、通过前面的介绍，我们知道结构体中位域的存储是跟编译器相关，这就导致了它的可移植性比较差</p>
-<h3 id="匿名位域"><a href="#匿名位域" class="headerlink" title="匿名位域"></a>匿名位域</h3><p>位域成员可以不指定名字，只给出成员的数据类型以及占用的 bit 数，称作匿名位域</p>
-<p>匿名位域字段只是起填充 bit，调整成员位置的作用，并无实际的意义</p>
-<p>因为没有指定成员名字，所以也不能使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">        </span><br><span class="line">    unsigned short a:10,</span><br><span class="line">                    :6; //匿名位域,不能使用</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>上面例子中，如果没有匿名位域的话，<code>sizeof(fields)</code> 的结果为 <strong>2</strong>，加入 <strong>6</strong> 个 bit 的填充以后，<code>a</code> 和 <code>b</code> 将分开存储， <code>sizeof(fields)</code> 的结果变成了 <strong>4</strong></p>
-<p>我们还可以通过匿名0长度的位域字段来强制位域存储到下一个存储单元中，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>上面的结构体本来可以全部存储到一个 <strong>2</strong> 字节的存储单元中，如果我们想让 <code>a</code> 和 <code>b</code> 存储到不同的存储单元中，可以在结构体中加入一个匿名的 0 长度的位域字段来实现</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short  :0;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>这样申明后，<code>sizeof(struct fields)</code> 就变成 <strong>4</strong> 了</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>本文讲述了位域的基础，使用以及存储，其中位域的存储跟具体的编译器实现相关，这一点务必要注意，否则版本移植的时候要趟”坑”</p>
+    <title>内联函数</title>
+    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
 ]]></content>
       <categories>
         <category>C/C++</category>
@@ -236,70 +112,6 @@
       <tags>
         <tag>C/C++</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Skiplist</title>
-    <url>/2023/03/19/C/%E8%B7%B3%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>柔性数组</title>
-    <url>/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
-<p>柔型数组有两种定义方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<p>有些编译器会报错无法编译可以改成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
-<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
-<p><img src="/images/C_1.png"></p>
-<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/C_2.png"></p>
-<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
-<p><img src="/images/C_3.png"></p>
-<p>如果想增加数组元素，使用realloc调整结构体大小</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
-<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Do not edit</title>
-    <url>/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/</url>
-    <content><![CDATA[<h1 id="动态链接库链接顺序"><a href="#动态链接库链接顺序" class="headerlink" title="动态链接库链接顺序"></a>动态链接库链接顺序</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
-<li>-L 用于链接时指定显示链接的库的搜索路径（优先级高）</li>
-<li>-rpath 用于在链接时指定直接或间接链接的库搜索路径（最高优先级），并且(写入二进制文件中RPATH)指定运行时的本二进制文件的直接或间接依赖的动态加载库搜索路径（最高优先级）。注：有些系统默认开启链接选项-enable-new-dtags,导致-rpath生成RUNPATH。通过指定链接选项-disable-new-dtags来使其生成RPATH。</li>
-<li>-rpath-link 用于在链接时指定直接或间接链接的库搜索路径（优先级高）。</li>
-<li>LD_LIBRARY_PATH 在运行时搜索直接或间接依赖。优先级低于RPATH为第二优先级</li>
-<li>RUNPATH写入在二进制文件中，用于指定运行时本二进制文件的直接依赖动态加载库搜索路径(优先级低于LD_LIBRARY_PATH)。存在时覆盖二进制文件中RPATH。</li>
-</ol>
-<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ol>
-<li>ldd -s lib_path</li>
-<li>LD_DEBUG&#x3D;libs lib_path</li>
-<li>readelf -d lib_path</li>
-<li>cmake 设置rpath指令</li>
-<li>chrpath -r [new_rpath] [lib_name] 注:只能改路径比原来短的.</li>
-<li>patchelf –set-rpath [new_rpath] [lib_name] 注:没有限制路径长度,但是修改的是RUNPATH</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Do not edit</category>
-      </categories>
   </entry>
   <entry>
     <title>静态成员</title>
@@ -323,67 +135,6 @@
       <tags>
         <tag>C/C++</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>AES_NI</title>
-    <url>/2023/09/10/Encryption/AES_NI/</url>
-    <content><![CDATA[<h1 id="AES-NI"><a href="#AES-NI" class="headerlink" title="AES_NI"></a>AES_NI</h1><h2 id="How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System"><a href="#How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System" class="headerlink" title="How to find out AES-NI (Advanced Encryption) Enabled on Linux System"></a>How to find out AES-NI (Advanced Encryption) Enabled on Linux System</h2><p>One can find out that the processor has the AES&#x2F;AES-NI instruction set using the lscpu command:</p>
-<blockquote>
-<p>lscpu</p>
-</blockquote>
-<p>Type the following grep command to make sure that the processor has the AES instruction set and enabled in the BIOS:</p>
-<blockquote>
-<p>grep -o aes &#x2F;proc&#x2F;cpuinfo</p>
-</blockquote>
-<p>OR</p>
-<blockquote>
-<p>grep -m1 -o aes &#x2F;proc&#x2F;cpuinfo</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Encryption</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>初始化Git仓库</title>
-    <url>/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
-<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
-<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
-<p>$ chown -R git:git runoob.git</p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>内联函数</title>
-    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>全密态数据库</title>
-    <url>/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="全密态数据库"><a href="#全密态数据库" class="headerlink" title="全密态数据库"></a>全密态数据库</h1><p>可信硬件(TEE)</p>
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性:"></a>特性:</h2><ol>
-<li><p>密钥管理</p>
-</li>
-<li><p>索引</p>
-</li>
-<li><p>TEE计算</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Database</category>
-      </categories>
   </entry>
   <entry>
     <title>Base64</title>
@@ -708,14 +459,220 @@
       </categories>
   </entry>
   <entry>
-    <title>命令</title>
-    <url>/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
-<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
+    <title>Epoll</title>
+    <url>/2023/03/19/C/Epoll/</url>
+    <content><![CDATA[<h1 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h1><p>**<code>epoll</code>**是<a href="https://zh.wikipedia.org/wiki/Linux" title="Linux">Linux</a>内核的可扩展I&#x2F;O事件通知机制<sup id="cite_ref-1" class="reference"><a href="https://zh.wikipedia.org/wiki/Epoll#cite_note-1">[1]</a></sup>。于Linux 2.5.44首度登场，它设计目的旨在取代既有<a href="https://zh.wikipedia.org/wiki/POSIX" title="POSIX">POSIX</a> <a href="https://zh.wikipedia.org/wiki/Select_(Unix)" title="Select (Unix)"><code>select(2)</code></a>与<code>poll(2)</code><a href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8" title="系统调用">系统函数</a>，让需要大量操作<a href="https://zh.wikipedia.org/wiki/%E6%AA%94%E6%A1%88%E6%8F%8F%E8%BF%B0%E5%AD%90" title="文件描述符">文件描述符</a>的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，<code>epoll</code>的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件</p>
+<h2 id="程序接口"><a href="#程序接口" class="headerlink" title="程序接口"></a>程序接口</h2><p>int epoll_create(int size);</p>
+<p>在内核中创建<code>epoll</code>实例并返回一个<code>epoll</code>文件描述符。 在最初的实现中，调用者通过 <code>size</code> 参数告知内核需要监听的文件描述符数量。如果监听的文件描述符数量超过 size, 则内核会自动扩容。而现在 size 已经没有这种语义了，但是调用者调用时 size 依然必须大于 0，以保证后向兼容性。</p>
+<p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</p>
+<p>向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</p>
+<p>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);</p>
+<p>当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</p>
+<h2 id="触发模式-编辑"><a href="#触发模式-编辑" class="headerlink" title="触发模式[编辑]"></a>触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=2" title="编辑章节：触发模式">编辑</a>]</h2><p><code>epoll</code>提供<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91" title="中断">边沿触发</a>及<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%AD#%E7%8A%B6%E6%80%81%E8%A7%A6%E5%8F%91" title="中断">状态触发</a>模式。在边沿触发模式中，<code>epoll_wait</code>仅会在新的事件首次被加入<code>epoll</code>队列时返回；于level-triggered模式下，<code>epoll_wait</code>在事件状态未变更前将不断被触发。状态触发模式是默认的模式。</p>
+<p>状态触发模式与边沿触发模式有读和写两种情况，我们先来考虑读的情况。假设我们注册了一个读事件到<code>epoll</code>实例上，<code>epoll</code>实例会通过<code>epoll_wait</code>返回值的形式通知我们哪些读事件已经就绪。简单地来说，在状态触发模式下，如果读事件未被处理，该事件对应的内核读缓冲器非空，则每次调用 <code>epoll_wait</code> 时返回的事件列表都会包含该事件。直到该事件对应的内核读缓冲器为空为止。而在边沿触发模式下，读事件就绪后只会通知一次，不会反复通知。</p>
+<p>然后我们再考虑写的情况。水平触发模式下，只要文件描述符对应的内核写缓冲器未满，就会一直通知可写事件。而在边沿触发模式下，内核写缓冲器由满变为未满后，只会通知一次可写事件。</p>
+<p>举例来说，倘若有一个已经于<code>epoll</code>注册之<a href="https://zh.wikipedia.org/wiki/Anonymous_pipe" title="Anonymous pipe">流水线</a>接获资料，<code>epoll_wait</code>将返回，并发出资料读取的信号。现假设缓冲器的资料仅有部分被读取并处理，在level-triggered模式下，任何对<code>epoll_wait</code>之调用都将即刻返回，直到缓冲器中的资料全部被读取；然而，在edge-triggered的情境下，<code>epoll_wait</code>仅会于再次接收到新资料(亦即，新资料被写入流水线)时返回。</p>
+<h3 id="边沿触发模式-编辑"><a href="#边沿触发模式-编辑" class="headerlink" title="边沿触发模式[编辑]"></a>边沿触发模式[<a href="https://zh.wikipedia.org/w/index.php?title=Epoll&action=edit&section=3" title="编辑章节：边沿触发模式">编辑</a>]</h3><p>边沿触发模式使得程序有可能在用户态缓存 IO 状态。nginx 使用的是边沿触发模式。</p>
+<p>文件描述符有两种情况是推荐使用边沿触发模式的。</p>
+<ol>
+<li>read 或者 write 系统调用返回了 EAGAIN。</li>
+<li>非阻塞的文件描述符。</li>
+</ol>
+<p>可能的缺陷：</p>
+<ol>
+<li>如果 IO 空间很大，你要花很多时间才能把它一次读完，这可能会导致饥饿。举个例子，假设你在监听一个文件描述符列表，而某个文件描述符上有大量的输入（不间断的输入流），那么你在读完它的过程中就没空处理其他就绪的文件描述符。（因为边沿触发模式只会通知一次可读事件，所以你往往会想一次把它读完。）一种解决方案是，程序维护一个就绪队列，当 <code>epoll</code> 实例通知某文件描述符就绪时将它在就绪队列数据结构中标记为就绪，这样程序就会记得哪些文件描述符等待处理。Round-Robin 循环处理就绪队列中就绪的文件描述符即可。</li>
+<li>如果你缓存了所有事件，那么一种可能的情况是 A 事件的发生让程序关闭了另一个文件描述符 B。但是内核的 <code>epoll</code> 实例并不知道这件事，需要你从 <code>epoll</code> 删除掉。</li>
 </ol>
 ]]></content>
       <categories>
-        <category>GDB</category>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2024/06/02/C/%E4%BC%98%E5%85%88%E7%BA%A7/</url>
+    <content><![CDATA[<h1 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h1><p><strong><a href="http://lib.csdn.net/base/c" title="C语言知识库">C语言</a>运算符优先级</strong></p>
+<table border="1" cellspacing="0" cellpadding="0" width="612"><tbody><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>优先级</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>运算符</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>名称或含义</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>使用形式</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>结合方向</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>说明</strong></p></td></tr><tr><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>1</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">[]</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">数组下标</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">数组名[常量表达式]</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">()</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">圆括号</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">(表达式）/函数名(形参表)</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">.</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">成员选择（对象）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">对象.成员名</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-&gt;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">成员选择（指针）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">对象指针-&gt;成员名</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="9"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>2</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">负号运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">-表达式</p></td><td rowspan="9"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td rowspan="7"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">单目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">~</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位取反运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">~表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">++</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">自增运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">++变量名/变量名++</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">--</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">自减运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--变量名/变量名--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取值运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">*指针变量</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取地址运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&amp;变量名</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">!</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑非运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">!表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">(</span><span style="color:blue">类型</span><span style="color:blue">)</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">强制类型转换</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">(数据类型)表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">sizeof</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">长度运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">sizeof(表达式)</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>3</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">/</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">除</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式/表达式</p></td><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">乘</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式*表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">%</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">余数（取模）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">整型表达式%整型表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>4</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">+</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">加</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式+表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">减</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式-表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>5</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&lt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左移</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&lt;&lt;表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&gt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">右移</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&gt;&gt;表达式</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>6</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">大于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&gt;表达式</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">大于等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&gt;=表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">小于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&lt;表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">小于等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&lt;=表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>7</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">==</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式==表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">！</span><span style="color:blue">=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">不等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式!= 表达式</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>8</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位与</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&amp;表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>9</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">^</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位异或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式^表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>10</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">|</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式|表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>11</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑与</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&amp;&amp;表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>12</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">||</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式||表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>13</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">?:</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">条件运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式1?</p><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式2: 表达式3</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><span style="color:red">三目运算符</span></p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><span style="color:red">&nbsp;</span></p></td></tr><tr><td rowspan="11"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>14</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">赋值运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量=表达式</p></td><td rowspan="11"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">/=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">除后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量/=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">乘后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量*=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">%=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取模后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量%=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">+=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">加后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量+=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">减后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量-=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&lt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左移后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&lt;&lt;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&gt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">右移后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&gt;&gt;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位与后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&amp;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">^=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位异或后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量^=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">|=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位或后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量|=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>15</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">，</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逗号运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式,表达式,…</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr></tbody></table>
+
+<p><strong>说明：</strong></p>
+<p> <strong>同一优先级的运算符，运算次序由结合方向所决定。<br> 简单记就是：！ &gt; 算术运算符 &gt; 关系运算符 &gt; &amp;&amp; &gt; || &gt; 赋值运算符</strong></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>位域</title>
+    <url>/2023/02/12/C/%E4%BD%8D%E5%9F%9F/</url>
+    <content><![CDATA[<h1 id="位域"><a href="#位域" class="headerlink" title="位域"></a>位域</h1><h1 id="让人疑惑的C语言位域-知乎"><a href="#让人疑惑的C语言位域-知乎" class="headerlink" title="让人疑惑的C语言位域 - 知乎"></a>让人疑惑的C语言位域 - 知乎</h1><blockquote>
+<h2 id="Excerpt"><a href="#Excerpt" class="headerlink" title="Excerpt"></a>Excerpt</h2><p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念 位…</p>
+</blockquote>
+<hr>
+<p>在实际的应用中，有些数据的存储只需要几个二进制位，而不需要一个字节或几个字节，比如：电灯接通电源的状态，只有通电和未通电两种状态，用 1 和 0 就可以表示，为了满足这种需求，C 语言中引入了位域的概念</p>
+<h3 id="位域是什么"><a href="#位域是什么" class="headerlink" title="位域是什么"></a>位域是什么</h3><p>位域是一种数据结构，可以把数据以二进制位的形式紧凑的存储，它允许程序对此结构的位进行操作</p>
+<p>在计算机早期，内存是非常稀缺的，需要尽可能的节省每一个字节，所以，C 语言中就出现了能针对二进制位进行操作的位域</p>
+<h3 id="为什么要用位域"><a href="#为什么要用位域" class="headerlink" title="为什么要用位域"></a>为什么要用位域</h3><p>位域这种数据结构，可以最大限度的节省存储空间，对于一些非常频繁的操作，需要尽可能的减少操作的数据，比如：在开发网络应用时，数据的序列化和反序列化是很频繁的，如果能减少数据的长度，对提升数据打包效率是很有帮助的</p>
+<p>位域的出现，让我们可以用变量名代表某些bit，并通过变量名获取和设置 bit 的值，而不是通过晦涩难理解的位操作来进行，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct field</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char b0 : 3,</span><br><span class="line">                  b1 : 2,</span><br><span class="line">                  b2 : 3;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct field bf;</span><br><span class="line">bf.b1 = 3;</span><br></pre></td></tr></table></figure>
+
+<p>通过位域设置中间 2 个bit 的值，只需要设置结构体中 <code>b1</code> 字段值即可，如果使不用位域字段，就需要进行位的 “或” 和 “与” 运算</p>
+<h3 id="位域的使用"><a href="#位域的使用" class="headerlink" title="位域的使用"></a>位域的使用</h3><p>C 语言中，位域的表示形式如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct bitfield</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int b0 : n0,</span><br><span class="line">                 b1 : n1,</span><br><span class="line">                 b2 : n2,</span><br><span class="line">                 ...</span><br><span class="line">                 bn : nk;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>b0、b1、b2 ... bn</code> 表示位域成员，<code>n0、n1、n2 ... nk</code> 表示成员占用多少个 bit</p>
+<p>位域表示的范围通常不能超过其所依附类型所能表示的 bit 数，比如：上面 <code>bitfield</code> 结构体中 位域所依附的类型是 <code>unsigned int</code>, 最大能表示 32 个 bit，也就是说，<code>n0、n1、n2 ... nk</code> 总 bit 数不能超过 32，每个成员超过指定 bit 表示的最大数值时会被截断，具体请看下面的例子</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">        </span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    fs.a = 0x8F;</span><br><span class="line">    fs.b = 0x1A;</span><br><span class="line">    fs.c = 0x19;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%#x, %#x, %#x \n&quot;,fs.a, fs.b, fs.c);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>gcc -g -o bitfield bitfield.c</code> 编译并运行，结果为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">0xf, 0x1a, 0x9</span><br></pre></td></tr></table></figure>
+
+<p>字段 <code>a</code> 赋值为 <code>0x8F</code> 对应的二进制为 <strong>1000 1111</strong>，由于 <code>a</code> 只有 7 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 7 位，最终结果为 <strong>000 1111</strong> ，换成十六进制是 <strong>0xf</strong></p>
+<p>字段 <code>b</code> 赋值为 <code>0x1A</code> 对应的二进制为 <strong>1 1010</strong>， <code>b</code> 包含 5 个bit，取结果中的低 5 位，最终结果为 <strong>1 1010</strong> ，换成十六进制是 <strong>0x1a</strong> , 输出结果和赋值相同，即没有超出限定 bit 数</p>
+<p>字段 <code>c</code> 赋值为 <code>0x19</code> 对应的二进制为 <strong>1</strong> <strong>1001</strong>，由于 <code>c</code> 只有 4 个bit，给它赋的值超出了限定的位数，超出部分被丢弃，保留低 4 位，最终结果为 <strong>1001</strong> ，换成十六进制是 <strong>0x9</strong></p>
+<p>位域的使用有一定的限制，机器最小粒度的寻址单位是字节，我们无法像获得某一个字节的地址一样去获得某个 bit 的地址，下面是一个错误的示例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct fields</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:7;</span><br><span class="line">        unsigned short b:5;</span><br><span class="line">        unsigned char c:4;</span><br><span class="line">    &#125;fs;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码功能是打印出成员 <code>a</code> 的地址，它无法通过编译，错误如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bitfield.c: 在函数‘main’中:</span><br><span class="line">bitfield.c:11:5: 错误：无法取得位段‘a’的地址</span><br><span class="line">     printf(&quot;%p\n&quot;,&amp;fs.a);</span><br><span class="line">     ^</span><br></pre></td></tr></table></figure>
+
+<h3 id="位域的存储"><a href="#位域的存储" class="headerlink" title="位域的存储"></a>位域的存储</h3><p>C 标准中只允许 <code>unsigned int</code>、<code>signed int</code>、<code>int</code> 类型的位域申明，后面又增加了 <code>bool</code> 类型的支持，一些编译器像 <code>gcc</code>、<code>msvc</code>等自行加入了一些扩展，使得其他的类型(<code>short、char</code>等)也支持位域</p>
+<p>位域的存储跟编译器相关，不同的编译器，存储位域的方式可能不一样，总的来说可以分成下面几类</p>
+<p><strong>1、相邻位域成员，它们的类型相同时</strong></p>
+<p>如果它们的 bit 数之和小于等于所依附类型的 bit 数，那么，后面的成员紧接着前面的成员存储</p>
+<p>如果它们的 bit 数之和大于所依附类型的 bit 数，那么超过的成员会存储到新的存储单元中，新存储单元会偏移成员所依附类型的 sizeof 字节数</p>
+<p>以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned short b:4;</span><br><span class="line">        unsigned short c:2;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译运行，结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@localhost]# ./bitfield                   </span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p><code>a 、b、c</code> 字段都是 <code>unsigned short</code> 类型，它们的 bit 数之和为 <strong>10 + 4 + 2 &#x3D; 16</strong>, 刚好等于 <strong>unsigned short</strong> 的 bit 数，所以它们会紧凑的存储，没有任何空隙</p>
+<p>如果把 <code>a</code> 的 bit 数改成 11，即 **unsigned short a:11;**，此时，<code>a</code> 和 <code>b</code> 的 bit 数之和为 <strong>11 + 4 &#x3D; 15</strong>，没有超过 <code>unsigned short</code> 的 bit 数</p>
+<p>如果再加上 <code>c</code> 的 bit 数，结果变成了 <strong>17</strong>，超过了 <code>unsigned short</code> 的 bit 数，这种情况下，<code>a</code> 和 <code>b</code> 还是会紧凑的存储，而 <code>c</code> 会存储到新的存储单元中，新的存储单元字节数为 <code>sizeof(unsigned short) = 2</code>， 所以此时 <strong>sizeof(fg)</strong> 是 <strong>4</strong></p>
+<p><strong>2、相邻位域成员，它们的类型不同时</strong></p>
+<p>这种情况跟具体的编译器相关，以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
+<p>gcc的结果</p>
+<p><img src="https://pic1.zhimg.com/v2-d24b60824986660fedafe38d419a983c_b.png"></p>
+<p>vs2013的结果</p>
+<p><img src="https://pic4.zhimg.com/v2-bbd2e82b112cd1c50f3bf58278c4a41f_b.jpg"></p>
+<p>可以看到，当相邻位域成员所依附的类型不同时，不同的编译器产生的结果是不一样的</p>
+<p>在 gcc 下的运行结果是 2 ，表示 <code>a</code> 和 <code>b</code> 还是紧凑存储的</p>
+<p>而在 vs2013 下运行的结果是 4，这说明 <code>a</code> 和 <code>b</code> 完全按照他们所依附的类型来存储，此时位域没有进行压缩存储</p>
+<p><strong>3、位域成员之间存在非位域成员时</strong></p>
+<p>这种情况 gcc 和 vs2013 都不会进行压缩存储，按照内存对齐的规则来存储</p>
+<p>还是以下面的代码为例来说明</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    struct flag</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned short a:10;</span><br><span class="line">        unsigned int i;</span><br><span class="line">        unsigned char b:4;</span><br><span class="line">    &#125;fg;</span><br><span class="line">    printf(&quot;%d\n&quot;, sizeof(fg));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码分别用 gcc4.8.5 和 vs2013 进行编译运行，结果如下</p>
+<p>gcc的结果</p>
+<p><img src="https://pic2.zhimg.com/v2-7cc4101dd6c9bfb9b5355545ab9ad28d_b.png"></p>
+<p>vs2013的结果</p>
+<p><img src="https://pic2.zhimg.com/v2-0232a27563e369319790c6cdc634cba5_b.jpg"></p>
+<p>不管在 gcc 还是在 vs2013 下，结果都相同，为了提高访问效率，成员按照 4 字节对齐，所以 <code>sizeof(fg)</code> 结果是 12</p>
+<p><strong>现在位域使用得也比较少了，大概有以下几个的原因</strong></p>
+<p>1、早期计算机内存很稀缺，在内存的使用上需要精打细算，但是，现代的计算机内存容量有了很大的提升，一般不需要为了节省几个字节而使用内存更加紧凑的位域</p>
+<p>2、通过前面的介绍，我们知道结构体中位域的存储是跟编译器相关，这就导致了它的可移植性比较差</p>
+<h3 id="匿名位域"><a href="#匿名位域" class="headerlink" title="匿名位域"></a>匿名位域</h3><p>位域成员可以不指定名字，只给出成员的数据类型以及占用的 bit 数，称作匿名位域</p>
+<p>匿名位域字段只是起填充 bit，调整成员位置的作用，并无实际的意义</p>
+<p>因为没有指定成员名字，所以也不能使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">        </span><br><span class="line">    unsigned short a:10,</span><br><span class="line">                    :6; //匿名位域,不能使用</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面例子中，如果没有匿名位域的话，<code>sizeof(fields)</code> 的结果为 <strong>2</strong>，加入 <strong>6</strong> 个 bit 的填充以后，<code>a</code> 和 <code>b</code> 将分开存储， <code>sizeof(fields)</code> 的结果变成了 <strong>4</strong></p>
+<p>我们还可以通过匿名0长度的位域字段来强制位域存储到下一个存储单元中，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面的结构体本来可以全部存储到一个 <strong>2</strong> 字节的存储单元中，如果我们想让 <code>a</code> 和 <code>b</code> 存储到不同的存储单元中，可以在结构体中加入一个匿名的 0 长度的位域字段来实现</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct fields</span><br><span class="line">&#123;</span><br><span class="line">    unsigned short a:10;</span><br><span class="line">    unsigned short  :0;</span><br><span class="line">    unsigned short b:3;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这样申明后，<code>sizeof(struct fields)</code> 就变成 <strong>4</strong> 了</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>本文讲述了位域的基础，使用以及存储，其中位域的存储跟具体的编译器实现相关，这一点务必要注意，否则版本移植的时候要趟”坑”</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>动态库链接顺序</title>
+    <url>/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/</url>
+    <content><![CDATA[<h1 id="动态链接库链接顺序"><a href="#动态链接库链接顺序" class="headerlink" title="动态链接库链接顺序"></a>动态链接库链接顺序</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
+<li>-L 用于链接时指定显示链接的库的搜索路径（优先级高）</li>
+<li>-rpath 用于在链接时指定直接或间接链接的库搜索路径（最高优先级），并且(写入二进制文件中RPATH)指定运行时的本二进制文件的直接或间接依赖的动态加载库搜索路径（最高优先级）。注：有些系统默认开启链接选项-enable-new-dtags,导致-rpath生成RUNPATH。通过指定链接选项-disable-new-dtags来使其生成RPATH。</li>
+<li>-rpath-link 用于在链接时指定直接或间接链接的库搜索路径（优先级高）。</li>
+<li>LD_LIBRARY_PATH 在运行时搜索直接或间接依赖。优先级低于RPATH为第二优先级</li>
+<li>RUNPATH写入在二进制文件中，用于指定运行时本二进制文件的直接依赖动态加载库搜索路径(优先级低于LD_LIBRARY_PATH)。存在时覆盖二进制文件中RPATH。</li>
+</ol>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ol>
+<li>ldd -s lib_path</li>
+<li>LD_DEBUG&#x3D;libs lib_path</li>
+<li>readelf -d lib_path</li>
+<li>cmake 设置rpath指令</li>
+<li>chrpath -r [new_rpath] [lib_name] 注:只能改路径比原来短的.</li>
+<li>patchelf –set-rpath [new_rpath] [lib_name] 注:没有限制路径长度,但是修改的是RUNPATH</li>
+</ol>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>柔性数组</title>
+    <url>/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
+<p>柔型数组有两种定义方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<p>有些编译器会报错无法编译可以改成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
+<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
+<p><img src="/images/C_1.png"></p>
+<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/C_2.png"></p>
+<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
+<p><img src="/images/C_3.png"></p>
+<p>如果想增加数组元素，使用realloc调整结构体大小</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
+<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Skiplist</title>
+    <url>/2023/03/19/C/%E8%B7%B3%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>全密态数据库</title>
+    <url>/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="全密态数据库"><a href="#全密态数据库" class="headerlink" title="全密态数据库"></a>全密态数据库</h1><p>可信硬件(TEE)</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性:"></a>特性:</h2><ol>
+<li><p>密钥管理</p>
+</li>
+<li><p>索引</p>
+</li>
+<li><p>TEE计算</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Database</category>
       </categories>
   </entry>
   <entry>
@@ -725,6 +682,17 @@
 <p>handle SIGUSR2 noprint nostop</p>
 <p>handle SIGPIPE noprint nostop</p>
 <p><img src="/images/GDB_1.png"></p>
+]]></content>
+      <categories>
+        <category>GDB</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>命令</title>
+    <url>/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
+<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
+</ol>
 ]]></content>
       <categories>
         <category>GDB</category>
@@ -816,6 +784,34 @@
 ]]></content>
   </entry>
   <entry>
+    <title>线程</title>
+    <url>/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br><span class="line">GDB&gt; set print pretty on //格式化打印</span><br><span class="line">GDB&gt; thread find [regexp] //查找线程</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>GDB</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>AES_NI</title>
+    <url>/2023/09/10/Encryption/AES_NI/</url>
+    <content><![CDATA[<h1 id="AES-NI"><a href="#AES-NI" class="headerlink" title="AES_NI"></a>AES_NI</h1><h2 id="How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System"><a href="#How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System" class="headerlink" title="How to find out AES-NI (Advanced Encryption) Enabled on Linux System"></a>How to find out AES-NI (Advanced Encryption) Enabled on Linux System</h2><p>One can find out that the processor has the AES&#x2F;AES-NI instruction set using the lscpu command:</p>
+<blockquote>
+<p>lscpu</p>
+</blockquote>
+<p>Type the following grep command to make sure that the processor has the AES instruction set and enabled in the BIOS:</p>
+<blockquote>
+<p>grep -o aes &#x2F;proc&#x2F;cpuinfo</p>
+</blockquote>
+<p>OR</p>
+<blockquote>
+<p>grep -m1 -o aes &#x2F;proc&#x2F;cpuinfo</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Encryption</category>
+      </categories>
+  </entry>
+  <entry>
     <title>输出日志记录</title>
     <url>/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h1 id="输出日志记录"><a href="#输出日志记录" class="headerlink" title="输出日志记录"></a>输出日志记录</h1><blockquote>
@@ -827,47 +823,32 @@
       </categories>
   </entry>
   <entry>
-    <title>Do not edit</title>
-    <url>/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br><span class="line">GDB&gt; set print pretty on //格式化打印</span><br><span class="line">GDB&gt; thread find [regexp] //查找线程</span><br></pre></td></tr></table></figure>]]></content>
+    <title>任务列表语法</title>
+    <url>/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<ul>
+<li><input checked disabled type="checkbox"> Write the press release</li>
+<li><input disabled type="checkbox"> Update the website</li>
+<li><input disabled type="checkbox"> Contact the media</li>
+</ul>
+]]></content>
       <categories>
-        <category>Do not edit</category>
+        <category>Markdown</category>
       </categories>
   </entry>
   <entry>
-    <title>Questions</title>
-    <url>/2023/03/21/Questions/%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="脚本问题"><a href="#脚本问题" class="headerlink" title="脚本问题"></a>脚本问题</h1><h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><ol>
-<li>windows脚本不断重复执行同一条命令<br>原因: 脚本名和cmd系统命令重复</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>VSCode</title>
-    <url>/2023/02/24/Shortcuts/vscode/</url>
-    <content><![CDATA[<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
-<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
-</ol>
+    <title>初始化Git仓库</title>
+    <url>/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
+<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
+<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
+<p>$ chown -R git:git runoob.git</p>
 ]]></content>
       <categories>
-        <category>Shortcuts</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Hash</title>
-    <url>/2023/03/19/Redis/Hash/</url>
-    <content><![CDATA[<h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Hash算法"><a href="#Hash算法" class="headerlink" title="Hash算法"></a>Hash算法</h2><p>Redis4.0之前使用的Hash算法是MurmurHash, 即使输入的键是有规律的, 该算法计算的结果依然有很好的离散性, 并且计算速度非常快. Redis4.0开始更换为SipHash算法, 应该是出于安全的考虑, 该算法能有效防止Hash表碰撞<br>攻击, 并提供不错的性能</p>
-<blockquote>
-<h3 id="SipHash"><a href="#SipHash" class="headerlink" title="SipHash"></a>SipHash</h3><p>大部分非加密哈希算法的改良，都集中在让哈希速度更快更好上。SipHash 则是个异类，它的提出是为了<a href="http://emboss.github.io/blog/2012/12/14/breaking-murmur-hash-flooding-dos-reloaded/">解决一类安全问题</a>：hash flooding。通过让&gt; 输出随机化，SipHash 能够有效减缓 hash flooding 攻击。凭借这一点，它逐渐成为 Ruby、Python、Rust 等语言默认的 hash 表实现的一部分。<br>如果你愿意尝试下新技术，可以看看 2016 新出的 <a href="https://github.com/google/highwayhash">HighwayHash</a>。它宣称可以达到 SipHash 一样的效果，并且凭借 SIMD 的加持，在运算速度上它是 SipHash 的 5.2 倍（参考来源：<a href="https://arxiv.org/abs/1612.06257">https://arxiv.>  org/abs/1612.06257</a> ）。</p>
-</blockquote>
-<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>把ht[0]上的数据迁移到ht[1]shang</p>
-<p>size调整为2的n次幂, 为了ht[1]Hash表数据长度是ht[0]Hash表数据长度的倍数, 有利于ht[0]的数据均匀地迁移到ht[1]</p>
-<p><strong>Hash&amp;ht.sizemask, sizemask&#x3D;size-1, idx&#x3D;hash%(ht.size)</strong>, 因此, 假如ht[0].size为0, ht[1].size&#x3D;2*n, 对于ht[0]上的元素, ht[0].table[k]的数据, 要不迁移到ht[1].table[k], 要不迁移到ht[1].table[k+n]</p>
-<h2 id="缩容"><a href="#缩容" class="headerlink" title="缩容"></a>缩容</h2><p>执行删除操作后, Redis会检查字典是否需要缩容, 当Hash表长度大于4且负载因子小于0.1时, 会执行缩容操作, 以节省内存</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis字典使用SipHash算法计算Hash值, 并使用链表法处理Hash冲突<br>Redis字段使用渐进式扩容方法, 在每次数据操作中都执行一次扩容单步操作, 直到扩容完成<br>散列类型的编码格式可以为OBJ_ENCODING_HT, OBJ_ENCODING_ZIPLIST  </p>
-]]></content>
-      <categories>
-        <category>Redis</category>
+        <category>Git</category>
       </categories>
   </entry>
   <entry>
@@ -901,55 +882,6 @@
       </categories>
   </entry>
   <entry>
-    <title>集合</title>
-    <url>/2023/03/19/Redis/%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
-<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
-<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
-<p><img src="/../images/Redis_1.webp"></p>
-<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
-<ol>
-<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
-<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
-<li>skiplist实现简单</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>任务列表语法</title>
-    <url>/2023/02/12/Markdown/%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="任务列表语法"><a href="#任务列表语法" class="headerlink" title="任务列表语法"></a>任务列表语法</h1><p>任务列表使您可以创建带有复选框的项目列表。在支持任务列表的Markdown应用程序中，复选框将显示在内容旁边。要创建任务列表，请在任务列表项之前添加破折号<code>-</code>和方括号<code>[ ]</code>，并在<code>[ ]</code>前面加上空格。要选择一个复选框，请在方括号<code>[x]</code>之间添加 x 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- [x] Write the press release</span><br><span class="line">- [ ] Update the website</span><br><span class="line">- [ ] Contact the media</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<ul>
-<li><input checked disabled type="checkbox"> Write the press release</li>
-<li><input disabled type="checkbox"> Update the website</li>
-<li><input disabled type="checkbox"> Contact the media</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>msg</title>
-    <url>/2023/03/28/Redis/msg/</url>
-    <content><![CDATA[<h1 id="msg"><a href="#msg" class="headerlink" title="msg"></a>msg</h1><ol>
-<li>skiplist</li>
-<li>cpu绑定</li>
-<li>unix编程</li>
-<li>事件机制</li>
-</ol>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-  </entry>
-  <entry>
     <title>删除线语法</title>
     <url>/2023/02/12/Markdown/%E5%88%A0%E9%99%A4%E7%BA%BF%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="删除线语法"><a href="#删除线语法" class="headerlink" title="删除线语法"></a>删除线语法</h1><p>您可以通过在单词中心放置一条水平线来删除单词。结果看起来<del>像这样</del>。此功能使您可以指示某些单词是一个错误，要从文档中删除。若要删除单词，请在单词前后使用两个波浪号<code>~~</code>。</p>
@@ -974,6 +906,50 @@
 
 <p>呈现的输出如下所示：</p>
 <dl><dt>First Term</dt><dd>This is the definition of the first term.</dd></dl><dl><dt>Second Term<br>: This is one definition of the second term.</dt><dd>This is another definition of the second term.</dd></dl>]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>引用</title>
+    <url>/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Markdown-使用"><a href="#Markdown-使用" class="headerlink" title="Markdown 使用"></a>Markdown 使用</h1><p>要创建块引用，请在段落前添加一个 <code>&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下所示：</p>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+</blockquote>
+<h3 id="多个段落的块引用"><a href="#多个段落的块引用" class="headerlink" title="# 多个段落的块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%A4%9A%E4%B8%AA%E6%AE%B5%E8%90%BD%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 多个段落的块引用</h3><p>块引用可以包含多个段落。为段落之间的空白行添加一个 <code>&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
+</blockquote>
+<h3 id="嵌套块引用"><a href="#嵌套块引用" class="headerlink" title="# 嵌套块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B5%8C%E5%A5%97%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 嵌套块引用</h3><p>块引用可以嵌套。在要嵌套的段落前添加一个 <code>&gt;&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt;&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+<blockquote>
+<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
+</blockquote>
+</blockquote>
+<h3 id="带有其它元素的块引用"><a href="#带有其它元素的块引用" class="headerlink" title="# 带有其它元素的块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B8%A6%E6%9C%89%E5%85%B6%E5%AE%83%E5%85%83%E7%B4%A0%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 带有其它元素的块引用</h3><p>块引用可以包含其他 Markdown 格式的元素。并非所有元素都可以使用，你需要进行实验以查看哪些元素有效。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; #### The quarterly results look great!</span><br><span class="line">&gt;</span><br><span class="line">&gt; - Revenue was off the chart.</span><br><span class="line">&gt; - Profits were higher than ever.</span><br><span class="line">&gt;</span><br><span class="line">&gt;  *Everything* is going according to **plan**.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<blockquote>
+<h4 id="The-quarterly-results-look-great"><a href="#The-quarterly-results-look-great" class="headerlink" title="The quarterly results look great!"></a>The quarterly results look great!</h4><ul>
+<li>Revenue was off the chart.</li>
+<li>Profits were higher than ever.</li>
+</ul>
+<p><em>Everything</em> is going according to <strong>plan</strong>.</p>
+</blockquote>
+]]></content>
       <categories>
         <category>Markdown</category>
       </categories>
@@ -1112,6 +1088,64 @@
       </categories>
   </entry>
   <entry>
+    <title>表格语法</title>
+    <url>/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Markdwon表格语法"><a href="#Markdwon表格语法" class="headerlink" title="Markdwon表格语法"></a>Markdwon表格语法</h1><p>要添加表，请使用三个或多个连字符（<code>---</code>）创建每列的标题，并使用管道（<code>|</code>）分隔每列。您可以选择在表的任一端添加管道。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">| Syntax      | Description |</span><br><span class="line">| ----------- | ----------- |</span><br><span class="line">| Header      | Title       |</span><br><span class="line">| Paragraph   | Text        |</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header</td>
+<td>Title</td>
+</tr>
+<tr>
+<td>Paragraph</td>
+<td>Text</td>
+</tr>
+</tbody></table>
+<p>单元格宽度可以变化，如下所示。呈现的输出将看起来相同。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">| Syntax | Description |</span><br><span class="line">| --- | ----------- |</span><br><span class="line">| Header | Title |</span><br><span class="line">| Paragraph | Text |</span><br></pre></td></tr></table></figure>
+
+<p><strong>Tip:</strong> 使用连字符和管道创建表可能很麻烦。为了加快该过程，请尝试使用<a href="https://www.tablesgenerator.com/markdown_tables">Markdown Tables Generator</a>。使用图形界面构建表，然后将生成的Markdown格式的文本复制到文件中。</p>
+<h2 id="对齐"><a href="#对齐" class="headerlink" title="# 对齐"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%AF%B9%E9%BD%90">#</a> 对齐</h2><p>您可以通过在标题行中的连字符的左侧，右侧或两侧添加冒号（<code>:</code>），将列中的文本对齐到左侧，右侧或中心。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">| Syntax      | Description | Test Text     |</span><br><span class="line">| :---        |    :----:   |          ---: |</span><br><span class="line">| Header      | Title       | Here&#x27;s this   |</span><br><span class="line">| Paragraph   | Text        | And more      |</span><br></pre></td></tr></table></figure>
+
+<p>呈现的输出如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+<th>Test Text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header</td>
+<td>Title</td>
+<td>Here’s this</td>
+</tr>
+<tr>
+<td>Paragraph</td>
+<td>Text</td>
+<td>And more</td>
+</tr>
+</tbody></table>
+<h2 id="格式化表格中的文字"><a href="#格式化表格中的文字" class="headerlink" title="# 格式化表格中的文字"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%A1%A8%E6%A0%BC%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">#</a> 格式化表格中的文字</h2><p>您可以在表格中设置文本格式。例如，您可以添加链接，代码（仅反引号（<code>`</code>）中的单词或短语，而不是代码块）和强调。</p>
+<p>您不能添加标题，块引用，列表，水平规则，图像或HTML标签。</p>
+<h2 id="在表中转义管道字符"><a href="#在表中转义管道字符" class="headerlink" title="# 在表中转义管道字符"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%9C%A8%E8%A1%A8%E4%B8%AD%E8%BD%AC%E4%B9%89%E7%AE%A1%E9%81%93%E5%AD%97%E7%AC%A6">#</a> 在表中转义管道字符</h2><p>您可以使用表格的HTML字符代码（<code>&amp;#124;</code>）在表中显示竖线（<code>|</code>）字符。</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
     <title>转义字符语法</title>
     <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
@@ -1204,64 +1238,6 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
 
 <p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>表格语法</title>
-    <url>/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Markdwon表格语法"><a href="#Markdwon表格语法" class="headerlink" title="Markdwon表格语法"></a>Markdwon表格语法</h1><p>要添加表，请使用三个或多个连字符（<code>---</code>）创建每列的标题，并使用管道（<code>|</code>）分隔每列。您可以选择在表的任一端添加管道。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">| Syntax      | Description |</span><br><span class="line">| ----------- | ----------- |</span><br><span class="line">| Header      | Title       |</span><br><span class="line">| Paragraph   | Text        |</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>Syntax</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Header</td>
-<td>Title</td>
-</tr>
-<tr>
-<td>Paragraph</td>
-<td>Text</td>
-</tr>
-</tbody></table>
-<p>单元格宽度可以变化，如下所示。呈现的输出将看起来相同。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">| Syntax | Description |</span><br><span class="line">| --- | ----------- |</span><br><span class="line">| Header | Title |</span><br><span class="line">| Paragraph | Text |</span><br></pre></td></tr></table></figure>
-
-<p><strong>Tip:</strong> 使用连字符和管道创建表可能很麻烦。为了加快该过程，请尝试使用<a href="https://www.tablesgenerator.com/markdown_tables">Markdown Tables Generator</a>。使用图形界面构建表，然后将生成的Markdown格式的文本复制到文件中。</p>
-<h2 id="对齐"><a href="#对齐" class="headerlink" title="# 对齐"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%AF%B9%E9%BD%90">#</a> 对齐</h2><p>您可以通过在标题行中的连字符的左侧，右侧或两侧添加冒号（<code>:</code>），将列中的文本对齐到左侧，右侧或中心。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">| Syntax      | Description | Test Text     |</span><br><span class="line">| :---        |    :----:   |          ---: |</span><br><span class="line">| Header      | Title       | Here&#x27;s this   |</span><br><span class="line">| Paragraph   | Text        | And more      |</span><br></pre></td></tr></table></figure>
-
-<p>呈现的输出如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>Syntax</th>
-<th>Description</th>
-<th>Test Text</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Header</td>
-<td>Title</td>
-<td>Here’s this</td>
-</tr>
-<tr>
-<td>Paragraph</td>
-<td>Text</td>
-<td>And more</td>
-</tr>
-</tbody></table>
-<h2 id="格式化表格中的文字"><a href="#格式化表格中的文字" class="headerlink" title="# 格式化表格中的文字"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%A1%A8%E6%A0%BC%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">#</a> 格式化表格中的文字</h2><p>您可以在表格中设置文本格式。例如，您可以添加链接，代码（仅反引号（<code>`</code>）中的单词或短语，而不是代码块）和强调。</p>
-<p>您不能添加标题，块引用，列表，水平规则，图像或HTML标签。</p>
-<h2 id="在表中转义管道字符"><a href="#在表中转义管道字符" class="headerlink" title="# 在表中转义管道字符"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%9C%A8%E8%A1%A8%E4%B8%AD%E8%BD%AC%E4%B9%89%E7%AE%A1%E9%81%93%E5%AD%97%E7%AC%A6">#</a> 在表中转义管道字符</h2><p>您可以使用表格的HTML字符代码（<code>&amp;#124;</code>）在表中显示竖线（<code>|</code>）字符。</p>
 ]]></content>
       <categories>
         <category>Markdown</category>
@@ -1383,50 +1359,42 @@
       </categories>
   </entry>
   <entry>
-    <title>Do not edit</title>
-    <url>/2024/06/02/Shell/for/</url>
-    <content><![CDATA[<h1 id="FOR"><a href="#FOR" class="headerlink" title="FOR"></a>FOR</h1><p>Windows bat脚本的for语句基本形态如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">在cmd窗口中：<span class="keyword">for</span> %I <span class="title function_">in</span> <span class="params">(command1)</span> <span class="keyword">do</span> command2 在批处理文件中：<span class="keyword">for</span> %%I <span class="title function_">in</span> <span class="params">(command1)</span> <span class="keyword">do</span> command2</span><br></pre></td></tr></table></figure>
-
-<p>之所以要区分cmd窗口和批处理文件两种环境，是因为在这两种环境下，命令语句表现出来的行为虽然基本一样，但是在细节上还是稍有不同，最明显的一个差异就是：在cmd窗口中，for之后的形式变量I必须使用单百分号引用，即%I；而在批处理文件中，引用形式变量I必须使用双百分号，即%%I。为了方便起见，若不是特别强调，以下的讲解都以批处理文件环境为例。</p>
-<p>我们先来看一下for语句的基本要素都有些什么：</p>
-<ol>
-<li>for、in和do是for语句的关键字，它们三个缺一不可；</li>
-<li>%%I是for语句中对形式变量的引用，即使变量l在do后的语句中没有参与语句的执行，也是必须出现的；</li>
-<li>in之后，do之前的括号不能省略；</li>
-<li>command1表示字符串或变量，command2表示字符串、变量或命令语句；</li>
+    <title>Questions</title>
+    <url>/2023/03/21/Questions/%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="脚本问题"><a href="#脚本问题" class="headerlink" title="脚本问题"></a>脚本问题</h1><h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><ol>
+<li>windows脚本不断重复执行同一条命令<br>原因: 脚本名和cmd系统命令重复</li>
 </ol>
-<p>  下面来看一个Windows bat脚本的demo(记为demo1)：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">@<span class="keyword">echo</span> off</span><br><span class="line"><span class="keyword">for</span>  %%I <span class="title function_ invoke__">in</span> (ABC) <span class="keyword">do</span> <span class="keyword">echo</span> %%I</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-<p> 保存为.bat文件(批处理文件)并执行，将会在弹出的批处理窗口中看到这样的信息：</p>
-<p><img src="//img-blog.csdn.net/20180320184647370">  </p>
-<p> 对批处理文件的for循环就是这样简单，下面来看看for语句的注意事项，并运行更复杂的for循环实例。</p>
-<ol>
-<li><p>for语句的形式变量I，可以换成26个字母中的任意一个，这些字母会区分大小写，也就是说，%%I和%%i会被认为不是同一个变量；形式变量I还可以换成其他的字符，但是，为了不与批处理中的%0～%9这10个形式变量发生冲突，请不要随意把%%I替换为%%0～%%9中的任意一个；</p>
-</li>
-<li><p>in和do之间的command1表示的字符串或变量可以是一个，也可以是多个，每一个字符串或变量，我们称之为一个元素，每个元素之间，用空格键、跳格键、逗号、分号或等号分隔；</p>
-</li>
-<li><p>for语句依次提取command1中的每一个元素，把它的值赋予形式变量I，带到do后的command2中参与命令的执行；并且每次只提取一个元素，然后执行一次do后的命令语句，而无论这个元素是否被带到command2中参与了command2的运行；当执行完一次do后的语句之后，再提取command1中的下一个元素，再执行一次command2，如此循环，直到command1中的所有元素都已经被提取完毕，该for语句才宣告执行结束。</p>
-<p> 有了以上的基础，我们再来看下面这个例子，这个例子修改了demo1中的部分内容(记为demo2)，结果将大不一样：</p>
-</li>
+]]></content>
+  </entry>
+  <entry>
+    <title>msg</title>
+    <url>/2023/03/28/Redis/msg/</url>
+    <content><![CDATA[<h1 id="msg"><a href="#msg" class="headerlink" title="msg"></a>msg</h1><ol>
+<li>skiplist</li>
+<li>cpu绑定</li>
+<li>unix编程</li>
+<li>事件机制</li>
 </ol>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">@<span class="keyword">echo</span> off</span><br><span class="line"><span class="keyword">for</span>  %%I <span class="title function_ invoke__">in</span> (A,B,C) <span class="keyword">do</span> <span class="keyword">echo</span> %%I</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-<p>  运行结果如下：</p>
-<p><img src="//img-blog.csdn.net/20180320184632835">  </p>
-<p>如果把 bbs.bathome.cn 这个字符串中的点号换为空格、跳格或等号，执行结果将和demo2的执行结果别无二致。</p>
-<p>现在，来分析一下demo2代码中for语句的执行过程：</p>
-<p>  1.for语句以逗号为分隔符，把 A,B,C 这个字符串切分成三个元素：A、B和C，由此决定了do后的语句将会被执行3次；   </p>
-<p> 2.第一次执行过程是这样的：先把 bbs 这个字符串作为形式变量I的值，带入do后的语句中加以执行，也就是执行 echo %%I 语句，此时的I值为A，因此，第一次执行的结果，将会在屏幕上显示A这个字符串；第二次执行和第一次执行的过程是一样的，只不过此时I的值已经被替换为command1中的第二个元素了，也就是 B 这个字符串；如此循环，当第三次echo执行完毕之后，整条for语句才算执行完毕，此时，将执行下一条语句，也就是pause命令。</p>
-<p> 高级用法：</p>
-<p>1)搜索当前目录下有哪些文件？</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.*) do echo &quot;%%i&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-<p>2)搜索当前目录下所有的文本文件？</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.txt) do echo &quot;%%i&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>]]></content>
+]]></content>
       <categories>
-        <category>Do not edit</category>
+        <category>redis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hash</title>
+    <url>/2023/03/19/Redis/Hash/</url>
+    <content><![CDATA[<h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Hash算法"><a href="#Hash算法" class="headerlink" title="Hash算法"></a>Hash算法</h2><p>Redis4.0之前使用的Hash算法是MurmurHash, 即使输入的键是有规律的, 该算法计算的结果依然有很好的离散性, 并且计算速度非常快. Redis4.0开始更换为SipHash算法, 应该是出于安全的考虑, 该算法能有效防止Hash表碰撞<br>攻击, 并提供不错的性能</p>
+<blockquote>
+<h3 id="SipHash"><a href="#SipHash" class="headerlink" title="SipHash"></a>SipHash</h3><p>大部分非加密哈希算法的改良，都集中在让哈希速度更快更好上。SipHash 则是个异类，它的提出是为了<a href="http://emboss.github.io/blog/2012/12/14/breaking-murmur-hash-flooding-dos-reloaded/">解决一类安全问题</a>：hash flooding。通过让&gt; 输出随机化，SipHash 能够有效减缓 hash flooding 攻击。凭借这一点，它逐渐成为 Ruby、Python、Rust 等语言默认的 hash 表实现的一部分。<br>如果你愿意尝试下新技术，可以看看 2016 新出的 <a href="https://github.com/google/highwayhash">HighwayHash</a>。它宣称可以达到 SipHash 一样的效果，并且凭借 SIMD 的加持，在运算速度上它是 SipHash 的 5.2 倍（参考来源：<a href="https://arxiv.org/abs/1612.06257">https://arxiv.>  org/abs/1612.06257</a> ）。</p>
+</blockquote>
+<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>把ht[0]上的数据迁移到ht[1]shang</p>
+<p>size调整为2的n次幂, 为了ht[1]Hash表数据长度是ht[0]Hash表数据长度的倍数, 有利于ht[0]的数据均匀地迁移到ht[1]</p>
+<p><strong>Hash&amp;ht.sizemask, sizemask&#x3D;size-1, idx&#x3D;hash%(ht.size)</strong>, 因此, 假如ht[0].size为0, ht[1].size&#x3D;2*n, 对于ht[0]上的元素, ht[0].table[k]的数据, 要不迁移到ht[1].table[k], 要不迁移到ht[1].table[k+n]</p>
+<h2 id="缩容"><a href="#缩容" class="headerlink" title="缩容"></a>缩容</h2><p>执行删除操作后, Redis会检查字典是否需要缩容, 当Hash表长度大于4且负载因子小于0.1时, 会执行缩容操作, 以节省内存</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis字典使用SipHash算法计算Hash值, 并使用链表法处理Hash冲突<br>Redis字段使用渐进式扩容方法, 在每次数据操作中都执行一次扩容单步操作, 直到扩容完成<br>散列类型的编码格式可以为OBJ_ENCODING_HT, OBJ_ENCODING_ZIPLIST  </p>
+]]></content>
+      <categories>
+        <category>Redis</category>
       </categories>
   </entry>
   <entry>
@@ -1519,6 +1487,71 @@
       </categories>
   </entry>
   <entry>
+    <title>集合</title>
+    <url>/2023/03/19/Redis/%E9%9B%86%E5%90%88/</url>
+    <content><![CDATA[<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
+<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
+<p><img src="/../images/Redis_1.webp"></p>
+<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
+<ol>
+<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
+<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
+<li>skiplist实现简单</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Shell for</title>
+    <url>/2024/06/02/Shell/for/</url>
+    <content><![CDATA[<h1 id="FOR"><a href="#FOR" class="headerlink" title="FOR"></a>FOR</h1><p>Windows bat脚本的for语句基本形态如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">在cmd窗口中：<span class="keyword">for</span> %I <span class="title function_">in</span> <span class="params">(command1)</span> <span class="keyword">do</span> command2 在批处理文件中：<span class="keyword">for</span> %%I <span class="title function_">in</span> <span class="params">(command1)</span> <span class="keyword">do</span> command2</span><br></pre></td></tr></table></figure>
+
+<p>之所以要区分cmd窗口和批处理文件两种环境，是因为在这两种环境下，命令语句表现出来的行为虽然基本一样，但是在细节上还是稍有不同，最明显的一个差异就是：在cmd窗口中，for之后的形式变量I必须使用单百分号引用，即%I；而在批处理文件中，引用形式变量I必须使用双百分号，即%%I。为了方便起见，若不是特别强调，以下的讲解都以批处理文件环境为例。</p>
+<p>我们先来看一下for语句的基本要素都有些什么：</p>
+<ol>
+<li>for、in和do是for语句的关键字，它们三个缺一不可；</li>
+<li>%%I是for语句中对形式变量的引用，即使变量l在do后的语句中没有参与语句的执行，也是必须出现的；</li>
+<li>in之后，do之前的括号不能省略；</li>
+<li>command1表示字符串或变量，command2表示字符串、变量或命令语句；</li>
+</ol>
+<p>  下面来看一个Windows bat脚本的demo(记为demo1)：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">@<span class="keyword">echo</span> off</span><br><span class="line"><span class="keyword">for</span>  %%I <span class="title function_ invoke__">in</span> (ABC) <span class="keyword">do</span> <span class="keyword">echo</span> %%I</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p> 保存为.bat文件(批处理文件)并执行，将会在弹出的批处理窗口中看到这样的信息：</p>
+<p><img src="//img-blog.csdn.net/20180320184647370">  </p>
+<p> 对批处理文件的for循环就是这样简单，下面来看看for语句的注意事项，并运行更复杂的for循环实例。</p>
+<ol>
+<li><p>for语句的形式变量I，可以换成26个字母中的任意一个，这些字母会区分大小写，也就是说，%%I和%%i会被认为不是同一个变量；形式变量I还可以换成其他的字符，但是，为了不与批处理中的%0～%9这10个形式变量发生冲突，请不要随意把%%I替换为%%0～%%9中的任意一个；</p>
+</li>
+<li><p>in和do之间的command1表示的字符串或变量可以是一个，也可以是多个，每一个字符串或变量，我们称之为一个元素，每个元素之间，用空格键、跳格键、逗号、分号或等号分隔；</p>
+</li>
+<li><p>for语句依次提取command1中的每一个元素，把它的值赋予形式变量I，带到do后的command2中参与命令的执行；并且每次只提取一个元素，然后执行一次do后的命令语句，而无论这个元素是否被带到command2中参与了command2的运行；当执行完一次do后的语句之后，再提取command1中的下一个元素，再执行一次command2，如此循环，直到command1中的所有元素都已经被提取完毕，该for语句才宣告执行结束。</p>
+<p> 有了以上的基础，我们再来看下面这个例子，这个例子修改了demo1中的部分内容(记为demo2)，结果将大不一样：</p>
+</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">@<span class="keyword">echo</span> off</span><br><span class="line"><span class="keyword">for</span>  %%I <span class="title function_ invoke__">in</span> (A,B,C) <span class="keyword">do</span> <span class="keyword">echo</span> %%I</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p>  运行结果如下：</p>
+<p><img src="//img-blog.csdn.net/20180320184632835">  </p>
+<p>如果把 bbs.bathome.cn 这个字符串中的点号换为空格、跳格或等号，执行结果将和demo2的执行结果别无二致。</p>
+<p>现在，来分析一下demo2代码中for语句的执行过程：</p>
+<p>  1.for语句以逗号为分隔符，把 A,B,C 这个字符串切分成三个元素：A、B和C，由此决定了do后的语句将会被执行3次；   </p>
+<p> 2.第一次执行过程是这样的：先把 bbs 这个字符串作为形式变量I的值，带入do后的语句中加以执行，也就是执行 echo %%I 语句，此时的I值为A，因此，第一次执行的结果，将会在屏幕上显示A这个字符串；第二次执行和第一次执行的过程是一样的，只不过此时I的值已经被替换为command1中的第二个元素了，也就是 B 这个字符串；如此循环，当第三次echo执行完毕之后，整条for语句才算执行完毕，此时，将执行下一条语句，也就是pause命令。</p>
+<p> 高级用法：</p>
+<p>1)搜索当前目录下有哪些文件？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.*) do echo &quot;%%i&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p>2)搜索当前目录下所有的文本文件？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.txt) do echo &quot;%%i&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Shell</category>
+      </categories>
+  </entry>
+  <entry>
     <title></title>
     <url>/2024/06/02/Shell/windows/</url>
     <content><![CDATA[<h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h1><ol>
@@ -1553,50 +1586,6 @@
       </categories>
   </entry>
   <entry>
-    <title>引用</title>
-    <url>/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Markdown-使用"><a href="#Markdown-使用" class="headerlink" title="Markdown 使用"></a>Markdown 使用</h1><p>要创建块引用，请在段落前添加一个 <code>&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下所示：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-</blockquote>
-<h3 id="多个段落的块引用"><a href="#多个段落的块引用" class="headerlink" title="# 多个段落的块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%A4%9A%E4%B8%AA%E6%AE%B5%E8%90%BD%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 多个段落的块引用</h3><p>块引用可以包含多个段落。为段落之间的空白行添加一个 <code>&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
-</blockquote>
-<h3 id="嵌套块引用"><a href="#嵌套块引用" class="headerlink" title="# 嵌套块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B5%8C%E5%A5%97%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 嵌套块引用</h3><p>块引用可以嵌套。在要嵌套的段落前添加一个 <code>&gt;&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt;&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-<blockquote>
-<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
-</blockquote>
-</blockquote>
-<h3 id="带有其它元素的块引用"><a href="#带有其它元素的块引用" class="headerlink" title="# 带有其它元素的块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B8%A6%E6%9C%89%E5%85%B6%E5%AE%83%E5%85%83%E7%B4%A0%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 带有其它元素的块引用</h3><p>块引用可以包含其他 Markdown 格式的元素。并非所有元素都可以使用，你需要进行实验以查看哪些元素有效。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; #### The quarterly results look great!</span><br><span class="line">&gt;</span><br><span class="line">&gt; - Revenue was off the chart.</span><br><span class="line">&gt; - Profits were higher than ever.</span><br><span class="line">&gt;</span><br><span class="line">&gt;  *Everything* is going according to **plan**.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<h4 id="The-quarterly-results-look-great"><a href="#The-quarterly-results-look-great" class="headerlink" title="The quarterly results look great!"></a>The quarterly results look great!</h4><ul>
-<li>Revenue was off the chart.</li>
-<li>Profits were higher than ever.</li>
-</ul>
-<p><em>Everything</em> is going according to <strong>plan</strong>.</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
     <title></title>
     <url>/2024/06/02/Shell/%E8%B0%83%E8%AF%95/</url>
     <content><![CDATA[<h1 id="SHELL-调试方法选项"><a href="#SHELL-调试方法选项" class="headerlink" title="SHELL 调试方法选项"></a>SHELL 调试方法选项</h1><h2 id="Shell本身提供一些调试方法选项："><a href="#Shell本身提供一些调试方法选项：" class="headerlink" title="Shell本身提供一些调试方法选项："></a>Shell本身提供一些调试方法选项：</h2><ol>
@@ -1620,5 +1609,16 @@
 <li>Bash-Reference-Manual <a href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html">https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html</a></li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>VSCode</title>
+    <url>/2023/02/24/Shortcuts/vscode/</url>
+    <content><![CDATA[<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
+<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Shortcuts</category>
+      </categories>
   </entry>
 </search>

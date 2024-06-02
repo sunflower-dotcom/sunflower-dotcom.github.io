@@ -146,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/" data-id="clwxac9c7001xf4tbdiix9amb" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%A1%A8%E6%A0%BC%E8%AF%AD%E6%B3%95/" data-id="clwxaliel001omwtb91vh3tod" class="article-share-link">Share</a>
       
       
     </footer>
@@ -156,9 +156,9 @@
 
 
   
-    <article id="post-Markdown/引用语法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Markdown/转义字符语法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/" class="article-date">
+    <a href="/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/" class="article-date">
   <time datetime="2023-02-12T15:47:55.000Z" itemprop="datePublished">2023-02-12</time>
 </a>
     
@@ -174,7 +174,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/">引用</a>
+      <a class="article-title" href="/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/">转义字符语法</a>
     </h1>
   
 
@@ -182,47 +182,101 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Markdown-使用"><a href="#Markdown-使用" class="headerlink" title="Markdown 使用"></a>Markdown 使用</h1><p>要创建块引用，请在段落前添加一个 <code>&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下所示：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-</blockquote>
-<h3 id="多个段落的块引用"><a href="#多个段落的块引用" class="headerlink" title="# 多个段落的块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%A4%9A%E4%B8%AA%E6%AE%B5%E8%90%BD%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 多个段落的块引用</h3><p>块引用可以包含多个段落。为段落之间的空白行添加一个 <code>&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
+        <h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
 
 <p>渲染效果如下：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
-</blockquote>
-<h3 id="嵌套块引用"><a href="#嵌套块引用" class="headerlink" title="# 嵌套块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B5%8C%E5%A5%97%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 嵌套块引用</h3><p>块引用可以嵌套。在要嵌套的段落前添加一个 <code>&gt;&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt;&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
+<p>* Without the backslash, this would be a bullet in an unordered list.</p>
+<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\</td>
+<td>backslash</td>
+</tr>
+<tr>
+<td>`</td>
+<td>backtick (see also <a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
+</tr>
+<tr>
+<td>*</td>
+<td>asterisk</td>
+</tr>
+<tr>
+<td>_</td>
+<td>underscore</td>
+</tr>
+<tr>
+<td>{ }</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>brackets</td>
+</tr>
+<tr>
+<td>( )</td>
+<td>parentheses</td>
+</tr>
+<tr>
+<td>#</td>
+<td>pound sign</td>
+</tr>
+<tr>
+<td>+</td>
+<td>plus sign</td>
+</tr>
+<tr>
+<td>-</td>
+<td>minus sign (hyphen)</td>
+</tr>
+<tr>
+<td>.</td>
+<td>dot</td>
+</tr>
+<tr>
+<td>!</td>
+<td>exclamation mark</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
+<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
 
-<p>渲染效果如下：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-<blockquote>
-<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
-</blockquote>
-</blockquote>
-<h3 id="带有其它元素的块引用"><a href="#带有其它元素的块引用" class="headerlink" title="# 带有其它元素的块引用"></a><a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B8%A6%E6%9C%89%E5%85%B6%E5%AE%83%E5%85%83%E7%B4%A0%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 带有其它元素的块引用</h3><p>块引用可以包含其他 Markdown 格式的元素。并非所有元素都可以使用，你需要进行实验以查看哪些元素有效。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; #### The quarterly results look great!</span><br><span class="line">&gt;</span><br><span class="line">&gt; - Revenue was off the chart.</span><br><span class="line">&gt; - Profits were higher than ever.</span><br><span class="line">&gt;</span><br><span class="line">&gt;  *Everything* is going according to **plan**.</span><br></pre></td></tr></table></figure>
+<p>你必须要把网址转成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
 
-<p>渲染效果如下：</p>
-<blockquote>
-<h4 id="The-quarterly-results-look-great"><a href="#The-quarterly-results-look-great" class="headerlink" title="The quarterly results look great!"></a>The quarterly results look great!</h4><ul>
-<li>Revenue was off the chart.</li>
-<li>Profits were higher than ever.</li>
-</ul>
-<p><em>Everything</em> is going according to <strong>plan</strong>.</p>
-</blockquote>
+<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
+<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 就会将它转为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
+
+<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a target="_blank" rel="noopener" href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将会把它转换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/" data-id="clwxac9ch002df4tbadv49nwk" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/" data-id="clwxaliem001rmwtb9inc1zx6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -247,7 +301,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Do-not-edit/">Do not edit</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Encryption/">Encryption</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Encryption/">Encryption</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
     </div>
   </div>
 
@@ -289,7 +343,7 @@
       <ul>
         
           <li>
-            <a href="/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/">Do not edit</a>
+            <a href="/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/">动态库链接顺序</a>
           </li>
         
           <li>
@@ -301,7 +355,7 @@
           </li>
         
           <li>
-            <a href="/2024/06/02/Shell/for/">Do not edit</a>
+            <a href="/2024/06/02/Shell/for/">Shell for</a>
           </li>
         
           <li>
