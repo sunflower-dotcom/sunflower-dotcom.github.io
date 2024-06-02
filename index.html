@@ -66,6 +66,351 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-C/动态链接库链接顺序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/" class="article-date">
+  <time datetime="2024-06-02T08:32:10.483Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Do-not-edit/">Do not edit</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/">Do not edit</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="动态链接库链接顺序"><a href="#动态链接库链接顺序" class="headerlink" title="动态链接库链接顺序"></a>动态链接库链接顺序</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
+<li>-L 用于链接时指定显示链接的库的搜索路径（优先级高）</li>
+<li>-rpath 用于在链接时指定直接或间接链接的库搜索路径（最高优先级），并且(写入二进制文件中RPATH)指定运行时的本二进制文件的直接或间接依赖的动态加载库搜索路径（最高优先级）。注：有些系统默认开启链接选项-enable-new-dtags,导致-rpath生成RUNPATH。通过指定链接选项-disable-new-dtags来使其生成RPATH。</li>
+<li>-rpath-link 用于在链接时指定直接或间接链接的库搜索路径（优先级高）。</li>
+<li>LD_LIBRARY_PATH 在运行时搜索直接或间接依赖。优先级低于RPATH为第二优先级</li>
+<li>RUNPATH写入在二进制文件中，用于指定运行时本二进制文件的直接依赖动态加载库搜索路径(优先级低于LD_LIBRARY_PATH)。存在时覆盖二进制文件中RPATH。</li>
+</ol>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ol>
+<li>ldd -s lib_path</li>
+<li>LD_DEBUG&#x3D;libs lib_path</li>
+<li>readelf -d lib_path</li>
+<li>cmake 设置rpath指令</li>
+<li>chrpath -r [new_rpath] [lib_name] 注:只能改路径比原来短的.</li>
+<li>patchelf –set-rpath [new_rpath] [lib_name] 注:没有限制路径长度,但是修改的是RUNPATH</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/" data-id="clwxac9b6000ff4tb49c99icy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C/优先级" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/06/02/C/%E4%BC%98%E5%85%88%E7%BA%A7/" class="article-date">
+  <time datetime="2024-06-02T08:32:10.413Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h1><p><strong><a target="_blank" rel="noopener" href="http://lib.csdn.net/base/c" title="C语言知识库">C语言</a>运算符优先级</strong></p>
+<table border="1" cellspacing="0" cellpadding="0" width="612"><tbody><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>优先级</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>运算符</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>名称或含义</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>使用形式</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>结合方向</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>说明</strong></p></td></tr><tr><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>1</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">[]</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">数组下标</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">数组名[常量表达式]</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">()</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">圆括号</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">(表达式）/函数名(形参表)</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">.</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">成员选择（对象）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">对象.成员名</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-&gt;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">成员选择（指针）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">对象指针-&gt;成员名</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="9"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>2</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">负号运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">-表达式</p></td><td rowspan="9"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td rowspan="7"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">单目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">~</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位取反运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">~表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">++</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">自增运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">++变量名/变量名++</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">--</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">自减运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--变量名/变量名--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取值运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">*指针变量</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取地址运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&amp;变量名</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">!</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑非运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">!表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">(</span><span style="color:blue">类型</span><span style="color:blue">)</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">强制类型转换</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">(数据类型)表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">sizeof</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">长度运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">sizeof(表达式)</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>3</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">/</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">除</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式/表达式</p></td><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">乘</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式*表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">%</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">余数（取模）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">整型表达式%整型表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>4</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">+</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">加</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式+表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">减</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式-表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>5</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&lt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左移</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&lt;&lt;表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&gt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">右移</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&gt;&gt;表达式</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>6</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">大于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&gt;表达式</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">大于等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&gt;=表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">小于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&lt;表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">小于等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&lt;=表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>7</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">==</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式==表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">！</span><span style="color:blue">=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">不等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式!= 表达式</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>8</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位与</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&amp;表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>9</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">^</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位异或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式^表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>10</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">|</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式|表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>11</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑与</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&amp;&amp;表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>12</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">||</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式||表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>13</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">?:</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">条件运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式1?</p><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式2: 表达式3</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><span style="color:red">三目运算符</span></p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><span style="color:red">&nbsp;</span></p></td></tr><tr><td rowspan="11"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>14</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">赋值运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量=表达式</p></td><td rowspan="11"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">/=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">除后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量/=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">乘后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量*=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">%=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取模后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量%=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">+=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">加后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量+=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">减后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量-=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&lt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左移后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&lt;&lt;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&gt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">右移后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&gt;&gt;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位与后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&amp;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">^=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位异或后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量^=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">|=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位或后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量|=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>15</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">，</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逗号运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式,表达式,…</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr></tbody></table>
+
+<p><strong>说明：</strong></p>
+<p> <strong>同一优先级的运算符，运算次序由结合方向所决定。<br> 简单记就是：！ &gt; 算术运算符 &gt; 关系运算符 &gt; &amp;&amp; &gt; || &gt; 赋值运算符</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2024/06/02/C/%E4%BC%98%E5%85%88%E7%BA%A7/" data-id="clwxac9am0007f4tb829hbczu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell/windows" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/06/02/Shell/windows/" class="article-date">
+  <time datetime="2024-06-02T08:31:27.072Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h1><ol>
+<li>win10命令行打开当前文件夹界面的方法</li>
+</ol>
+<p>命令行进入文件夹后执行</p>
+<blockquote>
+<p>explore.exe .</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2024/06/02/Shell/windows/" data-id="clwxac9cd0026f4tbasv330vj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell/for" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/06/02/Shell/for/" class="article-date">
+  <time datetime="2024-06-02T08:31:27.039Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Do-not-edit/">Do not edit</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/06/02/Shell/for/">Do not edit</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="FOR"><a href="#FOR" class="headerlink" title="FOR"></a>FOR</h1><p>Windows bat脚本的for语句基本形态如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在cmd窗口中：<span class="keyword">for</span> %I <span class="title function_">in</span> <span class="params">(command1)</span> <span class="keyword">do</span> command2 在批处理文件中：<span class="keyword">for</span> %%I <span class="title function_">in</span> <span class="params">(command1)</span> <span class="keyword">do</span> command2</span><br></pre></td></tr></table></figure>
+
+<p>之所以要区分cmd窗口和批处理文件两种环境，是因为在这两种环境下，命令语句表现出来的行为虽然基本一样，但是在细节上还是稍有不同，最明显的一个差异就是：在cmd窗口中，for之后的形式变量I必须使用单百分号引用，即%I；而在批处理文件中，引用形式变量I必须使用双百分号，即%%I。为了方便起见，若不是特别强调，以下的讲解都以批处理文件环境为例。</p>
+<p>我们先来看一下for语句的基本要素都有些什么：</p>
+<ol>
+<li>for、in和do是for语句的关键字，它们三个缺一不可；</li>
+<li>%%I是for语句中对形式变量的引用，即使变量l在do后的语句中没有参与语句的执行，也是必须出现的；</li>
+<li>in之后，do之前的括号不能省略；</li>
+<li>command1表示字符串或变量，command2表示字符串、变量或命令语句；</li>
+</ol>
+<p>  下面来看一个Windows bat脚本的demo(记为demo1)：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">echo</span> off</span><br><span class="line"><span class="keyword">for</span>  %%I <span class="title function_ invoke__">in</span> (ABC) <span class="keyword">do</span> <span class="keyword">echo</span> %%I</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p> 保存为.bat文件(批处理文件)并执行，将会在弹出的批处理窗口中看到这样的信息：</p>
+<p><img src="//img-blog.csdn.net/20180320184647370">  </p>
+<p> 对批处理文件的for循环就是这样简单，下面来看看for语句的注意事项，并运行更复杂的for循环实例。</p>
+<ol>
+<li><p>for语句的形式变量I，可以换成26个字母中的任意一个，这些字母会区分大小写，也就是说，%%I和%%i会被认为不是同一个变量；形式变量I还可以换成其他的字符，但是，为了不与批处理中的%0～%9这10个形式变量发生冲突，请不要随意把%%I替换为%%0～%%9中的任意一个；</p>
+</li>
+<li><p>in和do之间的command1表示的字符串或变量可以是一个，也可以是多个，每一个字符串或变量，我们称之为一个元素，每个元素之间，用空格键、跳格键、逗号、分号或等号分隔；</p>
+</li>
+<li><p>for语句依次提取command1中的每一个元素，把它的值赋予形式变量I，带到do后的command2中参与命令的执行；并且每次只提取一个元素，然后执行一次do后的命令语句，而无论这个元素是否被带到command2中参与了command2的运行；当执行完一次do后的语句之后，再提取command1中的下一个元素，再执行一次command2，如此循环，直到command1中的所有元素都已经被提取完毕，该for语句才宣告执行结束。</p>
+<p> 有了以上的基础，我们再来看下面这个例子，这个例子修改了demo1中的部分内容(记为demo2)，结果将大不一样：</p>
+</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">echo</span> off</span><br><span class="line"><span class="keyword">for</span>  %%I <span class="title function_ invoke__">in</span> (A,B,C) <span class="keyword">do</span> <span class="keyword">echo</span> %%I</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p>  运行结果如下：</p>
+<p><img src="//img-blog.csdn.net/20180320184632835">  </p>
+<p>如果把 bbs.bathome.cn 这个字符串中的点号换为空格、跳格或等号，执行结果将和demo2的执行结果别无二致。</p>
+<p>现在，来分析一下demo2代码中for语句的执行过程：</p>
+<p>  1.for语句以逗号为分隔符，把 A,B,C 这个字符串切分成三个元素：A、B和C，由此决定了do后的语句将会被执行3次；   </p>
+<p> 2.第一次执行过程是这样的：先把 bbs 这个字符串作为形式变量I的值，带入do后的语句中加以执行，也就是执行 echo %%I 语句，此时的I值为A，因此，第一次执行的结果，将会在屏幕上显示A这个字符串；第二次执行和第一次执行的过程是一样的，只不过此时I的值已经被替换为command1中的第二个元素了，也就是 B 这个字符串；如此循环，当第三次echo执行完毕之后，整条for语句才算执行完毕，此时，将执行下一条语句，也就是pause命令。</p>
+<p> 高级用法：</p>
+<p>1)搜索当前目录下有哪些文件？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.*) do echo &quot;%%i&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p>2)搜索当前目录下所有的文本文件？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.txt) do echo &quot;%%i&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2024/06/02/Shell/for/" data-id="clwxac9c90020f4tbci7q4q7e" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell/dd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/06/02/Shell/dd/" class="article-date">
+  <time datetime="2024-06-02T08:31:27.018Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h1><h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=dd%E5%91%BD%E4%BB%A4&spm=1001.2101.3001.7020">dd命令</a>,主要功能为转换和复制文件。<br>在Linux中，硬件的设备驱动和特殊设备文件 也是文件；dd也可以直接读取或写入到这些文件。<br>dd：用指定大小的块拷贝一个文件，并在拷贝的同时进行指定的转换。</p>
+<p>块是衡量一次读取、写入和转换字节的单位。命令行选项可以为输入&#x2F;读取（ibs）和输出&#x2F;写入（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=obs&spm=1001.2101.3001.7020">obs</a>）指定一个不同的块大小，尽管块大小（bs）选项会覆盖ibs和obs选项。输入和输出的默认块大小为512字节（传统的磁盘块及POSIX规定的“块”大小）复制的count选项。</p>
+<h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><ul>
+<li>if&#x3D;文件名：输入文件名，缺省为标准输入。即指定源文件。&lt; if&#x3D;input file &gt;</li>
+<li>of&#x3D;文件名：输出文件名，缺省为标准输出。即指定目的文件。&lt; of&#x3D;output file &gt;</li>
+<li>ibs&#x3D;bytes：一次读入bytes个字节，即指定一个块大小为bytes个字节。</li>
+<li>obs&#x3D;bytes：一次输出bytes个字节，即指定一个块大小为bytes个字节。</li>
+<li>bs&#x3D;bytes：同时设置读入&#x2F;输出的块大小为bytes个字节。</li>
+<li>cbs&#x3D;bytes：一次转换bytes个字节，即指定转换缓冲区大小。</li>
+<li>skip&#x3D;blocks：从输入文件开头跳过blocks个块后再开始复制。</li>
+<li>seek&#x3D;blocks：从输出文件开头跳过blocks个块后再开始复制。<br>  注意：通常只用当输出文件是磁盘或磁带时才有效，即备份到磁盘或磁带时才有效。</li>
+<li>count&#x3D;blocks：仅拷贝blocks个块，块大小等于ibs指定的字节数。</li>
+<li>conv&#x3D;conversion：用指定的参数转换文件。</li>
+<li>ascii：转换ebcdic为ascii</li>
+<li>ebcdic：转换ascii为ebcdic</li>
+<li>ibm：转换ascii为alternate ebcdic</li>
+<li>block：把每一行转换为长度为cbs，不足部分用空格填充</li>
+<li>unblock：使每一行的长度都为cbs，不足部分用空格填充</li>
+<li>lcase：把大写字符转换为小写字符</li>
+<li>ucase：把小写字符转换为大写字符</li>
+<li>swab：交换输入的每对字节</li>
+<li>noerror：出错时不停止</li>
+<li>notrunc：不截短输出文件</li>
+<li>sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字符补齐。</li>
+</ul>
+<h2 id="dd-示例"><a href="#dd-示例" class="headerlink" title="dd 示例"></a>dd 示例</h2><p>1.将本地的&#x2F;dev&#x2F;hdb整盘备份到&#x2F;dev&#x2F;hdd</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hdb of=/dev/hdd</span><br></pre></td></tr></table></figure>
+
+<p>2.将&#x2F;dev&#x2F;hdb全盘数据备份到指定路径的image文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hdb of=/root/image</span><br></pre></td></tr></table></figure>
+
+<p>3.将备份文件恢复到指定盘</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/root/image of=/dev/hdb</span><br></pre></td></tr></table></figure>
+
+<p>4.备份&#x2F;dev&#x2F;hdb全盘数据，并利用gzip工具进行压缩，保存到指定路径</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hdb | gzip &gt; /root/image.gz</span><br></pre></td></tr></table></figure>
+
+<p>5.将压缩的备份文件恢复到指定盘</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -dc /root/image.gz | <span class="built_in">dd</span> of=/dev/hdb</span><br></pre></td></tr></table></figure>
+
+<p>6.备份与恢复MBR<br>备份磁盘开始的512个字节大小的MBR信息到指定文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hda of=/root/image count=1 bs=512</span><br><span class="line">count=1指仅拷贝一个块；bs=512指块大小为512个字节。</span><br></pre></td></tr></table></figure>
+
+<p>恢复：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/root/image of=/dev/had</span><br><span class="line">将备份的MBR信息写到磁盘开始部分</span><br></pre></td></tr></table></figure>
+
+<p>7.备份软盘</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/fd0 of=disk.img count=1 bs=1440k (即块大小为1.44M)</span><br></pre></td></tr></table></figure>
+
+<p>8.拷贝内存内容到硬盘</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/mem of=/root/mem.bin bs=1024 (指定块大小为1k)</span><br></pre></td></tr></table></figure>
+
+<p>9.拷贝光盘内容到指定文件夹，并保存为cd.iso文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/cdrom(hdc) of=/root/cd.iso</span><br></pre></td></tr></table></figure>
+
+<p>10.增加swap分区文件大小</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">第一步：创建一个大小为256M的文件：</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=/swapfile bs=1024 count=262144</span><br><span class="line">第二步：把这个文件变成swap文件：</span><br><span class="line">mkswap /swapfile</span><br><span class="line">第三步：启用这个swap文件：</span><br><span class="line">swapon /swapfile</span><br><span class="line">第四步：编辑/etc/fstab文件，使在每次开机时自动加载swap文件：</span><br><span class="line">/swapfile swap swap default 0 0</span><br></pre></td></tr></table></figure>
+
+<p>11.销毁磁盘数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/urandom of=/dev/hda1</span><br></pre></td></tr></table></figure>
+
+<p>注意：利用随机的数据填充硬盘，在某些必要的场合可以用来销毁数据。</p>
+<p>12.测试硬盘的读写速度</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=1024 count=1000000 of=/root/1Gb.file</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/root/1Gb.file bs=64k | <span class="built_in">dd</span> of=/dev/null</span><br></pre></td></tr></table></figure>
+
+<p>通过以上两个命令输出的命令执行时间，可以计算出硬盘的读、写速度。</p>
+<p>13.确定硬盘的最佳块大小：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=1024 count=1000000 of=/root/1Gb.file</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=2048 count=500000 of=/root/1Gb.file</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=4096 count=250000 of=/root/1Gb.file</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=8192 count=125000 of=/root/1Gb.file</span><br></pre></td></tr></table></figure>
+
+<p>通过比较以上命令输出中所显示的命令执行时间，即可确定系统最佳的块大小。</p>
+<p>14.修复硬盘：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/sda of=/dev/sda 或<span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hda of=/dev/hda</span><br></pre></td></tr></table></figure>
+
+<p>当硬盘较长时间(一年以上)放置不使用后，磁盘上会产生magnetic flux point，当磁头读到这些区域时会遇到困难，并可能导致I&#x2F;O错误。当这种情况影响到硬盘的第一个扇区时，可能导致硬盘报废。上边的命令有可能使这些数 据起死回生。并且这个过程是安全、高效的。</p>
+<p>15.将一个很大的视频文件中的第i个字节的值改成0x41（也就是大写字母A的ASCII值）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> A | <span class="built_in">dd</span> of=bigfile seek=<span class="variable">$i</span> bs=1 count=1 conv=notrunc</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2024/06/02/Shell/dd/" data-id="clwxac9cb0022f4tb06c48yi0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell/调试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/06/02/Shell/%E8%B0%83%E8%AF%95/" class="article-date">
+  <time datetime="2024-06-02T08:31:14.876Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SHELL-调试方法选项"><a href="#SHELL-调试方法选项" class="headerlink" title="SHELL 调试方法选项"></a>SHELL 调试方法选项</h1><h2 id="Shell本身提供一些调试方法选项："><a href="#Shell本身提供一些调试方法选项：" class="headerlink" title="Shell本身提供一些调试方法选项："></a>Shell本身提供一些调试方法选项：</h2><ol>
+<li>-n，读一遍脚本中的命令但不执行，用于检查脚本中的语法错误。</li>
+<li>-v，一边执行脚本，一边将执行过的脚本命令打印到标准输出。</li>
+<li>-x，提供跟踪执行信息，将执行的每一条命令和结果依次打印出来。</li>
+</ol>
+<h2 id="使用这些选项有三种方法-注意-避免几种调试选项混用"><a href="#使用这些选项有三种方法-注意-避免几种调试选项混用" class="headerlink" title="使用这些选项有三种方法(注意:避免几种调试选项混用)"></a>使用这些选项有三种方法(注意:避免几种调试选项混用)</h2><ol>
+<li>在命令行提供参数：sh -x script.sh 或者 bash -n script.sh</li>
+<li>脚本开头提供参数：#!&#x2F;bin&#x2F;sh -x 或者 #!&#x2F;bin&#x2F;bash -x</li>
+<li>在脚本中用set命令启用或者禁用参数，其中set -x表示启用，set +x表示禁用</li>
+</ol>
+<p><strong>set命令的详细说明</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://man.linuxde.net/set">http://man.linuxde.net/set</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-set.html">https://www.runoob.com/linux/linux-comm-set.html</a></li>
+</ul>
+<p><strong>Bash 官网文档</strong></p>
+<ul>
+<li>bash <a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/">https://www.gnu.org/software/bash/</a></li>
+<li>Bash-Reference-Manual <a target="_blank" rel="noopener" href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html">https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2024/06/02/Shell/%E8%B0%83%E8%AF%95/" data-id="clwxac9ct002xf4tb0ekw7gi9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-GDB/线程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/" class="article-date">
@@ -92,11 +437,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br></pre></td></tr></table></figure>
+        <h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br><span class="line">GDB&gt; set print pretty on //格式化打印</span><br><span class="line">GDB&gt; thread find [regexp] //查找线程</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/" data-id="clo316p950010k8tb9ovh1d5t" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/" data-id="clwxac9bp0018f4tbcdlvhbaz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,7 +513,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/" data-id="clo316p93000tk8tb6skw6gh6" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/" data-id="clwxac9bn0014f4tb81j4cq03" class="article-share-link">Share</a>
       
       
     </footer>
@@ -220,7 +565,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/Encryption/AES_NI/" data-id="clo316p8s000ak8tbhmb0da2b" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/Encryption/AES_NI/" data-id="clwxac9bb000lf4tb19ra5dxy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -574,328 +919,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/Code/Base64/" data-id="clo316p94000vk8tbbvryhrqe" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Database/全密态数据库" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/" class="article-date">
-  <time datetime="2023-03-28T11:56:47.743Z" itemprop="datePublished">2023-03-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Database/">Database</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/">全密态数据库</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="全密态数据库"><a href="#全密态数据库" class="headerlink" title="全密态数据库"></a>全密态数据库</h1><p>可信硬件(TEE)</p>
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性:"></a>特性:</h2><ol>
-<li><p>密钥管理</p>
-</li>
-<li><p>索引</p>
-</li>
-<li><p>TEE计算</p>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/" data-id="clo316p8u000ck8tb6tck6nbn" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Redis/msg" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/28/Redis/msg/" class="article-date">
-  <time datetime="2023-03-28T11:55:44.038Z" itemprop="datePublished">2023-03-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/redis/">redis</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/28/Redis/msg/">msg</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="msg"><a href="#msg" class="headerlink" title="msg"></a>msg</h1><ol>
-<li>skiplist</li>
-<li>cpu绑定</li>
-<li>unix编程</li>
-<li>事件机制</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/28/Redis/msg/" data-id="clo316p9c001hk8tbe6zo96kn" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ChatGpt/Questions" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/21/ChatGpt/Questions/" class="article-date">
-  <time datetime="2023-03-21T12:34:33.713Z" itemprop="datePublished">2023-03-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ChatGPT/">ChatGPT</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/21/ChatGpt/Questions/">对话记录</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="对话记录"><a href="#对话记录" class="headerlink" title="对话记录"></a>对话记录</h1><p>1. </p>
-<h2 id="Question"><a href="#Question" class="headerlink" title="Question :"></a>Question :</h2><p>the bignum  generated by bn_bin2bn needs to be free&gt;</p>
-<h2 id="Answer"><a href="#Answer" class="headerlink" title="Answer :"></a>Answer :</h2><p>As an AI language model, I don’t have enough context to understand what you’re referring to. Can you please provide more information or context so I can better assist you?</p>
-<p>2. </p>
-<h2 id="Question-1"><a href="#Question-1" class="headerlink" title="Question :"></a>Question :</h2><p>the bignum  generated by bn_bin2bn needs to be free?</p>
-<h2 id="Answer-1"><a href="#Answer-1" class="headerlink" title="Answer :"></a>Answer :</h2><p>As a language model, I can infer that you might be referring to the OpenSSL library function <code>bn_bin2bn()</code>, which converts an array of bytes to a BIGNUM (big integer) structure. If that’s the case, then yes, you would need to free the BIGNUM object returned by <code>bn_bin2bn()</code> after you’re done using it to avoid memory leaks. You can do this by calling the <code>BN_free()</code> function on the BIGNUM object.</p>
-<p>3. </p>
-<h2 id="Question-2"><a href="#Question-2" class="headerlink" title="Question :"></a>Question :</h2><p>how to use bn_bin2bn?</p>
-<h2 id="Answer-2"><a href="#Answer-2" class="headerlink" title="Answer :"></a>Answer :</h2><p>bn_bin2bn()  is a function provided by the OpenSSL library that converts an array of bytes to a BIGNUM (big integer) structure. Here’s an example of how you can use it:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/bn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// The byte array you want to convert to a BIGNUM</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> bytes[] = &#123;<span class="number">0x02</span>, <span class="number">0x4A</span>, <span class="number">0xFC</span>, <span class="number">0x1A</span>, <span class="number">0x6F</span>&#125;;</span><br><span class="line">    <span class="type">int</span> numBytes = <span class="keyword">sizeof</span>(bytes) / <span class="keyword">sizeof</span>(bytes[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a new BIGNUM object and convert the byte array to it</span></span><br><span class="line">    BIGNUM *bn = BN_bin2bn(bytes, numBytes, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (!bn) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do something with the BIGNUM...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Free the BIGNUM object to avoid memory leaks</span></span><br><span class="line">    BN_free(bn);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The  BN_bin2bn()  function takes three parameters: </p>
-<ol>
-<li>const unsigned char *s : A pointer to the byte array you want to convert to a BIGNUM. </li>
-<li>int len : The length of the byte array. </li>
-<li>BIGNUM *ret : A pointer to a BIGNUM object that will hold the converted value.</li>
-</ol>
-<p>If everything goes well,  BN_bin2bn()  returns a pointer to the BIGNUM object that holds the converted value. Don’t forget to free the BIGNUM object when you’re done with it, using the  BN_free()  function.<br>Question :</p>
-<p>the third parameter of bn_bin2bn is same to the return value of that function?<br>Answer :</p>
-<p>Share icon<br>Yes, the third parameter ( BIGNUM *ret ) of the  BN_bin2bn()  function is used to pass a pointer to a BIGNUM object in which the converted big integer will be stored. If the conversion is successful, the function returns the same pointer as the third parameter, which points to the BIGNUM object.  </p>
-<p>Here is an example of how you can use  BN_bin2bn()  and its return value:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/bn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> bin[] = &#123;<span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>&#125;;</span><br><span class="line">    <span class="type">int</span> len = <span class="keyword">sizeof</span>(bin);</span><br><span class="line">    BIGNUM *bn = <span class="literal">NULL</span>;</span><br><span class="line">    bn = BN_bin2bn(bin, len, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (bn == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do something with bn</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Free the memory used by bn</span></span><br><span class="line">    BN_free(bn);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>In this example,  BN_bin2bn()  is used to convert the  bin  byte array into a BIGNUM. The  NULL  as the third parameter tells the function to create a new BIGNUM object to store the converted big integer. If the conversion is successful,  bn  will hold the pointer to the new BIGNUM object. After using  bn , you should free its memory by calling  BN_free(bn) .<br>Question :</p>
-<p>how to use DH_new?<br>Answer :</p>
-<p>Share icon<br>DH_new()  is a function provided by the OpenSSL library that creates a new  DH  (Diffie-Hellman) key exchange. Here is an example of how to use  DH_new() :</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/dh.h&gt;</span></span></span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Create a new DH object</span></span><br><span class="line">    DH *dh = DH_new();</span><br><span class="line">    <span class="keyword">if</span> (!dh) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Do something with the DH object...</span></span><br><span class="line">     <span class="comment">// Free the DH object to avoid memory leaks</span></span><br><span class="line">    DH_free(dh);</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The  DH_new()  function creates a new  DH  object and initializes it with default values. If the function returns  NULL , it means that an error occurred and you should handle it appropriately. Once you’re finished with the  DH  object, you should free it by calling  DH_free(dh)  to avoid memory leaks.</p>
-<p>4. </p>
-<h2 id="Question-3"><a href="#Question-3" class="headerlink" title="Question :"></a>Question :</h2><p>how to user “for” in shell?</p>
-<h2 id="Answer-3"><a href="#Answer-3" class="headerlink" title="Answer :"></a>Answer :</h2><p>In shell scripting, a  for  loop is used for repeating a set of commands for a specified number of times. The syntax of the  for  loop in shell is as follows:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for variable in list</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>Here,  variable  represents a variable that will take on the value of each item in the  list , and  command1 ,  command2 , and so on represent the commands that will be executed for each item in the  list . </p>
-<p>Here is an example of using a  for  loop in shell:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Define a list of files</span></span><br><span class="line">files=(&quot;file1.txt&quot; &quot;file2.txt&quot; &quot;file3.txt&quot;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Loop through each file <span class="keyword">in</span> the list</span></span><br><span class="line">for file in &quot;$&#123;files[@]&#125;&quot;</span><br><span class="line">do</span><br><span class="line">    echo &quot;Processing file: $file&quot;</span><br><span class="line">    # Add your commands to process the file here</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>This example shows how to loop over a list of files and perform some action on each file. You can modify this example to use your own list of items and commands.</p>
-<p>5. </p>
-<h2 id="Question-4"><a href="#Question-4" class="headerlink" title="Question :"></a>Question :</h2><p>in shell, how to loop n times?</p>
-<h2 id="Answer-4"><a href="#Answer-4" class="headerlink" title="Answer :"></a>Answer :</h2><p>In shell scripting, you can loop a specified number of times using a  for  loop with a numeric sequence. Here’s an example of how to loop  n  times in shell:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"> # </span><span class="language-bash">Set the number of loops you want to perform</span></span><br><span class="line">n=10</span><br><span class="line"><span class="meta prompt_"> # </span><span class="language-bash">Loop n <span class="built_in">times</span></span></span><br><span class="line">for i in $(seq 1 $n)</span><br><span class="line">do</span><br><span class="line">    echo &quot;This is loop number $i&quot;</span><br><span class="line">    # Add your commands to be executed here</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>In this example, we’ve set the value of  n  to 10, so the loop will execute 10 times. We use the  seq  command to generate a sequence of numbers from 1 to  n  and use this sequence in the  for  loop. You can replace  echo “This is loop number $i”  with any commands you want to execute in each iteration of the loop.</p>
-<p>6. </p>
-<h2 id="Question-5"><a href="#Question-5" class="headerlink" title="Question :"></a>Question :</h2><p>how to show file context when it is changing in linux shell?</p>
-<h2 id="Answer-5"><a href="#Answer-5" class="headerlink" title="Answer :"></a>Answer :</h2><p>In Linux shell, you can use the  tail  command with the  -f  option to view the contents of a file as it changes in real-time. Here’s an example:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /path/to/file.log</span><br></pre></td></tr></table></figure>
-<p>This command will display the last 10 lines of the file specified by  &#x2F;path&#x2F;to&#x2F;file.log  and then keep the file open and display any new content that is appended to the end of the file. As new lines are added to the file, they will be displayed in the terminal.<br>You can use  Ctrl + C  to stop the  tail  command and return to the command prompt.</p>
-<p>7. </p>
-<h2 id="Question-6"><a href="#Question-6" class="headerlink" title="Question :"></a>Question :</h2><p>why DH_compute_key error with stack like SLL_next failed?</p>
-<h2 id="Answer-6"><a href="#Answer-6" class="headerlink" title="Answer :"></a>Answer :</h2><p>The error “SLL_next failed” usually occurs when there is an issue with the OpenSSL library’s linked list data structure. This error can occur for several reasons, but most commonly it happens when there is a memory corruption or invalid pointer. </p>
-<p>When using <code>DH_compute_key()</code> function in OpenSSL to compute a shared secret key using Diffie-Hellman key exchange, make sure that you have properly initialized the DH object before calling this function. Also, check that both parties have the same DH parameters (p, g, and possibly q) and that their public keys have been exchanged correctly. </p>
-<p>If you continue to encounter the “SLL_next failed” error, you may need to debug your code and look for any memory corruption or invalid pointer issues. You can use memory profiling tools like Valgrind to help in this process or consider reviewing and improving your code.</p>
-<p>8. </p>
-<h2 id="Question-7"><a href="#Question-7" class="headerlink" title="Question"></a>Question</h2><p>how to find the version of a lib?</p>
-<h2 id="Answer-7"><a href="#Answer-7" class="headerlink" title="Answer :"></a>Answer :</h2><p>To find the version of a library in Linux or Unix-based systems, you can use the  ldd  command followed by the path to the library file. Here is the syntax for the command:<br>ldd &#x2F;path&#x2F;to&#x2F;library<br>When you run this command, it will display the libraries that the specified library depends on, along with their paths. The version of each library should be listed next to the library name.  </p>
-<p>Alternatively, you can also use the  strings  command to search for the version string in the library. Here is the syntax for the command:<br>strings &#x2F;path&#x2F;to&#x2F;library | grep LIBRARY_NAME<br>Replace  LIBRARY_NAME  with the name of the library you want to find the version string for. This command will search for all occurrences of the specified library name in the library file and display any version strings that it finds.</p>
-<p>9. </p>
-<h2 id="Question-8"><a href="#Question-8" class="headerlink" title="Question :"></a>Question :</h2><p>how to use DH_generate_key?</p>
-<h2 id="Answer-8"><a href="#Answer-8" class="headerlink" title="Answer :"></a>Answer :</h2><p>DH_generate_key()  is a function provided by the OpenSSL library that generates a new Diffie-Hellman key pair. Here is an example of how to use  DH_generate_key()  with  DH_new() :</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;openssl/dh.h&gt;</span></span></span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Create a new DH object</span></span><br><span class="line">    DH *dh = DH_new();</span><br><span class="line">    <span class="keyword">if</span> (!dh) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Generate a new key pair</span></span><br><span class="line">    <span class="keyword">if</span> (DH_generate_key(dh) != <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// Handle error</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">// Do something with the DH object...</span></span><br><span class="line">     <span class="comment">// Free the DH object to avoid memory leaks</span></span><br><span class="line">    DH_free(dh);</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>In this example,  DH_new()  is used to create a new  DH  object.  DH_generate_key()  is then called to generate a new key pair for the  DH  object. If the function returns a value other than  1 , it means that an error occurred and you should handle it appropriately. Once you’re finished with the  DH  object, you should free it by calling  DH_free(dh)  to avoid memory leaks. </p>
-<p>After the key pair is generated, you can access the private key using the  priv_key  member of the  DH  object and the public key using the  pub_key  member. For example: </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BIGNUM *private_key = dh-&gt;priv_key; </span><br><span class="line">BIGNUM *public_key = dh-&gt;pub_key; </span><br></pre></td></tr></table></figure>
-<p>You can then use these keys to perform a Diffie-Hellman key exchange to generate a shared secret key between two parties.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/21/ChatGpt/Questions/" data-id="clo316p8q0008k8tb4h802ryo" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Questions/问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/21/Questions/%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2023-03-21T12:34:15.752Z" itemprop="datePublished">2023-03-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/21/Questions/%E9%97%AE%E9%A2%98/">Questions</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="脚本问题"><a href="#脚本问题" class="headerlink" title="脚本问题"></a>脚本问题</h1><h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><ol>
-<li>windows脚本不断重复执行同一条命令<br>原因: 脚本名和cmd系统命令重复</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/21/Questions/%E9%97%AE%E9%A2%98/" data-id="clo316p9a0018k8tb8qmg9xd6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Shell/read" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/20/Shell/read/" class="article-date">
-  <time datetime="2023-03-20T12:42:02.025Z" itemprop="datePublished">2023-03-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/shell/">shell</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/20/Shell/read/">read</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
-<p><strong>代码1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/20/Shell/read/" data-id="clo316p9e001lk8tbb5g039rd" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Shell/常用命令" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
-  <time datetime="2023-03-20T12:41:56.337Z" itemprop="datePublished">2023-03-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/shell/">shell</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">常用命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
-<li>杀死进程</li>
-</ol>
-<p>#####查找tomcat进程<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’<br>#####查找tomcat进程并杀死<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’ | xargs kill -9  </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://sunflower-dotcom.github.io/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="clo316p9f001pk8tbhaieh04a" class="article-share-link">Share</a>
+      <a data-url="https://sunflower-dotcom.github.io/2023/09/10/Code/Base64/" data-id="clwxac9bh000vf4tbc93ucm4m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -909,7 +933,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
   </nav>
 
 </section>
@@ -949,7 +973,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
     </div>
   </div>
 
@@ -962,23 +986,23 @@
       <ul>
         
           <li>
-            <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/">Do not edit</a>
+            <a href="/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/">Do not edit</a>
           </li>
         
           <li>
-            <a href="/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/">(no title)</a>
+            <a href="/2024/06/02/C/%E4%BC%98%E5%85%88%E7%BA%A7/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2023/09/10/Encryption/AES_NI/">AES_NI</a>
+            <a href="/2024/06/02/Shell/windows/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2023/09/10/Code/Base64/">Base64</a>
+            <a href="/2024/06/02/Shell/for/">Do not edit</a>
           </li>
         
           <li>
-            <a href="/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/">全密态数据库</a>
+            <a href="/2024/06/02/Shell/dd/">(no title)</a>
           </li>
         
       </ul>
@@ -993,7 +1017,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2023 rains<br>
+      &copy; 2024 rains<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

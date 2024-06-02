@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>MyBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SHELL 调试方法选项Shell本身提供一些调试方法选项： -n，读一遍脚本中的命令但不执行，用于检查脚本中的语法错误。 -v，一边执行脚本，一边将执行过的脚本命令打印到标准输出。 -x，提供跟踪执行信息，将执行的每一条命令和结果依次打印出来。  使用这些选项有三种方法(注意:避免几种调试选项混用) 在命令行提供参数：sh -x script.sh 或者 bash -n script.sh 脚本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBlog">
+<meta property="og:url" content="https://sunflower-dotcom.github.io/2024/06/02/Shell/%E8%B0%83%E8%AF%95/index.html">
+<meta property="og:site_name" content="MyBlog">
+<meta property="og:description" content="SHELL 调试方法选项Shell本身提供一些调试方法选项： -n，读一遍脚本中的命令但不执行，用于检查脚本中的语法错误。 -v，一边执行脚本，一边将执行过的脚本命令打印到标准输出。 -x，提供跟踪执行信息，将执行的每一条命令和结果依次打印出来。  使用这些选项有三种方法(注意:避免几种调试选项混用) 在命令行提供参数：sh -x script.sh 或者 bash -n script.sh 脚本">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-06-02T08:31:14.876Z">
+<meta property="article:modified_time" content="2024-06-02T07:58:46.621Z">
+<meta property="article:author" content="rains">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="MyBlog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MyBlog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://sunflower-dotcom.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Shell/调试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/06/02/Shell/%E8%B0%83%E8%AF%95/" class="article-date">
+  <time datetime="2024-06-02T08:31:14.876Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SHELL-调试方法选项"><a href="#SHELL-调试方法选项" class="headerlink" title="SHELL 调试方法选项"></a>SHELL 调试方法选项</h1><h2 id="Shell本身提供一些调试方法选项："><a href="#Shell本身提供一些调试方法选项：" class="headerlink" title="Shell本身提供一些调试方法选项："></a>Shell本身提供一些调试方法选项：</h2><ol>
+<li>-n，读一遍脚本中的命令但不执行，用于检查脚本中的语法错误。</li>
+<li>-v，一边执行脚本，一边将执行过的脚本命令打印到标准输出。</li>
+<li>-x，提供跟踪执行信息，将执行的每一条命令和结果依次打印出来。</li>
+</ol>
+<h2 id="使用这些选项有三种方法-注意-避免几种调试选项混用"><a href="#使用这些选项有三种方法-注意-避免几种调试选项混用" class="headerlink" title="使用这些选项有三种方法(注意:避免几种调试选项混用)"></a>使用这些选项有三种方法(注意:避免几种调试选项混用)</h2><ol>
+<li>在命令行提供参数：sh -x script.sh 或者 bash -n script.sh</li>
+<li>脚本开头提供参数：#!&#x2F;bin&#x2F;sh -x 或者 #!&#x2F;bin&#x2F;bash -x</li>
+<li>在脚本中用set命令启用或者禁用参数，其中set -x表示启用，set +x表示禁用</li>
+</ol>
+<p><strong>set命令的详细说明</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://man.linuxde.net/set">http://man.linuxde.net/set</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-set.html">https://www.runoob.com/linux/linux-comm-set.html</a></li>
+</ul>
+<p><strong>Bash 官网文档</strong></p>
+<ul>
+<li>bash <a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/">https://www.gnu.org/software/bash/</a></li>
+<li>Bash-Reference-Manual <a target="_blank" rel="noopener" href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html">https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sunflower-dotcom.github.io/2024/06/02/Shell/%E8%B0%83%E8%AF%95/" data-id="clwxac9ct002xf4tb0ekw7gi9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/06/02/Shell/dd/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Do not edit</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ChatGPT/">ChatGPT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Do-not-edit/">Do not edit</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Encryption/">Encryption</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GDB/">GDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shortcuts/">Shortcuts</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/" rel="tag">C/C++</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C-C/" style="font-size: 10px;">C/C++</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/">Do not edit</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/02/C/%E4%BC%98%E5%85%88%E7%BA%A7/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/02/Shell/windows/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/02/Shell/for/">Do not edit</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/02/Shell/dd/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 rains<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

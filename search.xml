@@ -15,24 +15,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/03/19/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Epoll</title>
     <url>/2023/03/19/C/Epoll/</url>
     <content><![CDATA[<h1 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h1><p>**<code>epoll</code>**是<a href="https://zh.wikipedia.org/wiki/Linux" title="Linux">Linux</a>内核的可扩展I&#x2F;O事件通知机制<sup id="cite_ref-1" class="reference"><a href="https://zh.wikipedia.org/wiki/Epoll#cite_note-1">[1]</a></sup>。于Linux 2.5.44首度登场，它设计目的旨在取代既有<a href="https://zh.wikipedia.org/wiki/POSIX" title="POSIX">POSIX</a> <a href="https://zh.wikipedia.org/wiki/Select_(Unix)" title="Select (Unix)"><code>select(2)</code></a>与<code>poll(2)</code><a href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8" title="系统调用">系统函数</a>，让需要大量操作<a href="https://zh.wikipedia.org/wiki/%E6%AA%94%E6%A1%88%E6%8F%8F%E8%BF%B0%E5%AD%90" title="文件描述符">文件描述符</a>的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，<code>epoll</code>的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件</p>
@@ -63,36 +45,32 @@
       </categories>
   </entry>
   <entry>
-    <title>柔性数组</title>
-    <url>/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
-<p>柔型数组有两种定义方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+    <title>Hello World</title>
+    <url>/2023/03/19/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>有些编译器会报错无法编译可以改成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
-<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
-<p><img src="/images/C_1.png"></p>
-<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/C_2.png"></p>
-<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
-<p><img src="/images/C_3.png"></p>
-<p>如果想增加数组元素，使用realloc调整结构体大小</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
-
-<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
-<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2024/06/02/C/%E4%BC%98%E5%85%88%E7%BA%A7/</url>
+    <content><![CDATA[<h1 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h1><p><strong><a href="http://lib.csdn.net/base/c" title="C语言知识库">C语言</a>运算符优先级</strong></p>
+<table border="1" cellspacing="0" cellpadding="0" width="612"><tbody><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>优先级</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>运算符</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>名称或含义</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>使用形式</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>结合方向</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>说明</strong></p></td></tr><tr><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>1</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">[]</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">数组下标</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">数组名[常量表达式]</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">()</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">圆括号</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">(表达式）/函数名(形参表)</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">.</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">成员选择（对象）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">对象.成员名</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-&gt;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">成员选择（指针）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">对象指针-&gt;成员名</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="9"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>2</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">负号运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">-表达式</p></td><td rowspan="9"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td rowspan="7"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">单目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">~</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位取反运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">~表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">++</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">自增运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">++变量名/变量名++</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">--</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">自减运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--变量名/变量名--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取值运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">*指针变量</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取地址运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&amp;变量名</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">!</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑非运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">!表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">(</span><span style="color:blue">类型</span><span style="color:blue">)</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">强制类型转换</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">(数据类型)表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">sizeof</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">长度运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">sizeof(表达式)</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>3</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">/</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">除</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式/表达式</p></td><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="3"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">乘</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式*表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">%</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">余数（取模）</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">整型表达式%整型表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>4</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">+</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">加</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式+表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">减</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式-表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>5</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&lt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左移</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&lt;&lt;表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&gt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">右移</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&gt;&gt;表达式</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>6</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">大于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&gt;表达式</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="4"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">大于等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&gt;=表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&nbsp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">小于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&lt;表达式</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">小于等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&lt;=表达式</p></td></tr><tr><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>7</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">==</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式==表达式</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td rowspan="2"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">！</span><span style="color:blue">=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">不等于</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式!= 表达式</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>8</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位与</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&amp;表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>9</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">^</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位异或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式^表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>10</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">|</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式|表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>11</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;&amp;</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑与</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式&amp;&amp;表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>12</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">||</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逻辑或</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式||表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">双目运算符</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>13</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">?:</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">条件运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式1?</p><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式2: 表达式3</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><span style="color:red">三目运算符</span></p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><span style="color:red">&nbsp;</span></p></td></tr><tr><td rowspan="11"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>14</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">赋值运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量=表达式</p></td><td rowspan="11"><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:red">右到左</span></strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">/=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">除后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量/=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">*=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">乘后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量*=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">%=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">取模后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量%=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">+=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">加后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量+=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">-=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">减后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量-=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&lt;&lt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左移后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&lt;&lt;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&gt;&gt;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">右移后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&gt;&gt;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">&amp;=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位与后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量&amp;=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">^=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位异或后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量^=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">|=</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">按位或后赋值</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">变量|=表达式</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr><tr><td width="612" colspan="6"><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">&nbsp;</p></td></tr><tr><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong>15</strong></p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px"><strong><span style="color:blue">，</span></strong></p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">逗号运算符</p></td><td><p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">表达式,表达式,…</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">左到右</p></td><td><p align="center" style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">--</p></td></tr></tbody></table>
+
+<p><strong>说明：</strong></p>
+<p> <strong>同一优先级的运算符，运算次序由结合方向所决定。<br> 简单记就是：！ &gt; 算术运算符 &gt; 关系运算符 &gt; &amp;&amp; &gt; || &gt; 赋值运算符</strong></p>
+]]></content>
   </entry>
   <entry>
     <title>对话记录</title>
@@ -161,52 +139,6 @@
 ]]></content>
       <categories>
         <category>ChatGPT</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Skiplist</title>
-    <url>/2023/03/19/C/%E8%B7%B3%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>AES_NI</title>
-    <url>/2023/09/10/Encryption/AES_NI/</url>
-    <content><![CDATA[<h1 id="AES-NI"><a href="#AES-NI" class="headerlink" title="AES_NI"></a>AES_NI</h1><h2 id="How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System"><a href="#How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System" class="headerlink" title="How to find out AES-NI (Advanced Encryption) Enabled on Linux System"></a>How to find out AES-NI (Advanced Encryption) Enabled on Linux System</h2><p>One can find out that the processor has the AES&#x2F;AES-NI instruction set using the lscpu command:</p>
-<blockquote>
-<p>lscpu</p>
-</blockquote>
-<p>Type the following grep command to make sure that the processor has the AES instruction set and enabled in the BIOS:</p>
-<blockquote>
-<p>grep -o aes &#x2F;proc&#x2F;cpuinfo</p>
-</blockquote>
-<p>OR</p>
-<blockquote>
-<p>grep -m1 -o aes &#x2F;proc&#x2F;cpuinfo</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Encryption</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>全密态数据库</title>
-    <url>/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="全密态数据库"><a href="#全密态数据库" class="headerlink" title="全密态数据库"></a>全密态数据库</h1><p>可信硬件(TEE)</p>
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性:"></a>特性:</h2><ol>
-<li><p>密钥管理</p>
-</li>
-<li><p>索引</p>
-</li>
-<li><p>TEE计算</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Database</category>
       </categories>
   </entry>
   <entry>
@@ -306,16 +238,68 @@
       </tags>
   </entry>
   <entry>
-    <title>内联函数</title>
-    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
+    <title>Skiplist</title>
+    <url>/2023/03/19/C/%E8%B7%B3%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="Skiplist"><a href="#Skiplist" class="headerlink" title="Skiplist"></a>Skiplist</h1><p><a href="../images/pugh-skiplists-cacm1990.pdf">pugh-skiplists-cacm1990.pdf</a></p>
 ]]></content>
       <categories>
         <category>C/C++</category>
       </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title>柔性数组</title>
+    <url>/2023/03/19/C/%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h1><h2 id="柔性数组定义"><a href="#柔性数组定义" class="headerlink" title="柔性数组定义"></a>柔性数组定义</h2><p>C99中，结构体中<strong>最后一个元素</strong>允许是未知大小的数组，这个成员叫做结构体的柔性数组成员。</p>
+<p>柔型数组有两种定义方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[0];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<p>有些编译器会报错无法编译可以改成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. typedef struct st_type</span><br><span class="line">2. &#123;</span><br><span class="line">3.  int i;</span><br><span class="line">4.  int a[];//柔性数组成员</span><br><span class="line">5. &#125;type_a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的特点"><a href="#柔性数组的特点" class="headerlink" title="柔性数组的特点"></a>柔性数组的特点</h2><p>（1）结构中的柔性数组成员 前面必须至少包含一个其他成员（从上面的代码可以看出）</p>
+<p>（2）sizeof( )返回的这种结构大小不包括柔性数组的内存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. typedef struct st_type</span><br><span class="line">4. &#123;</span><br><span class="line">5.  int i;</span><br><span class="line">6.  int a[0];//柔性数组成员</span><br><span class="line">7. &#125;type_a;</span><br><span class="line">8. </span><br><span class="line">9. int main()</span><br><span class="line">10. &#123;</span><br><span class="line">11.   printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">12.   return 0;</span><br><span class="line">13. &#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果为4可以看出特点(2) : 返回的结构大小不包括柔性数组的大小</p>
+<p><img src="/images/C_1.png"></p>
+<p>（3）包含柔型数组成员的结构用malloc( )函数进行内存的动态分配，并且分配的内存应该大于结构的大小。以适应柔型数组的预期大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">13.   if (s != NULL)</span><br><span class="line">14.   &#123;</span><br><span class="line">15.     s-&gt;i = 10;</span><br><span class="line">16.     int j = 0;</span><br><span class="line">17.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">18.     &#123;</span><br><span class="line">19.       s-&gt;a[j] = j;</span><br><span class="line">20.     &#125;</span><br><span class="line">21.   &#125;</span><br><span class="line">22. </span><br><span class="line">23.   return 0;</span><br><span class="line">24. &#125;</span><br><span class="line">25.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/C_2.png"></p>
+<p>VS2019   F10    监视内存，输入s ，内存如下所示：</p>
+<p><img src="/images/C_3.png"></p>
+<p>如果想增加数组元素，使用realloc调整结构体大小</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. #define  _CRT_SECURE_NO_WARNINGS  1</span><br><span class="line">2. #include&lt;stdio.h&gt;</span><br><span class="line">3. #include&lt;stdlib.h&gt;</span><br><span class="line">4. typedef struct st_type</span><br><span class="line">5. &#123;</span><br><span class="line">6.  int i;</span><br><span class="line">7.  int a[0];//柔性数组成员</span><br><span class="line">8. &#125;type_a;</span><br><span class="line">9. </span><br><span class="line">10. int main()</span><br><span class="line">11. &#123;</span><br><span class="line">12.   //printf(&quot;sizeof(type_a) = %d\n&quot;, sizeof(type_a));</span><br><span class="line">13.   type_a* s = (type_a*)malloc(sizeof(type_a) + 10 * sizeof(int));//根据特点3，malloc申请的空间应该比结构体大小要大</span><br><span class="line">14.   if (s != NULL)</span><br><span class="line">15.   &#123;</span><br><span class="line">16.     s-&gt;i = 10;</span><br><span class="line">17.     int j = 0;</span><br><span class="line">18.     for (j = 0; j &lt; 10; j++)</span><br><span class="line">19.     &#123;</span><br><span class="line">20.       s-&gt;a[j] = j;</span><br><span class="line">21.     &#125;</span><br><span class="line">22.   &#125;</span><br><span class="line">23. </span><br><span class="line">24.   type_a* ptr = (type_a*)realloc(s,sizeof(type_a) + 20 * sizeof(int));//使用realloc重新调整结构体大小</span><br><span class="line">25.   if (ptr != NULL)</span><br><span class="line">26.   &#123;</span><br><span class="line">27.     s = ptr;</span><br><span class="line">28.   &#125;</span><br><span class="line">29. </span><br><span class="line">30.   //使用</span><br><span class="line">31. </span><br><span class="line">32.   //释放</span><br><span class="line">33.   free(s);</span><br><span class="line">34.   s = NULL;</span><br><span class="line">35. </span><br><span class="line">36.   return 0;</span><br><span class="line">37. &#125;</span><br><span class="line">38.</span><br></pre></td></tr></table></figure>
+
+<h2 id="柔性数组的优势"><a href="#柔性数组的优势" class="headerlink" title="柔性数组的优势"></a>柔性数组的优势</h2><p>（1）把结构体的内存以及其成员要的内存一次性分配好了，并返回给用户一个结构体指针，用户做一次free就可以。</p>
+<p>（2）连续的内存有益于提高访问速度，也有益于减少内存碎片。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Do not edit</title>
+    <url>/2024/06/02/C/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F/</url>
+    <content><![CDATA[<h1 id="动态链接库链接顺序"><a href="#动态链接库链接顺序" class="headerlink" title="动态链接库链接顺序"></a>动态链接库链接顺序</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
+<li>-L 用于链接时指定显示链接的库的搜索路径（优先级高）</li>
+<li>-rpath 用于在链接时指定直接或间接链接的库搜索路径（最高优先级），并且(写入二进制文件中RPATH)指定运行时的本二进制文件的直接或间接依赖的动态加载库搜索路径（最高优先级）。注：有些系统默认开启链接选项-enable-new-dtags,导致-rpath生成RUNPATH。通过指定链接选项-disable-new-dtags来使其生成RPATH。</li>
+<li>-rpath-link 用于在链接时指定直接或间接链接的库搜索路径（优先级高）。</li>
+<li>LD_LIBRARY_PATH 在运行时搜索直接或间接依赖。优先级低于RPATH为第二优先级</li>
+<li>RUNPATH写入在二进制文件中，用于指定运行时本二进制文件的直接依赖动态加载库搜索路径(优先级低于LD_LIBRARY_PATH)。存在时覆盖二进制文件中RPATH。</li>
+</ol>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ol>
+<li>ldd -s lib_path</li>
+<li>LD_DEBUG&#x3D;libs lib_path</li>
+<li>readelf -d lib_path</li>
+<li>cmake 设置rpath指令</li>
+<li>chrpath -r [new_rpath] [lib_name] 注:只能改路径比原来短的.</li>
+<li>patchelf –set-rpath [new_rpath] [lib_name] 注:没有限制路径长度,但是修改的是RUNPATH</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Do not edit</category>
+      </categories>
   </entry>
   <entry>
     <title>静态成员</title>
@@ -341,78 +325,65 @@
       </tags>
   </entry>
   <entry>
-    <title>命令</title>
-    <url>/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
-<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
+    <title>AES_NI</title>
+    <url>/2023/09/10/Encryption/AES_NI/</url>
+    <content><![CDATA[<h1 id="AES-NI"><a href="#AES-NI" class="headerlink" title="AES_NI"></a>AES_NI</h1><h2 id="How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System"><a href="#How-to-find-out-AES-NI-Advanced-Encryption-Enabled-on-Linux-System" class="headerlink" title="How to find out AES-NI (Advanced Encryption) Enabled on Linux System"></a>How to find out AES-NI (Advanced Encryption) Enabled on Linux System</h2><p>One can find out that the processor has the AES&#x2F;AES-NI instruction set using the lscpu command:</p>
+<blockquote>
+<p>lscpu</p>
+</blockquote>
+<p>Type the following grep command to make sure that the processor has the AES instruction set and enabled in the BIOS:</p>
+<blockquote>
+<p>grep -o aes &#x2F;proc&#x2F;cpuinfo</p>
+</blockquote>
+<p>OR</p>
+<blockquote>
+<p>grep -m1 -o aes &#x2F;proc&#x2F;cpuinfo</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Encryption</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>初始化Git仓库</title>
+    <url>/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
+<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
+<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
+<p>$ chown -R git:git runoob.git</p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>内联函数</title>
+    <url>/2023/02/12/C++/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h1><p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么<strong>在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方</strong>,对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>全密态数据库</title>
+    <url>/2023/03/28/Database/%E5%85%A8%E5%AF%86%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="全密态数据库"><a href="#全密态数据库" class="headerlink" title="全密态数据库"></a>全密态数据库</h1><p>可信硬件(TEE)</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性:"></a>特性:</h2><ol>
+<li><p>密钥管理</p>
+</li>
+<li><p>索引</p>
+</li>
+<li><p>TEE计算</p>
+</li>
 </ol>
 ]]></content>
       <categories>
-        <category>GDB</category>
+        <category>Database</category>
       </categories>
-  </entry>
-  <entry>
-    <title>GDB调试忽略信号</title>
-    <url>/2023/03/19/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/</url>
-    <content><![CDATA[<h1 id="GDB调试忽略信号"><a href="#GDB调试忽略信号" class="headerlink" title="GDB调试忽略信号"></a>GDB调试忽略信号</h1><p>在linux平台，用gdb调试程序时，可以在gdb attach到运行中程序后，用以下命令忽略一些不关注的信号：</p>
-<p>handle SIGUSR2 noprint nostop</p>
-<p>handle SIGPIPE noprint nostop</p>
-<p><img src="/images/GDB_1.png"></p>
-]]></content>
-      <categories>
-        <category>GDB</category>
-      </categories>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h1><p>如何在gdb中加载多个符号<a href="https://www.itbaoku.cn/tag/file" title="文件">文件</a>.我有一个可执行的foo.out和加载模块栏.我创建了两个符号文件foo.symbol和bar.symbol.如何将两个文件加载到GDB中.</p>
-<p># gdb –core core</p>
-<h1 id="gdb"><a href="#gdb" class="headerlink" title="(gdb)"></a>(gdb)</h1><h1 id="gdb-symbol-file-foo-symbol"><a href="#gdb-symbol-file-foo-symbol" class="headerlink" title="(gdb) symbol-file foo.symbol"></a>(gdb) symbol-file foo.symbol</h1><p>如何加载第二个符号文件.或有什么方法可以加载gdb</p>
-<p>中的所有目录文件</p>
-<h2 id="推荐答案"><a href="#推荐答案" class="headerlink" title="推荐答案"></a>推荐答案</h2><p>设置包含符号文件的目录use</p>
-<p>set debug-file-directory <directory></directory></p>
-<p>并使用</p>
-<p>show debug-file-directory</p>
-<p>显示当前设置为包含符号文件的目录.</p>
-<p>符号文件是从此目录自动读取的，如果二进制文件以<a href="https://www.itbaoku.cn/tag/debugging" title="调试">调试</a>链接为单位.</p>
-<p>二进制文件.</p>
-<ul>
-<li></li>
-</ul>
-<p>要添加其他符号，您可能会使用add-symbol-<a href="https://www.itbaoku.cn/tag/file" title="file">file</a>.</p>
-<p>(如 <a href="https://sourceware.org/gdb/gdb/onlinedocs/gdb/">gdb onlinedocs</a> 目前我在这里引用此信息，</p>
-<blockquote>
-<p>附加符号文件的文件名地址</p>
-<p>附加符号文件文件名地址[-readNow] [ - 映射]</p>
-<p>附加符号文件文件名-Ssection地址…</p>
-<p>附加符号文件命令从文件文件名中读取其他符号表信息.当将文件名(通过某些其他方式)动态加载到正在运行的程序中时，您将使用此命令.地址应为已加载文件的内存地址； GDB无法自行解决这个问题.您还可以指定任意数量的``ssection地址’’对，以提供该节的明确截面名称和基础地址.您可以将任何地址指定为表达式.</p>
-<p>文件文件名的符号表被添加到最初使用符号文件命令读取的符号表中.您可以多次使用附加符号文件命令；因此，新的符号数据读取不断添加到旧.为了丢弃所有旧符号数据，请使用没有任何参数的符号文件命令.</p>
-<p>尽管文件名通常是共享库文件，可执行文件或已完全重新安置以加载到过程中的其他对象文件，但您也可以从重新定位的.o文件加载符号信息，只要:</p>
-<ul>
-<li>文件的符号信息仅指该文件中定义的链接器符号，而不是由其他对象文件定义的符号，</li>
-<li>每节文件的符号信息涉及实际上已加载到文件中，并且</li>
-<li>您可以确定每个部分加载的地址，并将其提供给附加符号文件命令.</li>
-</ul>
-<p>一些嵌入式操作系统，例如Sun Chorus和VXWorks，可以将可重定位的文件加载到已经运行的程序中；这样的系统通常使上述要求易于满足.但是，重要的是要认识到，许多天然系统都使用复杂的链接程序(例如，链接部分分解和C ++构造函数组件)，使要求难以满足.通常，不能假设使用附加符号文件读取可重新定位对象文件的符号信息的效果与将可重定位对象文件链接到程序中的效果相同.</p>
-<p>.</p>
-<p>加上符号文件在使用后不重复.</p>
-<p>与符号文件命令一样，您可以使用-mapped’ and -ReadNow’选项，以更改GDB管理文件名的符号表信息.</p>
-</blockquote>
-<h2 id="其他推荐答案"><a href="#其他推荐答案" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>其他符号可以加载到gdb调试会话:</p>
-<p>add-symbol-file filename address</p>
-<p>参数address是.text节的地址.可以通过以下方式检索此地址</p>
-<p>readelf -WS path&#x2F;to&#x2F;file.elf | grep .text | awk ‘{ print “0x”$5 }’</p>
-<p>可以通过在gdb中自动化这可以通过添加以下输入到~&#x2F;.gdbinit:</p>
-<p>来自动化.</p>
-<p>define add-symbol-file-auto</p>
-<h1 id="Parse-text-address-to-temp-file"><a href="#Parse-text-address-to-temp-file" class="headerlink" title="Parse .text address to temp file"></a>Parse .text address to temp file</h1><p>  shell echo set \$text_address&#x3D;$(readelf -WS $arg0 | grep .text | awk ‘{ print “0x”$5 }’) &gt;&#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
-<h1 id="Source-text-address"><a href="#Source-text-address" class="headerlink" title="Source .text address"></a>Source .text address</h1><p>  source &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
-<h1 id="Clean-tempfile"><a href="#Clean-tempfile" class="headerlink" title="Clean tempfile"></a>Clean tempfile</h1><p>  shell rm -f &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
-<h1 id="Load-symbol-table"><a href="#Load-symbol-table" class="headerlink" title="Load symbol table"></a>Load symbol table</h1><p>  add-symbol-file $arg0 $text_address<br>end</p>
-<p>以上功能定义add-symbol-file-auto可以使用其他符号:</p>
-<p>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;bootloader.elf<br>add symbol table from file “path&#x2F;to&#x2F;bootloader.elf” at<br>    .text_addr &#x3D; 0x8010400<br>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;application.elf<br>add symbol table from file “path&#x2F;to&#x2F;application.elf” at<br>    .text_addr &#x3D; 0x8000000<br>(gdb) break main<br>Breakpoint 1 at 0x8006cb0: main. (2 locations)<br>(gdb) info break<br>Num     Type           Disp Enb Address    What<br>1       breakpoint     keep y   <MULTIPLE><br>1.1                         y     0x08006cb0 in main() at .&#x2F;source&#x2F;main.cpp:114<br>1.2                         y     0x080106a6 in main() at .&#x2F;main.cpp:10<br>(gdb)</MULTIPLE></p>
-]]></content>
   </entry>
   <entry>
     <title>Base64</title>
@@ -737,11 +708,26 @@
       </categories>
   </entry>
   <entry>
-    <title>Do not edit</title>
-    <url>/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br></pre></td></tr></table></figure>]]></content>
+    <title>命令</title>
+    <url>/2023/03/20/GDB/%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><ol>
+<li>使用set print elements [n] 来更改打印字符串的长度。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) set print elements 0</span><br><span class="line">(gdb) show print elements </span><br><span class="line">Limit on string chars or array elements to print is unlimited.</span><br><span class="line"></span><br><span class="line">(gdb) set print elements 300</span><br><span class="line">(gdb) show print elements</span><br><span class="line">Limit on string chars or array elements to print is 300.</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
       <categories>
-        <category>Do not edit</category>
+        <category>GDB</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>GDB调试忽略信号</title>
+    <url>/2023/03/19/GDB/%E5%BF%BD%E7%95%A5%E4%BF%A1%E5%8F%B7/</url>
+    <content><![CDATA[<h1 id="GDB调试忽略信号"><a href="#GDB调试忽略信号" class="headerlink" title="GDB调试忽略信号"></a>GDB调试忽略信号</h1><p>在linux平台，用gdb调试程序时，可以在gdb attach到运行中程序后，用以下命令忽略一些不关注的信号：</p>
+<p>handle SIGUSR2 noprint nostop</p>
+<p>handle SIGPIPE noprint nostop</p>
+<p><img src="/images/GDB_1.png"></p>
+]]></content>
+      <categories>
+        <category>GDB</category>
       </categories>
   </entry>
   <entry>
@@ -779,6 +765,57 @@
 ]]></content>
   </entry>
   <entry>
+    <title></title>
+    <url>/2023/09/10/GDB/%E7%AC%A6%E5%8F%B7%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h1><p>如何在gdb中加载多个符号<a href="https://www.itbaoku.cn/tag/file" title="文件">文件</a>.我有一个可执行的foo.out和加载模块栏.我创建了两个符号文件foo.symbol和bar.symbol.如何将两个文件加载到GDB中.</p>
+<p># gdb –core core</p>
+<h1 id="gdb"><a href="#gdb" class="headerlink" title="(gdb)"></a>(gdb)</h1><h1 id="gdb-symbol-file-foo-symbol"><a href="#gdb-symbol-file-foo-symbol" class="headerlink" title="(gdb) symbol-file foo.symbol"></a>(gdb) symbol-file foo.symbol</h1><p>如何加载第二个符号文件.或有什么方法可以加载gdb</p>
+<p>中的所有目录文件</p>
+<h2 id="推荐答案"><a href="#推荐答案" class="headerlink" title="推荐答案"></a>推荐答案</h2><p>设置包含符号文件的目录use</p>
+<p>set debug-file-directory <directory></directory></p>
+<p>并使用</p>
+<p>show debug-file-directory</p>
+<p>显示当前设置为包含符号文件的目录.</p>
+<p>符号文件是从此目录自动读取的，如果二进制文件以<a href="https://www.itbaoku.cn/tag/debugging" title="调试">调试</a>链接为单位.</p>
+<p>二进制文件.</p>
+<ul>
+<li></li>
+</ul>
+<p>要添加其他符号，您可能会使用add-symbol-<a href="https://www.itbaoku.cn/tag/file" title="file">file</a>.</p>
+<p>(如 <a href="https://sourceware.org/gdb/gdb/onlinedocs/gdb/">gdb onlinedocs</a> 目前我在这里引用此信息，</p>
+<blockquote>
+<p>附加符号文件的文件名地址</p>
+<p>附加符号文件文件名地址[-readNow] [ - 映射]</p>
+<p>附加符号文件文件名-Ssection地址…</p>
+<p>附加符号文件命令从文件文件名中读取其他符号表信息.当将文件名(通过某些其他方式)动态加载到正在运行的程序中时，您将使用此命令.地址应为已加载文件的内存地址； GDB无法自行解决这个问题.您还可以指定任意数量的``ssection地址’’对，以提供该节的明确截面名称和基础地址.您可以将任何地址指定为表达式.</p>
+<p>文件文件名的符号表被添加到最初使用符号文件命令读取的符号表中.您可以多次使用附加符号文件命令；因此，新的符号数据读取不断添加到旧.为了丢弃所有旧符号数据，请使用没有任何参数的符号文件命令.</p>
+<p>尽管文件名通常是共享库文件，可执行文件或已完全重新安置以加载到过程中的其他对象文件，但您也可以从重新定位的.o文件加载符号信息，只要:</p>
+<ul>
+<li>文件的符号信息仅指该文件中定义的链接器符号，而不是由其他对象文件定义的符号，</li>
+<li>每节文件的符号信息涉及实际上已加载到文件中，并且</li>
+<li>您可以确定每个部分加载的地址，并将其提供给附加符号文件命令.</li>
+</ul>
+<p>一些嵌入式操作系统，例如Sun Chorus和VXWorks，可以将可重定位的文件加载到已经运行的程序中；这样的系统通常使上述要求易于满足.但是，重要的是要认识到，许多天然系统都使用复杂的链接程序(例如，链接部分分解和C ++构造函数组件)，使要求难以满足.通常，不能假设使用附加符号文件读取可重新定位对象文件的符号信息的效果与将可重定位对象文件链接到程序中的效果相同.</p>
+<p>.</p>
+<p>加上符号文件在使用后不重复.</p>
+<p>与符号文件命令一样，您可以使用-mapped’ and -ReadNow’选项，以更改GDB管理文件名的符号表信息.</p>
+</blockquote>
+<h2 id="其他推荐答案"><a href="#其他推荐答案" class="headerlink" title="其他推荐答案"></a>其他推荐答案</h2><p>其他符号可以加载到gdb调试会话:</p>
+<p>add-symbol-file filename address</p>
+<p>参数address是.text节的地址.可以通过以下方式检索此地址</p>
+<p>readelf -WS path&#x2F;to&#x2F;file.elf | grep .text | awk ‘{ print “0x”$5 }’</p>
+<p>可以通过在gdb中自动化这可以通过添加以下输入到~&#x2F;.gdbinit:</p>
+<p>来自动化.</p>
+<p>define add-symbol-file-auto</p>
+<h1 id="Parse-text-address-to-temp-file"><a href="#Parse-text-address-to-temp-file" class="headerlink" title="Parse .text address to temp file"></a>Parse .text address to temp file</h1><p>  shell echo set \$text_address&#x3D;$(readelf -WS $arg0 | grep .text | awk ‘{ print “0x”$5 }’) &gt;&#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Source-text-address"><a href="#Source-text-address" class="headerlink" title="Source .text address"></a>Source .text address</h1><p>  source &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Clean-tempfile"><a href="#Clean-tempfile" class="headerlink" title="Clean tempfile"></a>Clean tempfile</h1><p>  shell rm -f &#x2F;tmp&#x2F;temp_gdb_text_address.txt</p>
+<h1 id="Load-symbol-table"><a href="#Load-symbol-table" class="headerlink" title="Load symbol table"></a>Load symbol table</h1><p>  add-symbol-file $arg0 $text_address<br>end</p>
+<p>以上功能定义add-symbol-file-auto可以使用其他符号:</p>
+<p>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;bootloader.elf<br>add symbol table from file “path&#x2F;to&#x2F;bootloader.elf” at<br>    .text_addr &#x3D; 0x8010400<br>(gdb) add-symbol-file-auto path&#x2F;to&#x2F;application.elf<br>add symbol table from file “path&#x2F;to&#x2F;application.elf” at<br>    .text_addr &#x3D; 0x8000000<br>(gdb) break main<br>Breakpoint 1 at 0x8006cb0: main. (2 locations)<br>(gdb) info break<br>Num     Type           Disp Enb Address    What<br>1       breakpoint     keep y   <MULTIPLE><br>1.1                         y     0x08006cb0 in main() at .&#x2F;source&#x2F;main.cpp:114<br>1.2                         y     0x080106a6 in main() at .&#x2F;main.cpp:10<br>(gdb)</MULTIPLE></p>
+]]></content>
+  </entry>
+  <entry>
     <title>输出日志记录</title>
     <url>/2023/02/16/GDB/%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h1 id="输出日志记录"><a href="#输出日志记录" class="headerlink" title="输出日志记录"></a>输出日志记录</h1><blockquote>
@@ -790,15 +827,11 @@
       </categories>
   </entry>
   <entry>
-    <title>初始化Git仓库</title>
-    <url>/2023/02/12/Git/%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="初始化Git仓库"><a href="#初始化Git仓库" class="headerlink" title="初始化Git仓库"></a>初始化Git仓库</h1><p>$ cd &#x2F;home<br>$ mkdir gitrepo<br>$ chown git:git gitrepo&#x2F;<br>$ cd gitrepo</p>
-<p>$ git init –bare runoob.git<br>Initialized empty Git repository in &#x2F;home&#x2F;gitrepo&#x2F;runoob.git&#x2F;</p>
-<p>以上命令Git创建一个空仓库，服务器上的Git仓库通常都以.git结尾。然后，把仓库所属用户改为git：</p>
-<p>$ chown -R git:git runoob.git</p>
-]]></content>
+    <title>Do not edit</title>
+    <url>/2023/09/10/GDB/%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GDB&gt; show scheduler-locking //显示线程的scheduler-locking状态</span><br><span class="line">GDB&gt; set scheduler-locking on //调试加锁当前线程，停止所有其他线程</span><br><span class="line">GDB&gt; set print pretty on //格式化打印</span><br><span class="line">GDB&gt; thread find [regexp] //查找线程</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>Git</category>
+        <category>Do not edit</category>
       </categories>
   </entry>
   <entry>
@@ -808,6 +841,17 @@
 <li>windows脚本不断重复执行同一条命令<br>原因: 脚本名和cmd系统命令重复</li>
 </ol>
 ]]></content>
+  </entry>
+  <entry>
+    <title>VSCode</title>
+    <url>/2023/02/24/Shortcuts/vscode/</url>
+    <content><![CDATA[<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
+<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Shortcuts</category>
+      </categories>
   </entry>
   <entry>
     <title>Hash</title>
@@ -824,68 +868,6 @@
 ]]></content>
       <categories>
         <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>集合</title>
-    <url>/2023/03/19/Redis/%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
-<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
-<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
-<p><img src="/../images/Redis_1.webp"></p>
-<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
-<ol>
-<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
-<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
-<li>skiplist实现简单</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>VSCode</title>
-    <url>/2023/02/24/Shortcuts/vscode/</url>
-    <content><![CDATA[<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><ol>
-<li>Ctrl + D 或 Ctrl + Shift + L<br>选中所有相同选项, 一起修改</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Shortcuts</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>msg</title>
-    <url>/2023/03/28/Redis/msg/</url>
-    <content><![CDATA[<h1 id="msg"><a href="#msg" class="headerlink" title="msg"></a>msg</h1><ol>
-<li>skiplist</li>
-<li>cpu绑定</li>
-<li>unix编程</li>
-<li>事件机制</li>
-</ol>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Shell IF语法</title>
-    <url>/2023/03/19/Shell/if/</url>
-    <content><![CDATA[<h1 id="SHELL-IF-语法"><a href="#SHELL-IF-语法" class="headerlink" title="SHELL IF 语法"></a>SHELL IF 语法</h1><p>if [ -f file ]; then<br>   echo “yes yes yes”<br>elif [ -z file ]; then<br>   echo “yes yes”<br>else<br>   echo “nonono”<br>fi</p>
-]]></content>
-      <categories>
-        <category>Shell</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>read</title>
-    <url>/2023/03/20/Shell/read/</url>
-    <content><![CDATA[<h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
-<p><strong>代码1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>shell</category>
       </categories>
   </entry>
   <entry>
@@ -919,15 +901,21 @@
       </categories>
   </entry>
   <entry>
-    <title>常用命令</title>
-    <url>/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
-<li>杀死进程</li>
+    <title>集合</title>
+    <url>/2023/03/19/Redis/%E9%9B%86%E5%90%88/</url>
+    <content><![CDATA[<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="无序集合"><a href="#无序集合" class="headerlink" title="无序集合"></a>无序集合</h2><p>Redis通常使用字典结构保存用户集合数据, 字典键存储集合元素, 字典值为空. 如果一个集合全是整数, 则使用字典过于浪费内存, 为此, Redis设计了intset数据结构, 专门用来保存整数集合数据</p>
+<h2 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h2><p>有序集合即数据都是有序的. 存储一组有序收据, 最简单的是一下两种结构:<br>(1) 数据, 可以通过二分法查找数据, 但插入数据的复杂度为O(n)<br>(2) 链表, 可以快速插入数据, 但无法使用二分查找, 查找数据的复杂度为O(n)<br>兼具上面两种结构的优点的数据结构, <strong>跳表skiplist</strong></p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>skiplist是一个多层级的链表结构</p>
+<p><img src="/../images/Redis_1.webp"></p>
+<h3 id="为什么使用skiplist"><a href="#为什么使用skiplist" class="headerlink" title="为什么使用skiplist"></a>为什么使用skiplist</h3><p>红黑树也常用于维护有序数据, 为什么使用skiplist</p>
+<ol>
+<li>skiplist虽然以空间换时间, 但没有过度占用内存, 内存使用率在合理范围内</li>
+<li>有序集合常常需要执行ZRANGE或ZREVRANGE等遍历操作, 使用skiplist可以更高效地实现这些操作(skiplist第一层的双向链表可以遍历数据)</li>
+<li>skiplist实现简单</li>
 </ol>
-<p>#####查找tomcat进程<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’<br>#####查找tomcat进程并杀死<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’ | xargs kill -9  </p>
 ]]></content>
       <categories>
-        <category>shell</category>
+        <category>Redis</category>
       </categories>
   </entry>
   <entry>
@@ -945,6 +933,20 @@
 ]]></content>
       <categories>
         <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>msg</title>
+    <url>/2023/03/28/Redis/msg/</url>
+    <content><![CDATA[<h1 id="msg"><a href="#msg" class="headerlink" title="msg"></a>msg</h1><ol>
+<li>skiplist</li>
+<li>cpu绑定</li>
+<li>unix编程</li>
+<li>事件机制</li>
+</ol>
+]]></content>
+      <categories>
+        <category>redis</category>
       </categories>
   </entry>
   <entry>
@@ -972,50 +974,6 @@
 
 <p>呈现的输出如下所示：</p>
 <dl><dt>First Term</dt><dd>This is the definition of the first term.</dd></dl><dl><dt>Second Term<br>: This is one definition of the second term.</dt><dd>This is another definition of the second term.</dd></dl>]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>引用</title>
-    <url>/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Markdown-使用"><a href="#Markdown-使用" class="headerlink" title="Markdown 使用"></a>Markdown 使用</h1><p>要创建块引用，请在段落前添加一个 <code>&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下所示：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-</blockquote>
-<h3 id="多个段落的块引用"><a href="#多个段落的块引用" class="headerlink" title="# 多个段落的块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%A4%9A%E4%B8%AA%E6%AE%B5%E8%90%BD%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 多个段落的块引用</h3><p>块引用可以包含多个段落。为段落之间的空白行添加一个 <code>&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
-</blockquote>
-<h3 id="嵌套块引用"><a href="#嵌套块引用" class="headerlink" title="# 嵌套块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B5%8C%E5%A5%97%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 嵌套块引用</h3><p>块引用可以嵌套。在要嵌套的段落前添加一个 <code>&gt;&gt;</code> 符号。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt;&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
-<blockquote>
-<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
-</blockquote>
-</blockquote>
-<h3 id="带有其它元素的块引用"><a href="#带有其它元素的块引用" class="headerlink" title="# 带有其它元素的块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B8%A6%E6%9C%89%E5%85%B6%E5%AE%83%E5%85%83%E7%B4%A0%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 带有其它元素的块引用</h3><p>块引用可以包含其他 Markdown 格式的元素。并非所有元素都可以使用，你需要进行实验以查看哪些元素有效。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; #### The quarterly results look great!</span><br><span class="line">&gt;</span><br><span class="line">&gt; - Revenue was off the chart.</span><br><span class="line">&gt; - Profits were higher than ever.</span><br><span class="line">&gt;</span><br><span class="line">&gt;  *Everything* is going according to **plan**.</span><br></pre></td></tr></table></figure>
-
-<p>渲染效果如下：</p>
-<blockquote>
-<h4 id="The-quarterly-results-look-great"><a href="#The-quarterly-results-look-great" class="headerlink" title="The quarterly results look great!"></a>The quarterly results look great!</h4><ul>
-<li>Revenue was off the chart.</li>
-<li>Profits were higher than ever.</li>
-</ul>
-<p><em>Everything</em> is going according to <strong>plan</strong>.</p>
-</blockquote>
-]]></content>
       <categories>
         <category>Markdown</category>
       </categories>
@@ -1148,6 +1106,104 @@
 <td><code>This is really___very___important text.</code></td>
 </tr>
 </tbody></table>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>转义字符语法</title>
+    <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下：</p>
+<p>* Without the backslash, this would be a bullet in an unordered list.</p>
+<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\</td>
+<td>backslash</td>
+</tr>
+<tr>
+<td>`</td>
+<td>backtick (see also <a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
+</tr>
+<tr>
+<td>*</td>
+<td>asterisk</td>
+</tr>
+<tr>
+<td>_</td>
+<td>underscore</td>
+</tr>
+<tr>
+<td>{ }</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>brackets</td>
+</tr>
+<tr>
+<td>( )</td>
+<td>parentheses</td>
+</tr>
+<tr>
+<td>#</td>
+<td>pound sign</td>
+</tr>
+<tr>
+<td>+</td>
+<td>plus sign</td>
+</tr>
+<tr>
+<td>-</td>
+<td>minus sign (hyphen)</td>
+</tr>
+<tr>
+<td>.</td>
+<td>dot</td>
+</tr>
+<tr>
+<td>!</td>
+<td>exclamation mark</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
+<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>你必须要把网址转成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+
+<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
+<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 就会将它转为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
+
+<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>Markdown 将会把它转换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
+
+<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
 ]]></content>
       <categories>
         <category>Markdown</category>
@@ -1327,101 +1383,242 @@
       </categories>
   </entry>
   <entry>
-    <title>转义字符语法</title>
-    <url>/2023/02/12/Markdown/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Markdown-转义字符语法"><a href="#Markdown-转义字符语法" class="headerlink" title="Markdown 转义字符语法"></a>Markdown 转义字符语法</h1><p>要显示原本用于格式化 Markdown 文档的字符，请在字符前面添加反斜杠字符 \ 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\* Without the backslash, this would be a bullet in an unordered list.</span><br></pre></td></tr></table></figure>
+    <title>Do not edit</title>
+    <url>/2024/06/02/Shell/for/</url>
+    <content><![CDATA[<h1 id="FOR"><a href="#FOR" class="headerlink" title="FOR"></a>FOR</h1><p>Windows bat脚本的for语句基本形态如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">在cmd窗口中：<span class="keyword">for</span> %I <span class="title function_">in</span> <span class="params">(command1)</span> <span class="keyword">do</span> command2 在批处理文件中：<span class="keyword">for</span> %%I <span class="title function_">in</span> <span class="params">(command1)</span> <span class="keyword">do</span> command2</span><br></pre></td></tr></table></figure>
+
+<p>之所以要区分cmd窗口和批处理文件两种环境，是因为在这两种环境下，命令语句表现出来的行为虽然基本一样，但是在细节上还是稍有不同，最明显的一个差异就是：在cmd窗口中，for之后的形式变量I必须使用单百分号引用，即%I；而在批处理文件中，引用形式变量I必须使用双百分号，即%%I。为了方便起见，若不是特别强调，以下的讲解都以批处理文件环境为例。</p>
+<p>我们先来看一下for语句的基本要素都有些什么：</p>
+<ol>
+<li>for、in和do是for语句的关键字，它们三个缺一不可；</li>
+<li>%%I是for语句中对形式变量的引用，即使变量l在do后的语句中没有参与语句的执行，也是必须出现的；</li>
+<li>in之后，do之前的括号不能省略；</li>
+<li>command1表示字符串或变量，command2表示字符串、变量或命令语句；</li>
+</ol>
+<p>  下面来看一个Windows bat脚本的demo(记为demo1)：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">@<span class="keyword">echo</span> off</span><br><span class="line"><span class="keyword">for</span>  %%I <span class="title function_ invoke__">in</span> (ABC) <span class="keyword">do</span> <span class="keyword">echo</span> %%I</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p> 保存为.bat文件(批处理文件)并执行，将会在弹出的批处理窗口中看到这样的信息：</p>
+<p><img src="//img-blog.csdn.net/20180320184647370">  </p>
+<p> 对批处理文件的for循环就是这样简单，下面来看看for语句的注意事项，并运行更复杂的for循环实例。</p>
+<ol>
+<li><p>for语句的形式变量I，可以换成26个字母中的任意一个，这些字母会区分大小写，也就是说，%%I和%%i会被认为不是同一个变量；形式变量I还可以换成其他的字符，但是，为了不与批处理中的%0～%9这10个形式变量发生冲突，请不要随意把%%I替换为%%0～%%9中的任意一个；</p>
+</li>
+<li><p>in和do之间的command1表示的字符串或变量可以是一个，也可以是多个，每一个字符串或变量，我们称之为一个元素，每个元素之间，用空格键、跳格键、逗号、分号或等号分隔；</p>
+</li>
+<li><p>for语句依次提取command1中的每一个元素，把它的值赋予形式变量I，带到do后的command2中参与命令的执行；并且每次只提取一个元素，然后执行一次do后的命令语句，而无论这个元素是否被带到command2中参与了command2的运行；当执行完一次do后的语句之后，再提取command1中的下一个元素，再执行一次command2，如此循环，直到command1中的所有元素都已经被提取完毕，该for语句才宣告执行结束。</p>
+<p> 有了以上的基础，我们再来看下面这个例子，这个例子修改了demo1中的部分内容(记为demo2)，结果将大不一样：</p>
+</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">@<span class="keyword">echo</span> off</span><br><span class="line"><span class="keyword">for</span>  %%I <span class="title function_ invoke__">in</span> (A,B,C) <span class="keyword">do</span> <span class="keyword">echo</span> %%I</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p>  运行结果如下：</p>
+<p><img src="//img-blog.csdn.net/20180320184632835">  </p>
+<p>如果把 bbs.bathome.cn 这个字符串中的点号换为空格、跳格或等号，执行结果将和demo2的执行结果别无二致。</p>
+<p>现在，来分析一下demo2代码中for语句的执行过程：</p>
+<p>  1.for语句以逗号为分隔符，把 A,B,C 这个字符串切分成三个元素：A、B和C，由此决定了do后的语句将会被执行3次；   </p>
+<p> 2.第一次执行过程是这样的：先把 bbs 这个字符串作为形式变量I的值，带入do后的语句中加以执行，也就是执行 echo %%I 语句，此时的I值为A，因此，第一次执行的结果，将会在屏幕上显示A这个字符串；第二次执行和第一次执行的过程是一样的，只不过此时I的值已经被替换为command1中的第二个元素了，也就是 B 这个字符串；如此循环，当第三次echo执行完毕之后，整条for语句才算执行完毕，此时，将执行下一条语句，也就是pause命令。</p>
+<p> 高级用法：</p>
+<p>1)搜索当前目录下有哪些文件？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.*) do echo &quot;%%i&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p>2)搜索当前目录下所有的文本文件？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.txt) do echo &quot;%%i&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Do not edit</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2024/06/02/Shell/dd/</url>
+    <content><![CDATA[<h1 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h1><h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p><a href="https://so.csdn.net/so/search?q=dd%E5%91%BD%E4%BB%A4&spm=1001.2101.3001.7020">dd命令</a>,主要功能为转换和复制文件。<br>在Linux中，硬件的设备驱动和特殊设备文件 也是文件；dd也可以直接读取或写入到这些文件。<br>dd：用指定大小的块拷贝一个文件，并在拷贝的同时进行指定的转换。</p>
+<p>块是衡量一次读取、写入和转换字节的单位。命令行选项可以为输入&#x2F;读取（ibs）和输出&#x2F;写入（<a href="https://so.csdn.net/so/search?q=obs&spm=1001.2101.3001.7020">obs</a>）指定一个不同的块大小，尽管块大小（bs）选项会覆盖ibs和obs选项。输入和输出的默认块大小为512字节（传统的磁盘块及POSIX规定的“块”大小）复制的count选项。</p>
+<h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><ul>
+<li>if&#x3D;文件名：输入文件名，缺省为标准输入。即指定源文件。&lt; if&#x3D;input file &gt;</li>
+<li>of&#x3D;文件名：输出文件名，缺省为标准输出。即指定目的文件。&lt; of&#x3D;output file &gt;</li>
+<li>ibs&#x3D;bytes：一次读入bytes个字节，即指定一个块大小为bytes个字节。</li>
+<li>obs&#x3D;bytes：一次输出bytes个字节，即指定一个块大小为bytes个字节。</li>
+<li>bs&#x3D;bytes：同时设置读入&#x2F;输出的块大小为bytes个字节。</li>
+<li>cbs&#x3D;bytes：一次转换bytes个字节，即指定转换缓冲区大小。</li>
+<li>skip&#x3D;blocks：从输入文件开头跳过blocks个块后再开始复制。</li>
+<li>seek&#x3D;blocks：从输出文件开头跳过blocks个块后再开始复制。<br>  注意：通常只用当输出文件是磁盘或磁带时才有效，即备份到磁盘或磁带时才有效。</li>
+<li>count&#x3D;blocks：仅拷贝blocks个块，块大小等于ibs指定的字节数。</li>
+<li>conv&#x3D;conversion：用指定的参数转换文件。</li>
+<li>ascii：转换ebcdic为ascii</li>
+<li>ebcdic：转换ascii为ebcdic</li>
+<li>ibm：转换ascii为alternate ebcdic</li>
+<li>block：把每一行转换为长度为cbs，不足部分用空格填充</li>
+<li>unblock：使每一行的长度都为cbs，不足部分用空格填充</li>
+<li>lcase：把大写字符转换为小写字符</li>
+<li>ucase：把小写字符转换为大写字符</li>
+<li>swab：交换输入的每对字节</li>
+<li>noerror：出错时不停止</li>
+<li>notrunc：不截短输出文件</li>
+<li>sync：将每个输入块填充到ibs个字节，不足部分用空（NUL）字符补齐。</li>
+</ul>
+<h2 id="dd-示例"><a href="#dd-示例" class="headerlink" title="dd 示例"></a>dd 示例</h2><p>1.将本地的&#x2F;dev&#x2F;hdb整盘备份到&#x2F;dev&#x2F;hdd</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hdb of=/dev/hdd</span><br></pre></td></tr></table></figure>
+
+<p>2.将&#x2F;dev&#x2F;hdb全盘数据备份到指定路径的image文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hdb of=/root/image</span><br></pre></td></tr></table></figure>
+
+<p>3.将备份文件恢复到指定盘</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/root/image of=/dev/hdb</span><br></pre></td></tr></table></figure>
+
+<p>4.备份&#x2F;dev&#x2F;hdb全盘数据，并利用gzip工具进行压缩，保存到指定路径</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hdb | gzip &gt; /root/image.gz</span><br></pre></td></tr></table></figure>
+
+<p>5.将压缩的备份文件恢复到指定盘</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gzip -dc /root/image.gz | <span class="built_in">dd</span> of=/dev/hdb</span><br></pre></td></tr></table></figure>
+
+<p>6.备份与恢复MBR<br>备份磁盘开始的512个字节大小的MBR信息到指定文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hda of=/root/image count=1 bs=512</span><br><span class="line">count=1指仅拷贝一个块；bs=512指块大小为512个字节。</span><br></pre></td></tr></table></figure>
+
+<p>恢复：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/root/image of=/dev/had</span><br><span class="line">将备份的MBR信息写到磁盘开始部分</span><br></pre></td></tr></table></figure>
+
+<p>7.备份软盘</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/fd0 of=disk.img count=1 bs=1440k (即块大小为1.44M)</span><br></pre></td></tr></table></figure>
+
+<p>8.拷贝内存内容到硬盘</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/mem of=/root/mem.bin bs=1024 (指定块大小为1k)</span><br></pre></td></tr></table></figure>
+
+<p>9.拷贝光盘内容到指定文件夹，并保存为cd.iso文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/cdrom(hdc) of=/root/cd.iso</span><br></pre></td></tr></table></figure>
+
+<p>10.增加swap分区文件大小</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">第一步：创建一个大小为256M的文件：</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=/swapfile bs=1024 count=262144</span><br><span class="line">第二步：把这个文件变成swap文件：</span><br><span class="line">mkswap /swapfile</span><br><span class="line">第三步：启用这个swap文件：</span><br><span class="line">swapon /swapfile</span><br><span class="line">第四步：编辑/etc/fstab文件，使在每次开机时自动加载swap文件：</span><br><span class="line">/swapfile swap swap default 0 0</span><br></pre></td></tr></table></figure>
+
+<p>11.销毁磁盘数据</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/urandom of=/dev/hda1</span><br></pre></td></tr></table></figure>
+
+<p>注意：利用随机的数据填充硬盘，在某些必要的场合可以用来销毁数据。</p>
+<p>12.测试硬盘的读写速度</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=1024 count=1000000 of=/root/1Gb.file</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/root/1Gb.file bs=64k | <span class="built_in">dd</span> of=/dev/null</span><br></pre></td></tr></table></figure>
+
+<p>通过以上两个命令输出的命令执行时间，可以计算出硬盘的读、写速度。</p>
+<p>13.确定硬盘的最佳块大小：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=1024 count=1000000 of=/root/1Gb.file</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=2048 count=500000 of=/root/1Gb.file</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=4096 count=250000 of=/root/1Gb.file</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero bs=8192 count=125000 of=/root/1Gb.file</span><br></pre></td></tr></table></figure>
+
+<p>通过比较以上命令输出中所显示的命令执行时间，即可确定系统最佳的块大小。</p>
+<p>14.修复硬盘：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/sda of=/dev/sda 或<span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hda of=/dev/hda</span><br></pre></td></tr></table></figure>
+
+<p>当硬盘较长时间(一年以上)放置不使用后，磁盘上会产生magnetic flux point，当磁头读到这些区域时会遇到困难，并可能导致I&#x2F;O错误。当这种情况影响到硬盘的第一个扇区时，可能导致硬盘报废。上边的命令有可能使这些数 据起死回生。并且这个过程是安全、高效的。</p>
+<p>15.将一个很大的视频文件中的第i个字节的值改成0x41（也就是大写字母A的ASCII值）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> A | <span class="built_in">dd</span> of=bigfile seek=<span class="variable">$i</span> bs=1 count=1 conv=notrunc</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>Shell IF语法</title>
+    <url>/2023/03/19/Shell/if/</url>
+    <content><![CDATA[<h1 id="SHELL-IF-语法"><a href="#SHELL-IF-语法" class="headerlink" title="SHELL IF 语法"></a>SHELL IF 语法</h1><p>if [ -f file ]; then<br>   echo “yes yes yes”<br>elif [ -z file ]; then<br>   echo “yes yes”<br>else<br>   echo “nonono”<br>fi</p>
+]]></content>
+      <categories>
+        <category>Shell</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2024/06/02/Shell/windows/</url>
+    <content><![CDATA[<h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h1><ol>
+<li>win10命令行打开当前文件夹界面的方法</li>
+</ol>
+<p>命令行进入文件夹后执行</p>
+<blockquote>
+<p>explore.exe .</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>read</title>
+    <url>/2023/03/20/Shell/read/</url>
+    <content><![CDATA[<h1 id="read"><a href="#read" class="headerlink" title="read"></a>read</h1><p>linux shell从键盘获取输入</p>
+<p><strong>代码1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">  </span><br><span class="line">#提示“Input your choice:”，把用户的输入保存入变量choice\_user中  </span><br><span class="line">read -p &quot;Input your choice:&quot; choice\_user   </span><br><span class="line">echo &quot;your choice:$&#123;choice\_user&#125;&quot;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">#提示“请输入姓名”并等待30秒，把用户的输入保存入变量name中  </span><br><span class="line">read -t 30 -p &quot;请输入用户名称:&quot; name  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户名为:$name&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入密码”并等待30秒，把用户的输入保存入变量age中，输入内容隐藏  </span><br><span class="line">read -t 30 -s -p &quot;请输入用户密码:&quot; age  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;用户密码为:$age&quot;  </span><br><span class="line">  </span><br><span class="line">#提示“请输入性别”并等待30秒，把用户的输入保存入变量sex中，只接受一个字符输入  </span><br><span class="line">read -t 30 -n 1 -p &quot;请输入用户性别:&quot; sex  </span><br><span class="line">echo -e &quot;\\n&quot;  </span><br><span class="line">echo &quot;性别为$sex&quot;</span><br><span class="line"></span><br><span class="line">**read命令说明：**</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">read \[选项\]\[变量名\]  </span><br><span class="line">选项：  </span><br><span class="line">  </span><br><span class="line">Read的一些选项  </span><br><span class="line">Read可以带有-a, -d, -e, -n, -p, -r, -t, 和 -s八个选项。</span><br><span class="line"></span><br><span class="line">\-a ：将内容读入到数值中  </span><br><span class="line">echo -n &quot;Input muliple values into an array:&quot;  </span><br><span class="line">read -a array  </span><br><span class="line">echo &quot;get $&#123;#array\[@\]&#125; values in array&quot;  </span><br><span class="line">\-d ：表示delimiter，即定界符，一般情况下是以IFS为参数的间隔，但是通过-d，我们可以定义一直读到出现执行的字符位置。例如read –d madfds value，读到有m的字符的时候就不在继续向后读，例如输入为 hello m，有效值为“hello”，请注意m前面的空格等会被删除。这种方式可以输入多个字符串，例如定义“.”作为结符号等等。  </span><br><span class="line">\-e ：只用于互相交互的脚本，它将readline用于收集输入行。 </span><br><span class="line">\-n ：用于限定最多可以有多少字符可以作为有效读入。例如echo –n 4 value1 value2，如果我们试图输入12 34，则只有前面有效的12 3，作为输入，实际上在你输入第4个字符‘3’后，就自动结束输入。这里结果是value为12，value2为3。  </span><br><span class="line">\-p ：用于给出提示符，在前面的例子中我们使用了echo –n “…“来给出提示符，可以使用read –p ‘… my promt?’value的方式只需一个语句来表示。  </span><br><span class="line">\-r ：在参数输入中，我们可以使用’/’表示没有输入完，换行继续输入，如果我们需要行最后的’/’作为有效的字符，可以通过-r来进行。此外在输入字符中，我们希望/n这类特殊字符生效，也应采用-r选项。  </span><br><span class="line">\-s ：对于一些特殊的符号，例如箭头号，不将他们在terminal上打印，例如read –s key，我们按光标，在回车之后，如果我们要求显示，即echo，光标向上，如果不使用-s，在输入的时候，输入处显示^\[\[A，即在terminal上打印，之后如果要求echo，光标会上移。  </span><br><span class="line">\-t ：用于表示等待输入的时间，单位为秒，等待时间超过，将继续执行后面的脚本，注意不作为null输入，参数将保留原有的值。</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>shell</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>常用命令</title>
+    <url>/2023/03/20/Shell/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
+<li>杀死进程</li>
+</ol>
+<p>#####查找tomcat进程<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’<br>#####查找tomcat进程并杀死<br>ps -ef | grep tomcat | grep -v grep | awk ‘{print $2}’ | xargs kill -9  </p>
+]]></content>
+      <categories>
+        <category>shell</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>引用</title>
+    <url>/2023/02/12/Markdown/%E5%BC%95%E7%94%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Markdown-使用"><a href="#Markdown-使用" class="headerlink" title="Markdown 使用"></a>Markdown 使用</h1><p>要创建块引用，请在段落前添加一个 <code>&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果如下所示：</p>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+</blockquote>
+<h3 id="多个段落的块引用"><a href="#多个段落的块引用" class="headerlink" title="# 多个段落的块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%A4%9A%E4%B8%AA%E6%AE%B5%E8%90%BD%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 多个段落的块引用</h3><p>块引用可以包含多个段落。为段落之间的空白行添加一个 <code>&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
 
 <p>渲染效果如下：</p>
-<p>* Without the backslash, this would be a bullet in an unordered list.</p>
-<h3 id="可做转义的字符"><a href="#可做转义的字符" class="headerlink" title="# 可做转义的字符"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E5%8F%AF%E5%81%9A%E8%BD%AC%E4%B9%89%E7%9A%84%E5%AD%97%E7%AC%A6">#</a> 可做转义的字符</h3><p>以下列出的字符都可以通过使用反斜杠字符从而达到转义目的。</p>
-<table>
-<thead>
-<tr>
-<th>Character</th>
-<th>Name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>\</td>
-<td>backslash</td>
-</tr>
-<tr>
-<td>`</td>
-<td>backtick (see also <a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#escaping-backticks">escaping backticks in code</a>)</td>
-</tr>
-<tr>
-<td>*</td>
-<td>asterisk</td>
-</tr>
-<tr>
-<td>_</td>
-<td>underscore</td>
-</tr>
-<tr>
-<td>{ }</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>[ ]</td>
-<td>brackets</td>
-</tr>
-<tr>
-<td>( )</td>
-<td>parentheses</td>
-</tr>
-<tr>
-<td>#</td>
-<td>pound sign</td>
-</tr>
-<tr>
-<td>+</td>
-<td>plus sign</td>
-</tr>
-<tr>
-<td>-</td>
-<td>minus sign (hyphen)</td>
-</tr>
-<tr>
-<td>.</td>
-<td>dot</td>
-</tr>
-<tr>
-<td>!</td>
-<td>exclamation mark</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="特殊字符自动转义"><a href="#特殊字符自动转义" class="headerlink" title="# 特殊字符自动转义"></a><a href="https://markdown.com.cn/basic-syntax/escaping-characters.html#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89">#</a> 特殊字符自动转义</h2><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要使用这些符号，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
-<p><code>&amp;</code> 符号其实很容易让写作网页文件的人感到困扰，如果你要打「AT&amp;T」 ，你必须要写成「<code>AT&amp;amp;T</code>」 ，还得转换网址内的 <code>&amp;</code> 符号，如果你要链接到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
+</blockquote>
+<h3 id="嵌套块引用"><a href="#嵌套块引用" class="headerlink" title="# 嵌套块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B5%8C%E5%A5%97%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 嵌套块引用</h3><p>块引用可以嵌套。在要嵌套的段落前添加一个 <code>&gt;&gt;</code> 符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; Dorothy followed her through many of the beautiful rooms in her castle.</span><br><span class="line">&gt;</span><br><span class="line">&gt;&gt; The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</span><br></pre></td></tr></table></figure>
 
-<p>你必须要把网址转成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</span><br></pre></td></tr></table></figure>
+<p>渲染效果如下：</p>
+<blockquote>
+<p>Dorothy followed her through many of the beautiful rooms in her castle.</p>
+<blockquote>
+<p>The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.</p>
+</blockquote>
+</blockquote>
+<h3 id="带有其它元素的块引用"><a href="#带有其它元素的块引用" class="headerlink" title="# 带有其它元素的块引用"></a><a href="https://markdown.com.cn/basic-syntax/horizontal-rules.html#%E5%B8%A6%E6%9C%89%E5%85%B6%E5%AE%83%E5%85%83%E7%B4%A0%E7%9A%84%E5%9D%97%E5%BC%95%E7%94%A8">#</a> 带有其它元素的块引用</h3><p>块引用可以包含其他 Markdown 格式的元素。并非所有元素都可以使用，你需要进行实验以查看哪些元素有效。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; #### The quarterly results look great!</span><br><span class="line">&gt;</span><br><span class="line">&gt; - Revenue was off the chart.</span><br><span class="line">&gt; - Profits were higher than ever.</span><br><span class="line">&gt;</span><br><span class="line">&gt;  *Everything* is going according to **plan**.</span><br></pre></td></tr></table></figure>
 
-<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忘记，这也可能是 HTML 标准检查所检查到的错误中，数量最多的。</p>
-<p>Markdown 允许你直接使用这些符号，它帮你自动转义字符。如果你使用 <code>&amp;</code> 符号的作为 HTML 实体的一部分，那么它不会被转换，而在其它情况下，它则会被转换成 <code>&amp;amp;</code>。所以你如果要在文件中插入一个著作权的符号，你可以这样写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 将不会对这段文字做修改，但是如果你这样写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 就会将它转为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AT&amp;amp;T</span><br></pre></td></tr></table></figure>
-
-<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 支持 <a href="https://markdown.com.cn/basic-syntax/#%E5%86%85%E8%81%94-html">行内 HTML</a> ，如果你使用 <code>&lt;</code> 符号作为 HTML 标签的分隔符，那 Markdown 也不会对它做任何转换，但是如果你是写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
-
-<p>Markdown 将会把它转换为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 &amp;lt; 5</span><br></pre></td></tr></table></figure>
-
-<p>需要特别注意的是，在 Markdown 的块级元素和内联元素中， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都会被自动转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML。（在 HTML 语法中，你要手动把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体。）</p>
+<p>渲染效果如下：</p>
+<blockquote>
+<h4 id="The-quarterly-results-look-great"><a href="#The-quarterly-results-look-great" class="headerlink" title="The quarterly results look great!"></a>The quarterly results look great!</h4><ul>
+<li>Revenue was off the chart.</li>
+<li>Profits were higher than ever.</li>
+</ul>
+<p><em>Everything</em> is going according to <strong>plan</strong>.</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>Markdown</category>
       </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2024/06/02/Shell/%E8%B0%83%E8%AF%95/</url>
+    <content><![CDATA[<h1 id="SHELL-调试方法选项"><a href="#SHELL-调试方法选项" class="headerlink" title="SHELL 调试方法选项"></a>SHELL 调试方法选项</h1><h2 id="Shell本身提供一些调试方法选项："><a href="#Shell本身提供一些调试方法选项：" class="headerlink" title="Shell本身提供一些调试方法选项："></a>Shell本身提供一些调试方法选项：</h2><ol>
+<li>-n，读一遍脚本中的命令但不执行，用于检查脚本中的语法错误。</li>
+<li>-v，一边执行脚本，一边将执行过的脚本命令打印到标准输出。</li>
+<li>-x，提供跟踪执行信息，将执行的每一条命令和结果依次打印出来。</li>
+</ol>
+<h2 id="使用这些选项有三种方法-注意-避免几种调试选项混用"><a href="#使用这些选项有三种方法-注意-避免几种调试选项混用" class="headerlink" title="使用这些选项有三种方法(注意:避免几种调试选项混用)"></a>使用这些选项有三种方法(注意:避免几种调试选项混用)</h2><ol>
+<li>在命令行提供参数：sh -x script.sh 或者 bash -n script.sh</li>
+<li>脚本开头提供参数：#!&#x2F;bin&#x2F;sh -x 或者 #!&#x2F;bin&#x2F;bash -x</li>
+<li>在脚本中用set命令启用或者禁用参数，其中set -x表示启用，set +x表示禁用</li>
+</ol>
+<p><strong>set命令的详细说明</strong></p>
+<ul>
+<li><a href="http://man.linuxde.net/set">http://man.linuxde.net/set</a></li>
+<li><a href="https://www.runoob.com/linux/linux-comm-set.html">https://www.runoob.com/linux/linux-comm-set.html</a></li>
+</ul>
+<p><strong>Bash 官网文档</strong></p>
+<ul>
+<li>bash <a href="https://www.gnu.org/software/bash/">https://www.gnu.org/software/bash/</a></li>
+<li>Bash-Reference-Manual <a href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html">https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html</a></li>
+</ul>
+]]></content>
   </entry>
 </search>
